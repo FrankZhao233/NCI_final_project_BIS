@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">flea</string>
+    <string name="title_home">Home</string>
+    <string name="title_welfare">Welfare</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_profile">Mine</string>
+</resources>
