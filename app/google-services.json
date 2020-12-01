@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "15643016182",
+    "firebase_url": "https://flea-market-acade.firebaseio.com",
+    "project_id": "flea-market-acade",
+    "storage_bucket": "flea-market-acade.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15643016182:android:ace06847e68528de9ce5d7",
+        "android_client_info": {
+          "package_name": "com.edu.me.flea"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "15643016182-bsolcr4qirub5d8fer2epr430ksrgp58.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8o8Sq7kJowYO_yN-ZR7SlFiqrNBESmFw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "15643016182-bsolcr4qirub5d8fer2epr430ksrgp58.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

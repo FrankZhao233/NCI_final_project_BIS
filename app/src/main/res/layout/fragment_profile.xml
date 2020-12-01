@@ -6,17 +6,69 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.NotificationsFragment">
 
-    <TextView
-        android:id="@+id/text_profile"
+    <RelativeLayout
+        android:id="@+id/topLayout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/avatarIv"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="fitXY"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/image_default_head"/>
+
+        <TextView
+            android:id="@+id/nickNameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/avatarIv"
+            android:layout_alignTop="@id/avatarIv"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="24dp"
+            android:textSize="22sp"
+            android:text="Login"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+    </RelativeLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/topLayout"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/logoutLayout"
+            android:clickable="true"
+            style="@style/setting_item_style">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_log_out" />
+
+            <TextView
+                style="@style/setting_item_text"
+                android:text="@string/logout" />
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="13dp"
+                android:layout_gravity="center_vertical|end"
+                android:src="@drawable/ic_next" />
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#e5e5e5"/>
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,9 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 
-import com.uber.autodispose.AutoDispose;
-import com.uber.autodispose.AutoDisposeConverter;
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -38,41 +35,24 @@ public abstract class BaseViewModel extends AndroidViewModel implements IBaseVie
         this.lifecycleOwner = owner;
     }
 
-    protected <T> AutoDisposeConverter<T> bindLifecycle() {
-        if (null == lifecycleOwner)
-            throw new NullPointerException("lifecycleOwner == null");
-        return bindLifecycle(lifecycleOwner);
-    }
-
-    public static <T> AutoDisposeConverter<T> bindLifecycle(LifecycleOwner lifecycleOwner) {
-        return AutoDispose.autoDisposable(
-                AndroidLifecycleScopeProvider.from(lifecycleOwner)
-        );
-    }
-
     @Override
     public void onDestroy(LifecycleOwner owner) {
-//        L.d("event","onDestroy="+owner);
     }
 
     @Override
     public void onStart() {
-//        L.d("event","onStart");
     }
 
     @Override
     public void onStop() {
-//        L.d("event","onStop");
     }
 
     @Override
     public void onResume() {
-//        L.d("event","onResume");
     }
 
     @Override
     public void onPause() {
-//        L.d("event","onPause");
     }
 
 

@@ -31,6 +31,17 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
         initData();
     }
 
+
+    @Override
+    public void showLoading(int msgRes) {
+
+    }
+
+    @Override
+    public void closeLoading() {
+
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

@@ -1,7 +1,20 @@
 <resources>
-    <string name="app_name">flea</string>
+    <string name="app_name">Let2Wish</string>
     <string name="title_home">Home</string>
     <string name="title_welfare">Welfare</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_profile">Mine</string>
+
+
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_forgot_password">Forgot your password? Click here!</string>
+    <string name="btn_reset_password">Reset Password</string>
+    <string name="btn_login">LOGIN</string>
+    <string name="btn_link_to_register">Not a member? Click here to sign up!</string>
+    <string name="btn_link_to_login">Already have an account? Click here to login!</string>
+
+    <string name="btn_register">Register</string>
+
+    <string name="logout">Logout</string>
 </resources>
