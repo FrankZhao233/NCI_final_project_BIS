@@ -9,22 +9,16 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.edu.me.flea.R;
 import com.edu.me.flea.base.BaseActivity;
 import com.edu.me.flea.config.Config;
 import com.edu.me.flea.vm.SignUpViewModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-@Route(path = "/app/sign_up")
+@Route(path = Config.Page.REGISTER)
 public class SignUpActivity extends BaseActivity<SignUpViewModel> {
 
     @BindView(R.id.emailEt)
@@ -67,28 +61,11 @@ public class SignUpActivity extends BaseActivity<SignUpViewModel> {
         singUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checkValidity()) {
-                    String email = emailEt.getText().toString();
-                    String pwd = pwdEt.getText().toString();
-                    progressBar.setVisibility(View.VISIBLE);
-                    //create user
-                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, pwd)
-                        .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(Task<AuthResult> task) {
-                                progressBar.setVisibility(View.GONE);
-                                if (!task.isSuccessful()) {
-                                    Log.d(Config.TAG,"error==>"+task.getException().getMessage());
-                                    Toast.makeText(SignUpActivity.this, "Error: " + task.getException().getMessage(),
-                                            Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(SignUpActivity.this, "Sign up successful. Welcome to the app!", Toast.LENGTH_SHORT).show();
-                                    ARouter.getInstance().build("/app/login").navigation();
-                                    finish();
-                                }
-                            }
-                        });
-                }
+            if (checkValidity()) {
+                String email = emailEt.getText().toString();
+                String pwd = pwdEt.getText().toString();
+                mViewModel.signUp(SignUpActivity.this,email,pwd);
+            }
             }
         });
     }

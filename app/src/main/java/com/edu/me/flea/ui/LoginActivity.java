@@ -1,10 +1,6 @@
 package com.edu.me.flea.ui;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +22,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-@Route(path = "/app/login")
+
+@Route(path = Config.Page.LOGIN)
 public class LoginActivity extends BaseActivity<LoginViewModel> {
 
     @BindView(R.id.emailEt)
@@ -43,7 +40,6 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
-
 
     @Override
     protected int getLayoutId() {
@@ -70,7 +66,7 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
         singUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ARouter.getInstance().build("/app/sign_up").navigation();
+                ARouter.getInstance().build(Config.Page.REGISTER).navigation();
             }
         });
 
@@ -85,19 +81,16 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
                     .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            // If sign in fails, display a message to the user. If sign in succeeds
-                            // the auth state listener will be notified and logic to handle the
-                            // signed in user can be handled in the listener.
-                            progressBar.setVisibility(View.GONE);
-                            if (!task.isSuccessful()) {
-                                // there was an error
-                                Log.d(Config.TAG,"error==>"+task.getException().getMessage());
-                                Toast.makeText(LoginActivity.this, "Error: " + task.getException().getMessage(),
-                                        Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(LoginActivity.this, "Login successful. Welcome to the app!", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
+                        progressBar.setVisibility(View.GONE);
+                        if (!task.isSuccessful()) {
+                            // there was an error
+                            Log.d(Config.TAG,"error==>"+task.getException().getMessage());
+                            Toast.makeText(LoginActivity.this, "Error: " + task.getException().getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Login successful. Welcome to the app!", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
                         }
                     });
             }

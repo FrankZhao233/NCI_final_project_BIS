@@ -13,10 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.SignUpActivity"
-            android:label=""></activity>
-        <activity android:name=".ui.LoginActivity"
-            android:label=""/>
+        <activity android:name=".ui.PublishActivity"></activity>
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name">
@@ -26,6 +23,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.SignUpActivity"
+            android:label="" />
+        <activity
+            android:name=".ui.LoginActivity"
+            android:label="" />
+        <activity android:name=".ui.ChatActivity" />
+
+        <service android:name=".service.MessageService" />
     </application>
 
 </manifest>

@@ -3,10 +3,11 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.edu.me.flea"
-        minSdkVersion 19
+        minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -50,18 +51,20 @@ dependencies {
 
     implementation "io.reactivex.rxjava2:rxjava:2.2.8"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+    implementation 'com.youth.banner:banner:2.1.0'
 
     def glide = "4.8.0"
     implementation "com.github.bumptech.glide:glide:$glide"
     implementation "com.github.bumptech.glide:okhttp3-integration:$glide"
-    implementation "com.github.bumptech.glide:annotations:$glide"
-
+//    implementation "com.github.bumptech.glide:annotations:$glide"
+//
     implementation "com.alibaba:arouter-api:1.4.1"
     annotationProcessor "com.alibaba:arouter-compiler:1.2.2"
     implementation 'top.zibin:Luban:1.1.8'
-    implementation 'com.github.tbruyelle:rxpermissions:0.12'
-    implementation "com.blankj:rxbus:1.6"
-    implementation "com.google.code.gson:gson:2.8.5"
+//    implementation 'com.github.tbruyelle:rxpermissions:0.12'
+
+//    implementation "com.blankj:rxbus:1.6"
+//    implementation "com.google.code.gson:gson:2.8.5"
 
 //    implementation 'com.uber.autodispose:autodispose-android-archcomponents:1.1.0'
 //    implementation 'com.uber.autodispose:autodispose-android:1.1.0'
@@ -69,14 +72,22 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 
-    implementation platform('com.google.firebase:firebase-bom:26.1.0')
-    implementation 'com.google.firebase:firebase-core'
+//    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+//    implementation 'com.google.firebase:firebase-core'
 //    implementation 'com.google.firebase:firebase-storage'
 //    implementation 'com.google.firebase:firebase-database'
 ////    implementation 'com.google.firebase:firebase-analytics'
-    implementation 'com.google.firebase:firebase-auth'
+//    implementation 'com.google.firebase:firebase-auth'
 //    implementation 'com.google.firebase:firebase-firestore'
 //    implementation 'com.firebaseui:firebase-ui-storage'
+
+    implementation platform('com.google.firebase:firebase-bom:25.12.0')
+    implementation 'com.google.firebase:firebase-storage:19.1.0'
+    implementation 'com.google.firebase:firebase-database:19.2.0'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
+    implementation 'com.firebaseui:firebase-ui-storage:6.3.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

@@ -29,10 +29,21 @@
             android:layout_toRightOf="@id/avatarIv"
             android:layout_alignTop="@id/avatarIv"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:textSize="22sp"
             android:text="Login"
             android:textColor="@color/white"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/emailTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/nickNameTv"
+            android:layout_below="@id/nickNameTv"
+            android:text="1231231@qq.com"
+            android:textSize="16sp"
+            android:textColor="#f0f0f0"
             android:textStyle="bold"/>
     </RelativeLayout>
 

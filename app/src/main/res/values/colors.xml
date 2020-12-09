@@ -5,4 +5,8 @@
     <color name="colorAccent">#56BBB4</color>
 
     <color name="white">#ffffff</color>
+
+    <drawable name="list_divider_color">#e5e5e5</drawable>
+
+    <color name="custom_text_color">#333333</color>
 </resources>

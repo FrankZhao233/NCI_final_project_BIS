@@ -11,4 +11,5 @@ public class LoginViewModel extends BaseViewModel {
     public LoginViewModel(@NonNull Application application) {
         super(application);
     }
+
 }

@@ -26,6 +26,9 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel> {
     @BindView(R.id.nickNameTv)
     TextView nickNameTv;
 
+    @BindView(R.id.emailTv)
+    TextView emailTv;
+
     @BindView(R.id.logoutLayout)
     ViewGroup logoutVg;
 
@@ -59,7 +62,9 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel> {
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         if(mUser != null){
             Log.d(Config.TAG,"id==>"+mUser.getUid());
-            nickNameTv.setText(mUser.getEmail());
+            Log.d(Config.TAG,"name==>"+mUser.getDisplayName());
+            nickNameTv.setText("u"+mUser.getDisplayName());
+            emailTv.setText(mUser.getEmail());
             logoutVg.setVisibility(View.VISIBLE);
         }else{
             logoutVg.setVisibility(View.GONE);
@@ -72,7 +77,7 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel> {
             @Override
             public void onClick(View view) {
                 if(mUser == null) {
-                    ARouter.getInstance().build("/app/login").navigation();
+                    ARouter.getInstance().build(Config.Page.LOGIN).navigation();
                 }
             }
         });
@@ -80,30 +85,28 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel> {
         logoutVg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Prompt");
-                builder.setMessage("do you want to logout?");
-                builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        FirebaseAuth.getInstance().signOut();
-                        mUser = null;
-                        nickNameTv.setText("Login");
-                        ARouter.getInstance().build("/app/login").navigation();
-                        logoutVg.setVisibility(View.GONE);
-                    }
-                });
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Prompt");
+            builder.setMessage("do you want to logout?");
+            builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    FirebaseAuth.getInstance().signOut();
+                    mUser = null;
+                    nickNameTv.setText("Login");
+                    emailTv.setText("");
+                    ARouter.getInstance().build(Config.Page.LOGIN).navigation();
+                    logoutVg.setVisibility(View.GONE);
+                }
+            });
 
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-
-                builder.show();
-
-
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.show();
             }
         });
     }
