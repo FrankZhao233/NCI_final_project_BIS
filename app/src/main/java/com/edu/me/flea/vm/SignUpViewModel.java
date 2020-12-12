@@ -32,7 +32,7 @@ public class SignUpViewModel extends BaseViewModel {
         super(application);
     }
 
-    public void signUp(Activity activity, final String email , final String pwd)
+    public void signUp(Activity activity, final String nickName,final String email , final String pwd)
     {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, pwd)
             .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
@@ -45,28 +45,28 @@ public class SignUpViewModel extends BaseViewModel {
                     FirebaseFirestore.getInstance().collection(Constants.Collection.USER).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            int count = task.getResult().size() + 10000000;
-                            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                            final Map<String, Object> user = new HashMap<>();
-                            user.put("id", firebaseUser.getUid());
-                            user.put("email", email);
-                            user.put("name", "u"+count);
-                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                 .setDisplayName(Integer.toString(count)).build();
-                            firebaseUser.updateProfile(profileUpdates)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d("TAG", "User profile updated.");
-                                    addUser(user);
-                                }
-                                }
-                            });
-                        }else{
-                            ToastUtils.showShort("Error: " + task.getException().getMessage());
-                        }
+                            if(task.isSuccessful()){
+                                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                                final Map<String, Object> user = new HashMap<>();
+                                user.put("id", firebaseUser.getUid());
+                                user.put("email", email);
+                                user.put("name", nickName);
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(nickName)
+                                    .build();
+                                firebaseUser.updateProfile(profileUpdates)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Log.d("TAG", "User profile updated.");
+                                            addUser(firebaseUser.getUid(),user);
+                                        }
+                                    }
+                                });
+                            }else{
+                                ToastUtils.showShort("Error: " + task.getException().getMessage());
+                            }
                         }
                     });
                 }
@@ -74,15 +74,16 @@ public class SignUpViewModel extends BaseViewModel {
             });
     }
 
-
-    private void addUser(Map<String, Object> user)
+    private void addUser(String id,Map<String, Object> user)
     {
-        FirebaseFirestore.getInstance().collection(Constants.Collection.USER).add(user)
-            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        FirebaseFirestore.getInstance().collection(Constants.Collection.USER)
+            .document(id)
+            .set(user)
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
-                public void onSuccess(DocumentReference documentReference) {
-                    ToastUtils.showShort("Sign up successful. Welcome to the app!");
-                    ARouter.getInstance().build("/app/login").navigation();
+                public void onSuccess(Void aVoid) {
+                    ToastUtils.showShort("Sign up successful");
+                    ARouter.getInstance().build(Config.Page.LOGIN).navigation();
                     closePage();
                 }
             })

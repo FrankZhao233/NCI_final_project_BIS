@@ -15,5 +15,7 @@ public class Constants {
     public static class Collection
     {
         public static final String USER = "user";
+        public static final String GOODS = "goods";
+        public static final String SNAPSHOT = "snapshot";
     }
 }

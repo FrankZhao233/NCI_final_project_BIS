@@ -1,9 +1,11 @@
 package com.edu.me.flea.base;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
@@ -16,6 +18,7 @@ import java.lang.reflect.Type;
 public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatActivity implements IBaseView {
 
     protected VM mViewModel;
+    protected  ProgressDialog mProgressDialog ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +34,30 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
         initData();
     }
 
+    public void removeToolbarElevation()
+    {
+        ActionBar bar = getSupportActionBar();
+        if(bar != null){
+            bar.setElevation(0);
+        }
+    }
 
     @Override
     public void showLoading(int msgRes) {
-
+        if(mProgressDialog == null){
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(msgRes));
+        }
+        if(!mProgressDialog.isShowing()){
+            mProgressDialog.show();
+        }
     }
 
     @Override
     public void closeLoading() {
-
+        if(mProgressDialog != null){
+            mProgressDialog.dismiss();
+        }
     }
 
     @Override

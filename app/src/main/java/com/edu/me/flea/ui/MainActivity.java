@@ -5,8 +5,10 @@ import android.os.Bundle;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.edu.me.flea.R;
+import com.edu.me.flea.base.BaseActivity;
 import com.edu.me.flea.config.Config;
 import com.edu.me.flea.service.MessageService;
+import com.edu.me.flea.vm.MainViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,13 +17,18 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import butterknife.BindView;
+
 @Route(path = Config.Page.MAIN)
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity<MainViewModel> {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void initView() {
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -31,9 +38,24 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        getSupportActionBar().setElevation(0);
+        removeToolbarElevation();
 
-        startService(new Intent(this, MessageService.class));
+        //        startService(new Intent(this, MessageService.class));
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void inject() {
+
+    }
+
+    @Override
+    protected void setListener() {
+
     }
 
 }

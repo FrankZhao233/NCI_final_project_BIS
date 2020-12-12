@@ -1,6 +1,8 @@
 package com.edu.me.flea.ui;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -41,6 +43,9 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
+    @BindView(R.id.resetBtn)
+    Button resetBtn;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_login;
@@ -48,7 +53,7 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
 
     @Override
     protected void initView() {
-        getSupportActionBar().setElevation(0);
+        removeToolbarElevation();
     }
 
     @Override
@@ -67,6 +72,13 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
             @Override
             public void onClick(View view) {
                 ARouter.getInstance().build(Config.Page.REGISTER).navigation();
+            }
+        });
+
+        resetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build(Config.Page.RESET_PWD).navigation();
             }
         });
 

@@ -5,7 +5,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_profile">Mine</string>
 
-
+    <string name="nick_name">NickName</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="btn_forgot_password">Forgot your password? Click here!</string>
@@ -13,10 +13,18 @@
     <string name="btn_login">LOGIN</string>
     <string name="btn_link_to_register">Not a member? Click here to sign up!</string>
     <string name="btn_link_to_login">Already have an account? Click here to login!</string>
-
+    <string name="btn_back"><![CDATA[<< Back]]></string>
     <string name="btn_register">Register</string>
 
     <string name="logout">Logout</string>
 
     <string name="send">Send</string>
+
+    <string name="please_input_email"> please input your email</string>
+    <string name="invalid_email"> invalid email,please check</string>
+
+    <string name="bga_pp_view_photo">Check Photo</string>
+    <string name="bga_pp_save_img_success_folder">Picture Save to %s </string>
+
+    <string name="publish_now">publish now...</string>
 </resources>

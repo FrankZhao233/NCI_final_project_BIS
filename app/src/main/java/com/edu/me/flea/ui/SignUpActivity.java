@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.edu.me.flea.R;
 import com.edu.me.flea.base.BaseActivity;
 import com.edu.me.flea.config.Config;
@@ -20,6 +21,9 @@ import butterknife.ButterKnife;
 
 @Route(path = Config.Page.REGISTER)
 public class SignUpActivity extends BaseActivity<SignUpViewModel> {
+
+    @BindView(R.id.nickNameEt)
+    EditText nickNameEt;
 
     @BindView(R.id.emailEt)
     EditText emailEt;
@@ -43,7 +47,7 @@ public class SignUpActivity extends BaseActivity<SignUpViewModel> {
 
     @Override
     protected void initView() {
-        getSupportActionBar().setElevation(0);
+        removeToolbarElevation();
     }
 
     @Override
@@ -61,17 +65,32 @@ public class SignUpActivity extends BaseActivity<SignUpViewModel> {
         singUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            if (checkValidity()) {
-                String email = emailEt.getText().toString();
-                String pwd = pwdEt.getText().toString();
-                mViewModel.signUp(SignUpActivity.this,email,pwd);
+                if (checkValidity()) {
+                    String email = emailEt.getText().toString();
+                    String pwd = pwdEt.getText().toString();
+                    String nickName = nickNameEt.getText().toString();
+                    progressBar.setVisibility(View.VISIBLE);
+                    mViewModel.signUp(SignUpActivity.this,nickName,email,pwd);
+                }
             }
+        });
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build(Config.Page.LOGIN).navigation();
+                finish();
             }
         });
     }
 
     private boolean checkValidity()
     {
+        String nickName = nickNameEt.getText().toString();
+        if(TextUtils.isEmpty(nickName)){
+            Toast.makeText(this,"please input nickname",Toast.LENGTH_SHORT).show();
+            return false;
+        }
         String email = emailEt.getText().toString();
         String pwd = pwdEt.getText().toString();
         if(TextUtils.isEmpty(email)){

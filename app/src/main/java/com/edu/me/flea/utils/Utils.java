@@ -3,6 +3,8 @@ package com.edu.me.flea.utils;
 import android.content.Context;
 import androidx.annotation.StringRes;
 
+import java.io.File;
+
 public class Utils {
 
     private static Context context;
@@ -50,5 +52,13 @@ public class Utils {
     }
 
 
-
+    public static String getTargetDir(Context context)
+    {
+        String dir = context.getExternalCacheDir()+ File.separator + "cacheImg" + File.separator;
+        File tempPath = new File(dir);
+        if (!tempPath.exists()) {
+            tempPath.mkdirs();
+        }
+        return dir;
+    }
 }

@@ -63,7 +63,7 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel> {
         if(mUser != null){
             Log.d(Config.TAG,"id==>"+mUser.getUid());
             Log.d(Config.TAG,"name==>"+mUser.getDisplayName());
-            nickNameTv.setText("u"+mUser.getDisplayName());
+            nickNameTv.setText(mUser.getDisplayName());
             emailTv.setText(mUser.getEmail());
             logoutVg.setVisibility(View.VISIBLE);
         }else{
@@ -94,7 +94,7 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel> {
                     FirebaseAuth.getInstance().signOut();
                     mUser = null;
                     nickNameTv.setText("Login");
-                    emailTv.setText("");
+                    emailTv.setText("email");
                     ARouter.getInstance().build(Config.Page.LOGIN).navigation();
                     logoutVg.setVisibility(View.GONE);
                 }

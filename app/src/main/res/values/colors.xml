@@ -4,9 +4,19 @@
     <color name="colorPrimaryDark">#4389A8</color>
     <color name="colorAccent">#56BBB4</color>
 
+    <color name="bga_pp_colorPrimaryDark">@color/colorPrimaryDark</color>
+    <color name="bga_pp_navigationBarColor">@color/colorPrimary</color>
+    <color name="bga_pp_colorPrimary">@color/colorPrimary</color>
+    <color name="bga_pp_preview_bottom_bg">@color/colorPrimary</color>
+    <color name="bga_pp_loading_progress_centerColor">@color/colorPrimaryDark</color>
+    <color name="bga_pp_loading_progress_endColor">@color/colorPrimary</color>
+
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
 
     <drawable name="list_divider_color">#e5e5e5</drawable>
-
+    <color name="divider_color">#e5e5e5</color>
     <color name="custom_text_color">#333333</color>
+
+    <color name="bga_pp_eighteen_maskColor">#00000000</color>
 </resources>

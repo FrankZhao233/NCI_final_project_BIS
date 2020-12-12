@@ -1,16 +1,31 @@
 package com.edu.me.flea.ui.fragment;
 
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.edu.me.flea.R;
 import com.edu.me.flea.base.BaseFragment;
+import com.edu.me.flea.base.CommonAdapter;
 import com.edu.me.flea.config.Config;
+import com.edu.me.flea.entity.GoodsInfo;
+import com.edu.me.flea.ui.adpater.HomeGoodsAdapter;
 import com.edu.me.flea.vm.HomeViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,10 +33,18 @@ import butterknife.ButterKnife;
 public class HomeFragment extends BaseFragment<HomeViewModel> {
 
     @BindView(R.id.productLv)
-    ListView productLv;
+    RecyclerView goodsRv;
 
     @BindView(R.id.addBtn)
     FloatingActionButton addBtn;
+
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
+    HomeGoodsAdapter mAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -37,7 +60,11 @@ public class HomeFragment extends BaseFragment<HomeViewModel> {
     @Override
     protected void initView()
     {
-
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        mAdapter = new HomeGoodsAdapter(new ArrayList<>());
+        goodsRv.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        goodsRv.setAdapter(mAdapter);
+        Log.d("flea","initView");
     }
 
     @Override
@@ -51,7 +78,42 @@ public class HomeFragment extends BaseFragment<HomeViewModel> {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ARouter.getInstance().build(Config.Page.PUBLISH).navigation();
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user != null) {
+                    ARouter.getInstance().build(Config.Page.PUBLISH).navigation();
+                }else{
+                    ARouter.getInstance().build(Config.Page.LOGIN).navigation();
+                }
+            }
+        });
+
+        mViewModel.getGoodsLiveData().observe(this, new Observer<List<GoodsInfo>>() {
+            @Override
+            public void onChanged(List<GoodsInfo> goods) {
+                Log.d(Config.TAG,"goods size==>"+goods.size());
+                mAdapter.addAllData(goods);
+                Log.d(Config.TAG,"all size==>"+mAdapter.getItems().size());
+            }
+        });
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+//                mAdapter.remove();
+                mViewModel.refreshList();
+            }
+        });
+
+        mViewModel.getLoadingState().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer state) {
+                if(state == 0){
+                    swipeRefreshLayout.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                    addBtn.setVisibility(View.VISIBLE);
+                }else if(state ==1){
+                    swipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
     }

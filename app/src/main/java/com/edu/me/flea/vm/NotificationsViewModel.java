@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -18,10 +19,12 @@ import com.edu.me.flea.R;
 import com.edu.me.flea.base.BaseViewModel;
 import com.edu.me.flea.base.CommonAdapter;
 import com.edu.me.flea.base.ViewHolder;
+import com.edu.me.flea.config.Config;
 import com.edu.me.flea.config.Constants;
 import com.edu.me.flea.entity.ChatListInfo;
 import com.edu.me.flea.utils.DBHelper;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.GenericTypeIndicator;
@@ -48,10 +51,15 @@ public class NotificationsViewModel extends BaseViewModel {
     @Override
     public void onCreate(LifecycleOwner owner) {
         super.onCreate(owner);
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        if(!TextUtils.isEmpty(uid)) {
-            DBHelper.getInstance().getDatabase().getReference(Constants.Reference.CHAT_LIST).child(uid)
-                    .addValueEventListener(mValueListener);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null){
+            ARouter.getInstance().build(Config.Page.LOGIN).navigation();
+        }else {
+            String uid = user.getDisplayName();
+            if (!TextUtils.isEmpty(uid)) {
+                DBHelper.getInstance().getDatabase().getReference(Constants.Reference.CHAT_LIST).child(uid)
+                        .addValueEventListener(mValueListener);
+            }
         }
     }
 
