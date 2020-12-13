@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+
+import androidx.lifecycle.Observer;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
@@ -21,6 +23,8 @@ import com.edu.me.flea.utils.PreferencesUtils;
 import com.edu.me.flea.vm.NotificationsViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -36,6 +40,12 @@ public class NotificationsFragment extends BaseFragment<NotificationsViewModel> 
     ListView chatLv;
 
     CommonAdapter<ChatListInfo> mAdapter;
+
+
+    public static NotificationsFragment newInstance()
+    {
+        return new NotificationsFragment();
+    }
 
     @Override
     protected int getLayoutId() {
@@ -61,7 +71,7 @@ public class NotificationsFragment extends BaseFragment<NotificationsViewModel> 
                         .load(R.drawable.hdimg_4)
                         .apply(requestOptions)
                         .into(imageView);
-                holder.setTvText(R.id.idTv,item.email);
+                holder.setTvText(R.id.idTv,item.nickName);
                 holder.setTvText(R.id.messageTv,item.lastMessage);
                 holder.setTvText(R.id.timeTv, HelpUtils.formatDate(item.timeStamp));
                 if(hasMessage(item)) {
@@ -88,6 +98,13 @@ public class NotificationsFragment extends BaseFragment<NotificationsViewModel> 
 
     @Override
     protected void setListener() {
-
+        mViewModel.getData().observe(this, new Observer<List<ChatListInfo>>() {
+            @Override
+            public void onChanged(List<ChatListInfo> chatList) {
+                mAdapter.refreshView(chatList);
+                swipeRefreshLayout.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+            }
+        });
     }
 }

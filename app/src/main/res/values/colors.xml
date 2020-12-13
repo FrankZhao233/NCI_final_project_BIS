@@ -19,4 +19,7 @@
     <color name="custom_text_color">#333333</color>
 
     <color name="bga_pp_eighteen_maskColor">#00000000</color>
+
+    <color name="price_color">#F33945</color>
+
 </resources>

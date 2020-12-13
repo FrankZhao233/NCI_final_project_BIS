@@ -1,6 +1,7 @@
 package com.edu.me.flea.ui;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,16 +14,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.edu.me.flea.R;
+import com.edu.me.flea.base.BaseActivity;
+import com.edu.me.flea.config.Config;
 import com.edu.me.flea.config.Constants;
 import com.edu.me.flea.entity.ChatListInfo;
+import com.edu.me.flea.entity.GoodsDetail;
 import com.edu.me.flea.entity.MessageInfo;
 import com.edu.me.flea.service.MessageService;
 import com.edu.me.flea.ui.adpater.ChatDetailAdapter;
 import com.edu.me.flea.utils.DBHelper;
 import com.edu.me.flea.utils.HelpUtils;
 import com.edu.me.flea.utils.PreferencesUtils;
+import com.edu.me.flea.vm.ChatViewModel;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.GenericTypeIndicator;
@@ -35,65 +44,80 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-public class ChatActivity extends AppCompatActivity {
+@Route(path = Config.Page.CHAT)
+public class ChatActivity extends BaseActivity<ChatViewModel> {
     public final static int TYPE_RECEIVER_MSG = 0x21;
     public final static int TYPE_SENDER_MSG = 0x22;
     private int profileId = R.drawable.hdimg_4;
-    private Button sendBtn;
-    private EditText msgEt;
+    @BindView(R.id.sendBtn)
+    Button sendBtn;
+
+    @BindView(R.id.msgEt)
+    EditText msgEt;
+
     private List<MessageInfo> mChatMessages = new ArrayList<>();
     private ChatDetailAdapter mAdapter;
     private String mRoomId;
     private String mPeerUid;
-    private String mPeerEmail;
+
+    @Autowired(name = Constants.ExtraName.GOODS_DETAIL)
+    GoodsDetail mGoodsDetail;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_detail);
+    protected int getLayoutId() {
+        return R.layout.activity_chat_detail;
+    }
+
+    @Override
+    protected void initView() {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mPeerUid = getIntent().getStringExtra("uid");
-        mPeerEmail= getIntent().getStringExtra("email");
-        setTitle(mPeerUid);
-        sendBtn = findViewById(R.id.sendBtn);
-        msgEt = findViewById(R.id.msgEt);
-        String from = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        mPeerUid = mGoodsDetail.creatorId;
+        String from = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mRoomId = HelpUtils.getRoomId(from,mPeerUid);
         setListener();
         initData();
         MessageService.setIfNeedNotify(false);
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String key = HelpUtils.getRoomId(uid,mPeerUid);
         PreferencesUtils.putBoolean(this, Constants.PrefKey.HAS_MESSAGE+key,false);
     }
 
-    private void setListener()
+    @Override
+    public void setListener()
     {
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            String from = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-            String msg = msgEt.getText().toString();
-            MessageInfo msgInfo = new MessageInfo();
-            msgInfo.msg = msg;
-            msgInfo.timeStamp = System.currentTimeMillis();
-            msgInfo.creator = from;
-            DBHelper.getInstance().sendMessage(msgInfo,mRoomId);
-            msgEt.setText("");
+                String msg = msgEt.getText().toString();
+                if(TextUtils.isEmpty(msg)){
+                    return ;
+                }
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                String from = currentUser.getUid();
+                MessageInfo msgInfo = new MessageInfo();
+                msgInfo.msg = msg;
+                msgInfo.timeStamp = System.currentTimeMillis();
+                msgInfo.creatorId = from;
+                msgInfo.creatorName = currentUser.getDisplayName();
+                DBHelper.getInstance().sendMessage(msgInfo,mRoomId);
+                msgEt.setText("");
 
-            ChatListInfo chatListInfo = new ChatListInfo();
-            chatListInfo.email = mPeerEmail;
-            chatListInfo.userId = mPeerUid;
-            chatListInfo.lastMessage = msg;
-            chatListInfo.timeStamp = String.valueOf(System.currentTimeMillis());
-            DBHelper.getInstance().updateChatList(chatListInfo,from,mPeerUid);
+                ChatListInfo chatListInfo = new ChatListInfo();
+                chatListInfo.userId = mPeerUid;
+                chatListInfo.nickName = mGoodsDetail.creatorName;
+                chatListInfo.lastMessage = msg;
+                chatListInfo.timeStamp = String.valueOf(System.currentTimeMillis());
+                DBHelper.getInstance().updateChatList(chatListInfo,from,mPeerUid);
             }
         });
     }
 
-    private void initData() {
+    @Override
+    public void initData() {
         RecyclerView rv = findViewById(R.id.messageList);
         rv.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ChatDetailAdapter(this, mChatMessages);
@@ -103,6 +127,12 @@ public class ChatActivity extends AppCompatActivity {
             .addValueEventListener(mMessageListener);
     }
 
+    @Override
+    protected void inject() {
+        ButterKnife.bind(this);
+        ARouter.getInstance().inject(this);
+    }
+
     private ValueEventListener mMessageListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -110,10 +140,10 @@ public class ChatActivity extends AppCompatActivity {
             HashMap<String,MessageInfo> messages = snapshot.getValue(type);
             if(messages != null) {
                 mChatMessages.clear();
-                String from = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+                String from = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 for (Map.Entry<String, MessageInfo> entry : messages.entrySet()) {
                     MessageInfo info = entry.getValue();
-                    if (from.equals(info.creator)) {
+                    if (from.equals(info.creatorId)) {
                         info.msgType = TYPE_SENDER_MSG;
                         info.avatarRes = profileId;
                     } else {
@@ -163,4 +193,6 @@ public class ChatActivity extends AppCompatActivity {
             .child(mRoomId)
             .removeEventListener(mMessageListener);
     }
+
+
 }

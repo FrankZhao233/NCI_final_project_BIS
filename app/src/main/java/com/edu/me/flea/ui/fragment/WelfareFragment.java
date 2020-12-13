@@ -24,6 +24,11 @@ public class WelfareFragment extends BaseFragment<WelfareViewModel> {
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout refresh;
 
+    public static WelfareFragment newInstance()
+    {
+        return new WelfareFragment();
+    }
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_welfare;

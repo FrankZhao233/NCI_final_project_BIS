@@ -106,7 +106,6 @@ public class MessageService extends Service {
 
         Intent intent = new Intent(this, ChatActivity.class);
         intent.putExtra("uid",info.userId);
-        intent.putExtra("email", info.email);
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String id = "chat";

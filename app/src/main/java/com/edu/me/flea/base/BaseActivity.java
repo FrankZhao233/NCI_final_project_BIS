@@ -2,6 +2,7 @@ package com.edu.me.flea.base;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
@@ -11,6 +12,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.blankj.rxbus.RxBus;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -32,6 +35,22 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
         initView();
         registerUIChangeLiveData();
         initData();
+        registerRxBus();
+    }
+
+    public void postEvent(int event)
+    {
+        RxBus.getDefault().post(new RxEvent(event,null));
+    }
+
+    public void postEvent(int what,Object event)
+    {
+        RxBus.getDefault().post(new RxEvent(what,event));
+    }
+
+    public void postEventWithTag(String tag,int what,Object event)
+    {
+        RxBus.getDefault().post(new RxEvent(what,event),tag);
     }
 
     public void removeToolbarElevation()
@@ -40,6 +59,33 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
         if(bar != null){
             bar.setElevation(0);
         }
+    }
+
+    private void registerRxBus() {
+        RxBus.getDefault().subscribe(this, new RxBus.Callback<RxEvent>() {
+
+            @Override
+            public void onEvent(RxEvent rxEvent) {
+                onBusEvent(rxEvent.what,rxEvent.event);
+            }
+        });
+
+        if(!TextUtils.isEmpty(regRxBusTag())){
+            RxBus.getDefault().subscribe(this, regRxBusTag(), new RxBus.Callback<RxEvent>() {
+                @Override
+                public void onEvent(RxEvent rxEvent) {
+                    onBusEvent(rxEvent.what,rxEvent.event);
+                }
+            });
+        }
+    }
+
+    protected String regRxBusTag(){
+        return "";
+    }
+
+    protected void onBusEvent(int what, Object event) {
+
     }
 
     @Override

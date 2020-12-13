@@ -19,5 +19,7 @@ public final class Config {
         public static final String CHAT = "/app/chat";
         public static final String PUBLISH = "/app/publish";
         public static final String RESET_PWD = "/app/reset_pwd";
+        public static final String GOODS_DETAIL = "/app/goods_detail";
+
     }
 }

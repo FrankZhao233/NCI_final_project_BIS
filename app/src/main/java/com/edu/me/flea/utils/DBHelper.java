@@ -9,6 +9,7 @@ import com.edu.me.flea.entity.ChatListInfo;
 import com.edu.me.flea.entity.MessageInfo;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,12 +49,12 @@ public class DBHelper {
         messageRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d("sss", "onDataChange");
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("sss", "onCancelled");
+
             }
         });
     }
@@ -78,7 +79,7 @@ public class DBHelper {
                 .child(roomId)
                 .setValue(chatListInfo);
         chatListInfo.userId = from;
-        chatListInfo.email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        chatListInfo.nickName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
         return database.getReference(Constants.Reference.CHAT_LIST)
                 .child(to)
                 .child(roomId)

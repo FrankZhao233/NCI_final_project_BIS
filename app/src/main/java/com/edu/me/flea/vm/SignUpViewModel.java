@@ -83,7 +83,7 @@ public class SignUpViewModel extends BaseViewModel {
                 @Override
                 public void onSuccess(Void aVoid) {
                     ToastUtils.showShort("Sign up successful");
-                    ARouter.getInstance().build(Config.Page.LOGIN).navigation();
+                    postEvent(Constants.Event.SING_UP_DONE);
                     closePage();
                 }
             })

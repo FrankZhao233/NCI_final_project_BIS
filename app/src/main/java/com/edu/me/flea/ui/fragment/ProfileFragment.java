@@ -34,6 +34,11 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel> {
 
     private FirebaseUser mUser;
 
+    public static ProfileFragment newInstance()
+    {
+        return new ProfileFragment();
+    }
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_profile;

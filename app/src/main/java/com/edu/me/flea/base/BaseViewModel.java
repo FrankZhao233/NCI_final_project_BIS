@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.blankj.rxbus.RxBus;
+
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 
@@ -28,6 +30,21 @@ public abstract class BaseViewModel extends AndroidViewModel implements IBaseVie
             mCompositeDisposable = new CompositeDisposable();
         }
         mCompositeDisposable.add(disposable);
+    }
+
+    public void postEvent(int event)
+    {
+        RxBus.getDefault().post(new RxEvent(event,null));
+    }
+
+    public void postEvent(int what,Object event)
+    {
+        RxBus.getDefault().post(new RxEvent(what,event));
+    }
+
+    public void postEventWithTag(String tag,int what,Object event)
+    {
+        RxBus.getDefault().post(new RxEvent(what,event),tag);
     }
 
     @Override

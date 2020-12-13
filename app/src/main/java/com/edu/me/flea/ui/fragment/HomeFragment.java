@@ -16,7 +16,9 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.edu.me.flea.R;
 import com.edu.me.flea.base.BaseFragment;
 import com.edu.me.flea.base.CommonAdapter;
+import com.edu.me.flea.base.RecyclerAdapter;
 import com.edu.me.flea.config.Config;
+import com.edu.me.flea.config.Constants;
 import com.edu.me.flea.entity.GoodsInfo;
 import com.edu.me.flea.ui.adpater.HomeGoodsAdapter;
 import com.edu.me.flea.vm.HomeViewModel;
@@ -45,6 +47,11 @@ public class HomeFragment extends BaseFragment<HomeViewModel> {
     ProgressBar progressBar;
 
     HomeGoodsAdapter mAdapter;
+
+    public static HomeFragment newInstance()
+    {
+        return new HomeFragment();
+    }
 
     @Override
     protected int getLayoutId() {
@@ -114,6 +121,21 @@ public class HomeFragment extends BaseFragment<HomeViewModel> {
                 }else if(state ==1){
                     swipeRefreshLayout.setRefreshing(false);
                 }
+            }
+        });
+
+        mAdapter.setAdapterListener(new RecyclerAdapter.AdapterListener<GoodsInfo>() {
+            @Override
+            public void onItemClick(RecyclerAdapter.ViewHolder<GoodsInfo> holder, GoodsInfo goodsInfo) {
+                Log.d(Config.TAG,"detail id ="+goodsInfo.detailId);
+                ARouter.getInstance().build(Config.Page.GOODS_DETAIL)
+                .withString(Constants.ExtraName.ID,goodsInfo.detailId)
+                .navigation();
+            }
+
+            @Override
+            public void onItemLongClick(RecyclerAdapter.ViewHolder<GoodsInfo> holder, GoodsInfo goodsInfo) {
+
             }
         });
     }

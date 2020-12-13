@@ -53,7 +53,7 @@
                 android:id="@+id/priceTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#F33945"
+                android:textColor="@color/price_color"
                 android:text="$120"
                 android:textSize="18sp"
                 android:layout_centerVertical="true"/>

@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.edu.me.flea.R;
 import com.edu.me.flea.base.BaseViewModel;
 import com.edu.me.flea.base.CommonAdapter;
+import com.edu.me.flea.base.SingleLiveEvent;
 import com.edu.me.flea.base.ViewHolder;
 import com.edu.me.flea.config.Config;
 import com.edu.me.flea.config.Constants;
@@ -48,6 +49,7 @@ public class NotificationsViewModel extends BaseViewModel {
         return mItemData;
     }
 
+
     @Override
     public void onCreate(LifecycleOwner owner) {
         super.onCreate(owner);
@@ -76,6 +78,7 @@ public class NotificationsViewModel extends BaseViewModel {
                 }
             }
             mItemData.setValue(result);
+
         }
 
         @Override

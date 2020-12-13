@@ -66,10 +66,10 @@ public class PublishActivity extends BaseActivity<PublishViewModel> implements B
         mPhotosGrid.setPlusEnable(true);
         mPhotosGrid.setSortable(false);
 
-        titleEt.setText("new phone,very cheap contract with me");
-        contentEt.setText("this is a new phone,use a month ,price is very cheap,i want change a new one ");
-        priceEt.setText("103.23");
-        tagsEt.setText("phone,cheap");
+//        titleEt.setText("new phone,very cheap contract with me");
+//        contentEt.setText("this is a new phone,use a month ,price is very cheap,i want change a new one ");
+//        priceEt.setText("103.23");
+//        tagsEt.setText("phone,cheap");
     }
 
     @Override
@@ -116,7 +116,7 @@ public class PublishActivity extends BaseActivity<PublishViewModel> implements B
     {
         String title = titleEt.getText().toString();
         if(TextUtils.isEmpty(title) ){
-            ToastUtils.showShort("please input the content");
+            ToastUtils.showShort("please input the title");
             return false;
         }
 

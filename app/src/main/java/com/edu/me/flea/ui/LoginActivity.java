@@ -16,6 +16,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.edu.me.flea.R;
 import com.edu.me.flea.base.BaseActivity;
 import com.edu.me.flea.config.Config;
+import com.edu.me.flea.config.Constants;
 import com.edu.me.flea.vm.LoginViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -72,6 +73,7 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
             @Override
             public void onClick(View view) {
                 ARouter.getInstance().build(Config.Page.REGISTER).navigation();
+                closePage();
             }
         });
 
@@ -93,16 +95,17 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
                     .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressBar.setVisibility(View.GONE);
-                        if (!task.isSuccessful()) {
-                            // there was an error
-                            Log.d(Config.TAG,"error==>"+task.getException().getMessage());
-                            Toast.makeText(LoginActivity.this, "Error: " + task.getException().getMessage(),
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Login successful. Welcome to the app!", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
+                            progressBar.setVisibility(View.GONE);
+                            if (!task.isSuccessful()) {
+                                // there was an error
+                                Log.d(Config.TAG,"error==>"+task.getException().getMessage());
+                                Toast.makeText(LoginActivity.this, "Error: " + task.getException().getMessage(),
+                                        Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Login successful. Welcome to the app!", Toast.LENGTH_SHORT).show();
+                                postEvent(Constants.Event.LOGIN_DONE);
+                                finish();
+                            }
                         }
                     });
             }
@@ -127,4 +130,13 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
         return true;
     }
 
+    @Override
+    protected void onBusEvent(int what, Object event) {
+        super.onBusEvent(what, event);
+        switch (what){
+            case Constants.Event.SING_UP_DONE:
+                finish();
+                break;
+        }
+    }
 }

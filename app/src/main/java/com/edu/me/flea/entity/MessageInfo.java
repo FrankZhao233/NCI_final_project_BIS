@@ -5,7 +5,8 @@ public class MessageInfo {
     public long timeStamp;
     public int msgType;
     public int avatarRes;
-    public String creator;
+    public String creatorId;
+    public String creatorName;
 
     public MessageInfo(){
 
