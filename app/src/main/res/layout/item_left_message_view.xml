@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_margin="8dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/receiverAvatarIv"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/stranger" />
+
+    <TextView
+        android:id="@+id/receiverMessageTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/custom_text_color"
+        android:layout_marginRight="60dp"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/left_message_layout_shape"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:textSize="16sp" />
+</LinearLayout>

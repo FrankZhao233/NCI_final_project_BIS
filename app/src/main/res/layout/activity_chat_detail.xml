@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/page_bg_color">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messageList"
@@ -11,7 +12,6 @@
         android:layout_height="match_parent"/>
 
     <LinearLayout
-        android:id="@+id/activity_wechat_chat_layout_bottom"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/input_bg"

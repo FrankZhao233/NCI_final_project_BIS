@@ -25,6 +25,7 @@ import com.edu.me.flea.base.CommonAdapter;
 import com.edu.me.flea.base.ViewHolder;
 import com.edu.me.flea.config.Config;
 import com.edu.me.flea.config.Constants;
+import com.edu.me.flea.entity.ChatParams;
 import com.edu.me.flea.entity.GoodsDetail;
 import com.edu.me.flea.module.GlideApp;
 import com.edu.me.flea.utils.DateUtils;
@@ -143,8 +144,15 @@ public class GoodDetailActivity extends BaseActivity<GoodsDetailViewModel> {
         orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                GoodsDetail detail = mViewModel.getGoodsDetail().getValue();
+                ChatParams chatParams = new ChatParams();
+                chatParams.peerUid = detail.creatorId;
+                chatParams.peerNickName = detail.creatorName;
+                chatParams.cover = detail.images.get(0);
+                chatParams.price = detail.price;
+                chatParams.title = detail.title;
                 ARouter.getInstance().build(Config.Page.CHAT)
-                    .withParcelable(Constants.ExtraName.GOODS_DETAIL,mViewModel.getGoodsDetail().getValue())
+                    .withParcelable(Constants.ExtraName.CHAT_PARAM,chatParams)
                     .navigation();
             }
         });

@@ -42,17 +42,17 @@ public class HomeViewModel extends BaseViewModel {
     @Override
     public void onCreate(LifecycleOwner owner) {
         super.onCreate(owner);
-        loadDataPage(0,10,true);
+        loadDataPage(0,true);
         Log.d("flea","oncreate");
     }
 
-    public void loadDataPage(int start, int pageSize,boolean first)
+    public void loadDataPage(int start,boolean first)
     {
         Query query = FirebaseFirestore.getInstance()
             .collection(Constants.Collection.SNAPSHOT)
             .orderBy("createTime")
             .startAt(start)
-            .limit(pageSize);
+            .limit(getPageSize());
         query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -72,9 +72,19 @@ public class HomeViewModel extends BaseViewModel {
         });
     }
 
+    public void loadMore(int start)
+    {
+        loadDataPage(start,false);
+    }
+
+    public int getPageSize()
+    {
+        return 10;
+    }
+
     public void refreshList()
     {
-        loadDataPage(0,10,false);
+        loadDataPage(0,false);
     }
 
 }

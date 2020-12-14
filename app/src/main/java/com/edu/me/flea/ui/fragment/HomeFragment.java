@@ -2,7 +2,9 @@ package com.edu.me.flea.ui.fragment;
 
 
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,6 +27,7 @@ import com.edu.me.flea.vm.HomeViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.gu.swiperefresh.SwipeRefreshPlush;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +44,7 @@ public class HomeFragment extends BaseFragment<HomeViewModel> {
     FloatingActionButton addBtn;
 
     @BindView(R.id.swipeRefreshLayout)
-    SwipeRefreshLayout swipeRefreshLayout;
+    SwipeRefreshPlush swipeRefreshLayout;
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
@@ -67,11 +70,18 @@ public class HomeFragment extends BaseFragment<HomeViewModel> {
     @Override
     protected void initView()
     {
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        mAdapter = new HomeGoodsAdapter(new ArrayList<>());
+        swipeRefreshLayout.setRefreshColorResources(R.color.colorPrimary);
+        mAdapter = new HomeGoodsAdapter(new ArrayList<GoodsInfo>());
         goodsRv.setLayoutManager(new GridLayoutManager(getActivity(),2));
         goodsRv.setAdapter(mAdapter);
         Log.d("flea","initView");
+
+        View noMoreView = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_no_more,
+                null, false);
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        noMoreView.setPadding(10,10,10,10);
+        swipeRefreshLayout.setNoMoreView(noMoreView, layoutParams);
     }
 
     @Override
@@ -98,16 +108,24 @@ public class HomeFragment extends BaseFragment<HomeViewModel> {
             @Override
             public void onChanged(List<GoodsInfo> goods) {
                 Log.d(Config.TAG,"goods size==>"+goods.size());
+                if (goods.size() < mViewModel.getPageSize()) {
+                    swipeRefreshLayout.showNoMore(true);
+                }
                 mAdapter.addAllData(goods);
                 Log.d(Config.TAG,"all size==>"+mAdapter.getItems().size());
             }
         });
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        swipeRefreshLayout.setOnScrollListener(new SwipeRefreshPlush.OnRefreshListener() {
             @Override
-            public void onRefresh() {
-//                mAdapter.remove();
+            public void onPullDownToRefresh() {
+                mAdapter.remove();
                 mViewModel.refreshList();
+            }
+
+            @Override
+            public void onPullUpToRefresh() {
+                mViewModel.loadMore(mAdapter.getItems().size());
             }
         });
 
@@ -119,7 +137,7 @@ public class HomeFragment extends BaseFragment<HomeViewModel> {
                     progressBar.setVisibility(View.GONE);
                     addBtn.setVisibility(View.VISIBLE);
                 }else if(state ==1){
-                    swipeRefreshLayout.setRefreshing(false);
+                    swipeRefreshLayout.setRefresh(false);
                 }
             }
         });
