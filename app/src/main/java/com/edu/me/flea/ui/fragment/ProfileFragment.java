@@ -1,38 +1,78 @@
 package com.edu.me.flea.ui.fragment;
 
 
+import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.edu.me.flea.R;
 import com.edu.me.flea.base.BaseFragment;
 import com.edu.me.flea.config.Config;
+import com.edu.me.flea.config.Constants;
+import com.edu.me.flea.module.GlideApp;
+import com.edu.me.flea.ui.ImageCropActivity;
+import com.edu.me.flea.ui.MainActivity;
+import com.edu.me.flea.utils.FileUtil;
+import com.edu.me.flea.utils.ToastUtils;
+import com.edu.me.flea.utils.Utils;
 import com.edu.me.flea.vm.ProfileViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.tbruyelle.rxpermissions3.Permission;
+import com.tbruyelle.rxpermissions3.RxPermissions;
+
+import java.io.File;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.rxjava3.functions.Consumer;
 
-public class ProfileFragment extends BaseFragment<ProfileViewModel> {
+import static android.app.Activity.RESULT_OK;
 
+public class ProfileFragment extends BaseFragment<ProfileViewModel>  {
+    private static final int requestSelectPhoto = 100;
+    private static final int requestCropPhoto = 101;
     @BindView(R.id.nickNameTv)
     TextView nickNameTv;
 
     @BindView(R.id.emailTv)
     TextView emailTv;
 
+    @BindView(R.id.avatarIv)
+    ImageView avatarIv;
+
     @BindView(R.id.logoutLayout)
     ViewGroup logoutVg;
 
     private FirebaseUser mUser;
+
+    RequestOptions requestOptions = new RequestOptions()
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .placeholder(R.drawable.image_default_head)
+            .error(R.drawable.image_default_head)
+            .centerCrop();
 
     public static ProfileFragment newInstance()
     {
@@ -71,6 +111,7 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel> {
             nickNameTv.setText(mUser.getDisplayName());
             emailTv.setText(mUser.getEmail());
             logoutVg.setVisibility(View.VISIBLE);
+            loadAvatar(mUser.getUid());
         }else{
             logoutVg.setVisibility(View.GONE);
         }
@@ -78,6 +119,23 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel> {
 
     @Override
     protected void setListener() {
+        avatarIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RxPermissions rxPermissions = new RxPermissions(getActivity());
+                rxPermissions.requestEachCombined(Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .subscribe(new Consumer<Permission>() {
+                        @Override
+                        public void accept(Permission permission) throws Throwable {
+                            if(permission.granted){
+
+                                pickFromGallery();
+                            }
+                        }
+                    });
+            }
+        });
+
         nickNameTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,5 +172,51 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel> {
             builder.show();
             }
         });
+
+        mViewModel.getUploadAvatar().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String id) {
+
+            }
+        });
     }
+
+    private void loadAvatar(String id)
+    {
+        if(!TextUtils.isEmpty(id)){
+            String location = String.format(Config.AVATAR_FULL_REF_PATH_FMT, id+".jpeg");
+            //gs://flea-market-acade.appspot.com/avatars/4HCyC5cwxwOXpPSU7PvX1qDxxRn1
+            StorageReference gsReference = FirebaseStorage.getInstance().getReferenceFromUrl(location);
+            GlideApp.with(Utils.getContext())
+                    .load(gsReference)
+                    .apply(requestOptions)
+                    .into(avatarIv);
+        }
+    }
+
+    private void pickFromGallery() {
+        Intent intentToPickPic = new Intent(Intent.ACTION_PICK, null);
+        intentToPickPic.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        startActivityForResult(intentToPickPic, requestSelectPhoto);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == requestSelectPhoto) {
+                Uri uri = data.getData();
+                String filePath = FileUtil.getFilePathByUri(getActivity(), uri);
+
+                Intent intent = new Intent(getContext(), ImageCropActivity.class);
+                intent.putExtra(Constants.ExtraName.ORIGINAL_PHOTO_PATH,filePath);
+                startActivityForResult(intent,requestCropPhoto);
+
+            }else if(requestCode == requestCropPhoto){
+                String avatarPath = (Environment.getExternalStorageDirectory().getAbsolutePath()
+                        + File.separator + "Pictures/avatar_crop.jpg");
+                mViewModel.uploadAvatar(getContext(),avatarPath);
+            }
+        }
+    }
+
 }

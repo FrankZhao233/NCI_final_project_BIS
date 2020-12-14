@@ -32,5 +32,6 @@ public class Constants {
         public static final String GOODS_DETAIL = "goods_detail";
         public static final String USER_NAME = "USER_NAME";
         public static final String CHAT_PARAM = "chat_param";
+        public static final String ORIGINAL_PHOTO_PATH = "original_photo_path";
     }
 }

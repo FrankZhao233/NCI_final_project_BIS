@@ -32,6 +32,8 @@ import com.edu.me.flea.utils.DateUtils;
 import com.edu.me.flea.utils.Utils;
 import com.edu.me.flea.vm.GoodsDetailViewModel;
 import com.edu.me.flea.widget.ListViewForScrollView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -138,6 +140,12 @@ public class GoodDetailActivity extends BaseActivity<GoodsDetailViewModel> {
                 contentLayout.setVisibility(View.VISIBLE);
                 toolLayout.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if(goodsDetail.creatorId.equals(user.getUid())){
+                    orderBtn.setVisibility(View.GONE);
+                }else{
+                    orderBtn.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -151,6 +159,7 @@ public class GoodDetailActivity extends BaseActivity<GoodsDetailViewModel> {
                 chatParams.cover = detail.images.get(0);
                 chatParams.price = detail.price;
                 chatParams.title = detail.title;
+                chatParams.detailId = detail.id;
                 ARouter.getInstance().build(Config.Page.CHAT)
                     .withParcelable(Constants.ExtraName.CHAT_PARAM,chatParams)
                     .navigation();

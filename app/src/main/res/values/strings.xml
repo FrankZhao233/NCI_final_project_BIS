@@ -27,4 +27,5 @@
     <string name="bga_pp_save_img_success_folder">Picture Save to %s </string>
 
     <string name="publish_now">publish now...</string>
+    <string name="label_select_picture">select picture</string>
 </resources>

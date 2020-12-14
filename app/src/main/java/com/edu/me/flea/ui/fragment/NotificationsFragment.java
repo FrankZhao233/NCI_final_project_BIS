@@ -95,9 +95,10 @@ public class NotificationsFragment extends BaseFragment<NotificationsViewModel> 
                     ChatParams chatParams = new ChatParams();
                     chatParams.peerUid = info.userId;
                     chatParams.peerNickName = info.nickName;
-                    chatParams.cover = "";
-                    chatParams.price = "";
-                    chatParams.title = "";
+                    chatParams.cover = info.cover;
+                    chatParams.price = info.price;
+                    chatParams.title = info.title;
+                    chatParams.detailId = info.goodsId;
                     ARouter.getInstance().build(Config.Page.CHAT)
                             .withParcelable(Constants.ExtraName.CHAT_PARAM,chatParams)
                             .navigation();
