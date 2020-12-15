@@ -23,6 +23,7 @@ import com.edu.me.flea.config.Constants;
 import com.edu.me.flea.entity.ChatListInfo;
 import com.edu.me.flea.entity.ChatParams;
 import com.edu.me.flea.utils.HelpUtils;
+import com.edu.me.flea.utils.ImageLoader;
 import com.edu.me.flea.utils.PreferencesUtils;
 import com.edu.me.flea.vm.NotificationsViewModel;
 import com.google.firebase.auth.FirebaseAuth;
@@ -68,13 +69,8 @@ public class NotificationsFragment extends BaseFragment<NotificationsViewModel> 
         mAdapter = new CommonAdapter<ChatListInfo>(R.layout.item_chat_list_view,mViewModel.getData().getValue()) {
             @Override
             public void convert(ViewHolder holder, ChatListInfo item, int position) {
-                RequestOptions requestOptions = new RequestOptions()
-                        .diskCacheStrategy(DiskCacheStrategy.ALL);
                 ImageView imageView = holder.getImageView(R.id.avatarIv);
-                Glide.with(getActivity())
-                        .load(R.drawable.stranger)
-                        .apply(requestOptions)
-                        .into(imageView);
+                ImageLoader.loadAvatar(imageView,item.userId);
                 holder.setTvText(R.id.idTv,item.nickName);
                 holder.setTvText(R.id.messageTv,item.lastMessage);
                 holder.setTvText(R.id.timeTv, HelpUtils.formatDate(item.timeStamp));

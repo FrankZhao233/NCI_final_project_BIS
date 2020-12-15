@@ -147,7 +147,7 @@ public class HomeFragment extends BaseFragment<HomeViewModel> {
             public void onItemClick(RecyclerAdapter.ViewHolder<GoodsInfo> holder, GoodsInfo goodsInfo) {
                 Log.d(Config.TAG,"detail id ="+goodsInfo.detailId);
                 ARouter.getInstance().build(Config.Page.GOODS_DETAIL)
-                .withString(Constants.ExtraName.ID,goodsInfo.detailId)
+                .withParcelable(Constants.ExtraName.SNAPSHOT,goodsInfo)
                 .navigation();
             }
 

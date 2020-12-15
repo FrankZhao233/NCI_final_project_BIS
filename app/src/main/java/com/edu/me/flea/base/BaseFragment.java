@@ -1,5 +1,6 @@
 package com.edu.me.flea.base;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment im
     protected VM mViewModel;
     protected boolean isCreated = false;
     protected boolean isVisibleToUser = false;
+    protected ProgressDialog mProgressDialog ;
 
     @Nullable
     @Override
@@ -44,12 +46,22 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment im
 
     @Override
     public void showLoading(int msgRes) {
-
+        if(mProgressDialog == null){
+            mProgressDialog = new ProgressDialog(getActivity());
+            mProgressDialog.setMessage(getString(msgRes));
+            mProgressDialog.setCanceledOnTouchOutside(false);
+            mProgressDialog.setCancelable(true);
+        }
+        if(!mProgressDialog.isShowing()){
+            mProgressDialog.show();
+        }
     }
 
     @Override
     public void closeLoading() {
-
+        if(mProgressDialog != null){
+            mProgressDialog.dismiss();
+        }
     }
 
     @Override

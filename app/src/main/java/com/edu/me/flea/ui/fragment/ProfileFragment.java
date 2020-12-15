@@ -23,6 +23,7 @@ import androidx.lifecycle.Observer;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.edu.me.flea.R;
 import com.edu.me.flea.base.BaseFragment;
@@ -32,6 +33,7 @@ import com.edu.me.flea.module.GlideApp;
 import com.edu.me.flea.ui.ImageCropActivity;
 import com.edu.me.flea.ui.MainActivity;
 import com.edu.me.flea.utils.FileUtil;
+import com.edu.me.flea.utils.ImageLoader;
 import com.edu.me.flea.utils.ToastUtils;
 import com.edu.me.flea.utils.Utils;
 import com.edu.me.flea.vm.ProfileViewModel;
@@ -67,12 +69,6 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel>  {
     ViewGroup logoutVg;
 
     private FirebaseUser mUser;
-
-    RequestOptions requestOptions = new RequestOptions()
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .placeholder(R.drawable.image_default_head)
-            .error(R.drawable.image_default_head)
-            .centerCrop();
 
     public static ProfileFragment newInstance()
     {
@@ -111,7 +107,7 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel>  {
             nickNameTv.setText(mUser.getDisplayName());
             emailTv.setText(mUser.getEmail());
             logoutVg.setVisibility(View.VISIBLE);
-            loadAvatar(mUser.getUid());
+            ImageLoader.loadAvatar(avatarIv,mUser.getUid());
         }else{
             logoutVg.setVisibility(View.GONE);
         }
@@ -128,7 +124,6 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel>  {
                         @Override
                         public void accept(Permission permission) throws Throwable {
                             if(permission.granted){
-
                                 pickFromGallery();
                             }
                         }
@@ -179,19 +174,6 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel>  {
 
             }
         });
-    }
-
-    private void loadAvatar(String id)
-    {
-        if(!TextUtils.isEmpty(id)){
-            String location = String.format(Config.AVATAR_FULL_REF_PATH_FMT, id+".jpeg");
-            //gs://flea-market-acade.appspot.com/avatars/4HCyC5cwxwOXpPSU7PvX1qDxxRn1
-            StorageReference gsReference = FirebaseStorage.getInstance().getReferenceFromUrl(location);
-            GlideApp.with(Utils.getContext())
-                    .load(gsReference)
-                    .apply(requestOptions)
-                    .into(avatarIv);
-        }
     }
 
     private void pickFromGallery() {

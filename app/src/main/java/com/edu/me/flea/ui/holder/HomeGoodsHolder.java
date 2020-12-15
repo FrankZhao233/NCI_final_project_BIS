@@ -12,6 +12,7 @@ import com.edu.me.flea.base.RecyclerAdapter;
 import com.edu.me.flea.config.Config;
 import com.edu.me.flea.entity.GoodsInfo;
 import com.edu.me.flea.module.GlideApp;
+import com.edu.me.flea.utils.ImageLoader;
 import com.edu.me.flea.utils.Utils;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -46,13 +47,15 @@ public class HomeGoodsHolder extends RecyclerAdapter.ViewHolder<GoodsInfo> {
         nameTv.setText(goodsInfo.creatorName);
         priceTv.setText("$"+goodsInfo.price);
         titleTv.setText(goodsInfo.title);
+        hotTv.setText(goodsInfo.hotDegree+" want");
         if(!TextUtils.isEmpty(goodsInfo.cover)) {
             String location = String.format(Config.GOODS_FULL_REF_PATH_FMT, goodsInfo.cover);
             StorageReference gsReference = FirebaseStorage.getInstance().getReferenceFromUrl(location);
             GlideApp.with(Utils.getContext())
-                    .load(gsReference)
-                    .apply(requestOptions)
-                    .into(coverIv);
+                .load(gsReference)
+                .apply(requestOptions)
+                .into(coverIv);
+            ImageLoader.loadAvatar(avatarIv,goodsInfo.creatorId);
         }
     }
 }

@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.edu.me.flea.R;
 import com.edu.me.flea.base.RecyclerAdapter;
 import com.edu.me.flea.entity.MessageInfo;
+import com.edu.me.flea.utils.ImageLoader;
 
 public class RightMessageHolder extends RecyclerAdapter.ViewHolder<MessageInfo>{
 
@@ -22,5 +23,6 @@ public class RightMessageHolder extends RecyclerAdapter.ViewHolder<MessageInfo>{
     @Override
     protected void onBind(MessageInfo messageInfo) {
         messageTv.setText(messageInfo.msg);
+        ImageLoader.loadAvatar(avatarIv,messageInfo.creatorId);
     }
 }

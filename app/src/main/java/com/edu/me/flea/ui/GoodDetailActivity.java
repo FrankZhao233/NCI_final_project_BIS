@@ -27,8 +27,10 @@ import com.edu.me.flea.config.Config;
 import com.edu.me.flea.config.Constants;
 import com.edu.me.flea.entity.ChatParams;
 import com.edu.me.flea.entity.GoodsDetail;
+import com.edu.me.flea.entity.GoodsInfo;
 import com.edu.me.flea.module.GlideApp;
 import com.edu.me.flea.utils.DateUtils;
+import com.edu.me.flea.utils.ImageLoader;
 import com.edu.me.flea.utils.Utils;
 import com.edu.me.flea.vm.GoodsDetailViewModel;
 import com.edu.me.flea.widget.ListViewForScrollView;
@@ -61,8 +63,9 @@ public class GoodDetailActivity extends BaseActivity<GoodsDetailViewModel> {
 
     private CommonAdapter<String> mAdapter;
 
-    @Autowired(name = Constants.ExtraName.ID)
-    String mId;
+    @Autowired(name = Constants.ExtraName.SNAPSHOT)
+    GoodsInfo mSnapshot;
+
 
     @Override
     protected int getLayoutId() {
@@ -109,7 +112,7 @@ public class GoodDetailActivity extends BaseActivity<GoodsDetailViewModel> {
 
     @Override
     protected void initData() {
-        mViewModel.queryGoodsDetail(mId);
+        mViewModel.queryGoodsDetail(mSnapshot);
     }
 
     @Override
@@ -135,6 +138,7 @@ public class GoodDetailActivity extends BaseActivity<GoodsDetailViewModel> {
                         labels.add(tag);
                     }
                 }
+                ImageLoader.loadAvatar(avatarIv,goodsDetail.creatorId);
                 labelsView.setLabels(labels);
                 mAdapter.refreshView(goodsDetail.images);
                 contentLayout.setVisibility(View.VISIBLE);
@@ -152,17 +156,7 @@ public class GoodDetailActivity extends BaseActivity<GoodsDetailViewModel> {
         orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GoodsDetail detail = mViewModel.getGoodsDetail().getValue();
-                ChatParams chatParams = new ChatParams();
-                chatParams.peerUid = detail.creatorId;
-                chatParams.peerNickName = detail.creatorName;
-                chatParams.cover = detail.images.get(0);
-                chatParams.price = detail.price;
-                chatParams.title = detail.title;
-                chatParams.detailId = detail.id;
-                ARouter.getInstance().build(Config.Page.CHAT)
-                    .withParcelable(Constants.ExtraName.CHAT_PARAM,chatParams)
-                    .navigation();
+                mViewModel.want(mSnapshot);
             }
         });
     }

@@ -11,6 +11,7 @@ public class Constants {
     public static class PrefKey
     {
         public static final String HAS_MESSAGE = "has_message_";
+        public static final String LOGIN_ACCOUNT = "login_account";
     }
 
     public static class Collection
@@ -33,5 +34,7 @@ public class Constants {
         public static final String USER_NAME = "USER_NAME";
         public static final String CHAT_PARAM = "chat_param";
         public static final String ORIGINAL_PHOTO_PATH = "original_photo_path";
+
+        public static final String SNAPSHOT = "snapshot";
     }
 }

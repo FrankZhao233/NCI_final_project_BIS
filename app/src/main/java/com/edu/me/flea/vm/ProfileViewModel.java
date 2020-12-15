@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.edu.me.flea.R;
 import com.edu.me.flea.base.BaseViewModel;
 import com.edu.me.flea.base.SingleLiveEvent;
 import com.edu.me.flea.config.Config;
@@ -41,36 +42,37 @@ public class ProfileViewModel extends BaseViewModel {
     }
 
     public void uploadAvatar(Context context, String path) {
-
+        showLoading(R.string.upload_avatar_now);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Luban.with(context)
-                .load(new File(path))
-                .ignoreBy(30)
-                .setTargetDir(Utils.getTargetDir(context))
-                .setRenameListener(new OnRenameListener() {
-                    @Override
-                    public String rename(String filePath) {
-                        return user.getUid() + ".jpeg";
-                    }
-                }).setCompressListener(new OnCompressListener() {
-                    @Override
-                    public void onStart() {
-                        Log.d(Config.TAG, "start compress image , thread=" +
-                                Thread.currentThread().getName());
-                    }
+            .load(new File(path))
+            .ignoreBy(30)
+            .setTargetDir(Utils.getTargetDir(context))
+            .setRenameListener(new OnRenameListener() {
+                @Override
+                public String rename(String filePath) {
+                    return user.getUid() + ".jpeg";
+                }
+            }).setCompressListener(new OnCompressListener() {
+                @Override
+                public void onStart() {
+                    Log.d(Config.TAG, "start compress image , thread=" +
+                            Thread.currentThread().getName());
+                }
 
-                    @Override
-                    public void onSuccess(File file) {
-                        Log.d(Config.TAG, "compress image over, thread=" +
-                                Thread.currentThread().getName());
-                        uploadFile(file);
-                    }
+                @Override
+                public void onSuccess(File file) {
+                    Log.d(Config.TAG, "compress image over, thread=" +
+                            Thread.currentThread().getName());
+                    uploadFile(file);
+                }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d(Config.TAG, "compress image exception ==>" + e.getMessage());
-                    }
-                }).launch();
+                @Override
+                public void onError(Throwable e) {
+                    Log.d(Config.TAG, "compress image exception ==>" + e.getMessage());
+                    closeLoading();
+                }
+            }).launch();
     }
 
     private void uploadFile(File file)
@@ -85,6 +87,7 @@ public class ProfileViewModel extends BaseViewModel {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Log.d(Config.TAG,"upload success");
+                mUploadAvatar.call();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -95,6 +98,7 @@ public class ProfileViewModel extends BaseViewModel {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                 Log.d(Config.TAG,"upload complete==>");
+                closeLoading();
             }
         });
     }

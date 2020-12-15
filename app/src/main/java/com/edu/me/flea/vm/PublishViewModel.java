@@ -83,7 +83,8 @@ public class PublishViewModel extends BaseViewModel {
                         .setRenameListener(new OnRenameListener() {
                             @Override
                             public String rename(String filePath) {
-                                return EncryptUtils.encryptMD5ToString(filePath) + ".jpeg";
+                                String fileName = UUID.randomUUID().toString().replace("-","");
+                                return fileName + ".jpeg";
                             }
                         }).get();
                     Log.d(TAG,"compress result=>"+results);
@@ -157,7 +158,7 @@ public class PublishViewModel extends BaseViewModel {
         }
         detail.put("images",imgs);
         String cover = imgs.get(0);
-
+        Log.d(TAG,"create goods detail now");
         FirebaseFirestore.getInstance().collection(Constants.Collection.GOODS).document(detailId)
             .set(detail)
             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -194,6 +195,7 @@ public class PublishViewModel extends BaseViewModel {
         snapshot.put("createTime",detail.get("createTime"));
         snapshot.put("hotDegree",0);
         snapshot.put("checkCount",0);
+        Log.d(TAG,"create goods snapshot now");
         Task<Void> task = FirebaseFirestore.getInstance().collection(Constants.Collection.SNAPSHOT).document(id)
             .set(snapshot)
             .addOnSuccessListener(new OnSuccessListener<Void>() {

@@ -17,6 +17,7 @@ import com.edu.me.flea.R;
 import com.edu.me.flea.base.BaseActivity;
 import com.edu.me.flea.config.Config;
 import com.edu.me.flea.config.Constants;
+import com.edu.me.flea.utils.PreferencesUtils;
 import com.edu.me.flea.vm.LoginViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -55,6 +56,8 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
     @Override
     protected void initView() {
         removeToolbarElevation();
+        String email = PreferencesUtils.getString(LoginActivity.this,Constants.PrefKey.LOGIN_ACCOUNT,"");
+        emailEt.setText(email);
     }
 
     @Override
@@ -87,6 +90,9 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+            if(progressBar.getVisibility() == View.VISIBLE){
+                return ;
+            }
             if(checkValidity()){
                 String email = emailEt.getText().toString();
                 String pwd = pwdEt.getText().toString();
@@ -102,6 +108,7 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
                                 Toast.makeText(LoginActivity.this, "Error: " + task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             } else {
+                                PreferencesUtils.putString(LoginActivity.this,Constants.PrefKey.LOGIN_ACCOUNT,email);
                                 Toast.makeText(LoginActivity.this, "Login successful. Welcome to the app!", Toast.LENGTH_SHORT).show();
                                 postEvent(Constants.Event.LOGIN_DONE);
                                 finish();

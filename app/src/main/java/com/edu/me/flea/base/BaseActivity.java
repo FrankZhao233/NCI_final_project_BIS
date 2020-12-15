@@ -93,6 +93,8 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
         if(mProgressDialog == null){
             mProgressDialog = new ProgressDialog(this);
             mProgressDialog.setMessage(getString(msgRes));
+            mProgressDialog.setCanceledOnTouchOutside(false);
+            mProgressDialog.setCancelable(true);
         }
         if(!mProgressDialog.isShowing()){
             mProgressDialog.show();

@@ -54,7 +54,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/price_color"
-                android:text="$120"
                 android:textSize="18sp"
                 android:layout_centerVertical="true"/>
 
@@ -64,8 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:textColor="#999999"
-                android:text="123 want"/>
+                android:textColor="#999999"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -93,7 +91,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="center_vertical"
-                android:text="u12312321"
                 android:textColor="#999999"
                 android:textSize="12sp"/>
         </LinearLayout>

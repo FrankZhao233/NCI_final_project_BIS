@@ -4,9 +4,11 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.TextureView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.lifecycle.Observer;
@@ -30,6 +32,7 @@ import com.edu.me.flea.service.MessageService;
 import com.edu.me.flea.ui.adpater.ChatMessageAdapter;
 import com.edu.me.flea.utils.DBHelper;
 import com.edu.me.flea.utils.HelpUtils;
+import com.edu.me.flea.utils.ImageLoader;
 import com.edu.me.flea.utils.PreferencesUtils;
 import com.edu.me.flea.utils.Utils;
 import com.edu.me.flea.vm.ChatViewModel;
@@ -65,6 +68,15 @@ public class ChatActivity extends BaseActivity<ChatViewModel> {
     @BindView(R.id.titleTv)
     TextView titleTv;
 
+    @BindView(R.id.goodsLayout)
+    ViewGroup goodsLayout;
+
+    @BindView(R.id.toolsLayout)
+    ViewGroup toolsLayout;
+
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
     private ChatMessageAdapter mAdapter;
     private String mRoomId;
     private String mPeerUid;
@@ -96,6 +108,7 @@ public class ChatActivity extends BaseActivity<ChatViewModel> {
 
         priceTv.setText("$"+mChatParams.price);
         titleTv.setText(mChatParams.title);
+        setTitle(mChatParams.peerNickName);
         RequestOptions requestOptions = new RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop();
@@ -143,11 +156,16 @@ public class ChatActivity extends BaseActivity<ChatViewModel> {
             }
         });
 
-
         mViewModel.getAddMessage().observe(this, new Observer<MessageInfo>() {
             @Override
             public void onChanged(MessageInfo messageInfo) {
                 mAdapter.add(messageInfo);
+                if(progressBar.getVisibility() == View.VISIBLE){
+                    progressBar.setVisibility(View.GONE);
+                    chatRv.setVisibility(View.VISIBLE);
+                    goodsLayout.setVisibility(View.VISIBLE);
+                    toolsLayout.setVisibility(View.VISIBLE);
+                }
             }
         });
     }

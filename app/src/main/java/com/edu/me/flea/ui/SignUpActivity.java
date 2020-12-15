@@ -65,6 +65,9 @@ public class SignUpActivity extends BaseActivity<SignUpViewModel> {
         singUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(progressBar.getVisibility() == View.VISIBLE){
+                    return ;
+                }
                 if (checkValidity()) {
                     String email = emailEt.getText().toString();
                     String pwd = pwdEt.getText().toString();
