@@ -50,7 +50,7 @@ public class MainActivity extends BaseActivity<MainViewModel> {
         viewPager.setAdapter(mAdapter);
         viewPager.setOffscreenPageLimit(4);
 
-        removeToolbarElevation();
+        setStatusBar(true);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null) {
             startService(new Intent(this, MessageService.class));
@@ -75,15 +75,19 @@ public class MainActivity extends BaseActivity<MainViewModel> {
                 switch (item.getItemId()){
                     case R.id.navigation_home:
                         viewPager.setCurrentItem(0);
+                        setStatusBar(true);
                         break;
                     case R.id.navigation_welfare:
                         viewPager.setCurrentItem(1);
+                        setStatusBar(false);
                         break;
                     case R.id.navigation_notifications:
                         viewPager.setCurrentItem(2);
+                        setStatusBar(true);
                         break;
                     case R.id.navigation_profile:
                         viewPager.setCurrentItem(3);
+                        setStatusBar(false);
                         break;
                 }
                 return true;

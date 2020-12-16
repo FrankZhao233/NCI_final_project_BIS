@@ -10,6 +10,7 @@
         android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:paddingTop="50dp"
         android:background="@color/colorPrimary"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -53,6 +54,28 @@
         android:background="@color/white"
         app:layout_constraintTop_toBottomOf="@id/topLayout"
         android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/goodsLayout"
+            android:clickable="true"
+            style="@style/setting_item_style">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_goods" />
+
+            <TextView
+                style="@style/setting_item_text"
+                android:text="@string/my_goods" />
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="13dp"
+                android:layout_gravity="center_vertical|end"
+                android:src="@drawable/ic_next" />
+        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/logoutLayout"

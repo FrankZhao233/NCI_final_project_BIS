@@ -9,7 +9,7 @@ public final class Config {
 
     public static final class StorageSpace
     {
-        public static final String GOODS = "goods";
+        public static final String GOODS = "goods/";
         public static final String AVATAR = "avatars/";
     }
 
@@ -23,5 +23,7 @@ public final class Config {
         public static final String RESET_PWD = "/app/reset_pwd";
         public static final String GOODS_DETAIL = "/app/goods_detail";
         public static final String CROP_PHOTO = "/app/crop_photo";
+        public static final String MY_GOODS_LIST = "/app/my_goods_list";
+        public static final String GOODS_AUCTION = "/app/goods_auction";
     }
 }

@@ -39,13 +39,10 @@ import com.edu.me.flea.utils.Utils;
 import com.edu.me.flea.vm.ProfileViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.tbruyelle.rxpermissions3.Permission;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,8 +51,10 @@ import io.reactivex.rxjava3.functions.Consumer;
 import static android.app.Activity.RESULT_OK;
 
 public class ProfileFragment extends BaseFragment<ProfileViewModel>  {
+
     private static final int requestSelectPhoto = 100;
     private static final int requestCropPhoto = 101;
+
     @BindView(R.id.nickNameTv)
     TextView nickNameTv;
 
@@ -67,6 +66,8 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel>  {
 
     @BindView(R.id.logoutLayout)
     ViewGroup logoutVg;
+    @BindView(R.id.goodsLayout)
+    ViewGroup goodsVg;
 
     private FirebaseUser mUser;
 
@@ -88,7 +89,6 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel>  {
 
     @Override
     protected void initView() {
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("");
 
     }
 
@@ -172,6 +172,13 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel>  {
             @Override
             public void onChanged(String id) {
 
+            }
+        });
+
+        goodsVg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ARouter.getInstance().build(Config.Page.MY_GOODS_LIST).navigation();
             }
         });
     }

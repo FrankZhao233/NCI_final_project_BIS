@@ -26,12 +26,6 @@ public class HomeGoodsHolder extends RecyclerAdapter.ViewHolder<GoodsInfo> {
     TextView titleTv;
     TextView hotTv;
 
-    RequestOptions requestOptions = new RequestOptions()
-        .diskCacheStrategy(DiskCacheStrategy.ALL)
-        .placeholder(R.drawable.ic_empty_image)
-        .error(R.drawable.ic_empty_image)
-        .centerCrop();
-
     public HomeGoodsHolder(View itemView) {
         super(itemView);
         coverIv = itemView.findViewById(R.id.coverIv);
@@ -48,14 +42,7 @@ public class HomeGoodsHolder extends RecyclerAdapter.ViewHolder<GoodsInfo> {
         priceTv.setText("$"+goodsInfo.price);
         titleTv.setText(goodsInfo.title);
         hotTv.setText(goodsInfo.hotDegree+" want");
-        if(!TextUtils.isEmpty(goodsInfo.cover)) {
-            String location = String.format(Config.GOODS_FULL_REF_PATH_FMT, goodsInfo.cover);
-            StorageReference gsReference = FirebaseStorage.getInstance().getReferenceFromUrl(location);
-            GlideApp.with(Utils.getContext())
-                .load(gsReference)
-                .apply(requestOptions)
-                .into(coverIv);
-            ImageLoader.loadAvatar(avatarIv,goodsInfo.creatorId);
-        }
+        ImageLoader.loadCover(coverIv,goodsInfo.cover);
+        ImageLoader.loadAvatar(avatarIv,goodsInfo.creatorId);
     }
 }

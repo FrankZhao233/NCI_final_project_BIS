@@ -6,14 +6,47 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <RelativeLayout
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        android:fitsSystemWindows="true">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height">
+
+            <TextView
+                android:id="@+id/toolbarTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="64dp"
+                android:layout_marginEnd="64dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:text="NOTIFICATION"
+                android:textColor="@color/custom_text_color"/>
+
+            <View
+                android:id="@+id/toolbarLine"
+                android:layout_width="match_parent"
+                android:layout_height="1.5px"
+                android:layout_gravity="bottom"
+                android:background="@color/divider_color" />
+
+        </FrameLayout>
+    </RelativeLayout>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_below="@id/toolbarLayout"
         android:layout_marginTop="1dp"
         android:visibility="gone">
 

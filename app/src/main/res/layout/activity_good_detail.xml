@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.GoodDetailActivity">
+    tools:context=".ui.GoodsDetailActivity">
 
     <ScrollView
         android:id="@+id/contentLayout"
@@ -122,24 +122,37 @@
         </LinearLayout>
     </ScrollView>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/toolLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent">
 
+        <TextView
+            android:id="@+id/commentTv"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/ic_coment"
+            android:drawablePadding="4dp"
+            android:background="@drawable/layout_up_border"
+            android:text="Comment"
+            android:textColor="@color/custom_text_color"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:layout_toLeftOf="@id/orderBtn"/>
+
         <Button
             android:id="@+id/orderBtn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/flat_button_bg"
             android:text="I WANT"
             android:textSize="16sp"
             android:textColor="@color/white"/>
-
-    </RelativeLayout>
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"

@@ -23,4 +23,8 @@
     <color name="price_color">#F33945</color>
     <color name="page_bg_color">#f4f4f4</color>
 
+    <color name="button_press_color">#CC56BBB4</color>
+    <color name="fab_normal_color">#56BBB4</color>
+    <color name="fab_press_color">#CC56BBB4</color>
+    <color name="fab_ripper_color">#CC56BBB4</color>
 </resources>

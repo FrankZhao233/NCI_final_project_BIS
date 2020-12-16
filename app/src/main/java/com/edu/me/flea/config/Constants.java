@@ -19,12 +19,15 @@ public class Constants {
         public static final String USER = "user";
         public static final String GOODS = "goods";
         public static final String SNAPSHOT = "snapshot";
+        public static final String COMMENT = "comment";
+        public static final String WELFARE = "welfare";
     }
 
     public static class Event
     {
         public static final int SING_UP_DONE = 100000;
         public static final int LOGIN_DONE = 100001;
+        public static final int PUBLISH_OVER = 100002;
     }
 
     public static class ExtraName

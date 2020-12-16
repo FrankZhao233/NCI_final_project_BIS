@@ -2,6 +2,7 @@ package com.edu.me.flea.base;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.blankj.rxbus.RxBus;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -41,6 +44,7 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment im
         setListener();
         registerUIChangeLiveData();
         loadData();
+        registerRxBus();
     }
 
 
@@ -62,6 +66,33 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment im
         if(mProgressDialog != null){
             mProgressDialog.dismiss();
         }
+    }
+
+    private void registerRxBus() {
+        RxBus.getDefault().subscribe(this, new RxBus.Callback<RxEvent>() {
+
+            @Override
+            public void onEvent(RxEvent rxEvent) {
+                onBusEvent(rxEvent.what,rxEvent.event);
+            }
+        });
+
+        if(!TextUtils.isEmpty(regRxBusTag())){
+            RxBus.getDefault().subscribe(this, regRxBusTag(), new RxBus.Callback<RxEvent>() {
+                @Override
+                public void onEvent(RxEvent rxEvent) {
+                    onBusEvent(rxEvent.what,rxEvent.event);
+                }
+            });
+        }
+    }
+
+    protected String regRxBusTag(){
+        return "";
+    }
+
+    protected void onBusEvent(int what, Object event) {
+
     }
 
     @Override

@@ -33,5 +33,21 @@ public class ImageLoader {
     }
 
 
+    public static void loadCover(ImageView imageView,String cover){
+        if(!TextUtils.isEmpty(cover)) {
+            RequestOptions requestOptions = new RequestOptions()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.ic_empty_image)
+                    .error(R.drawable.ic_empty_image)
+                    .centerCrop();
+            String location = String.format(Config.GOODS_FULL_REF_PATH_FMT, cover);
+            StorageReference gsReference = FirebaseStorage.getInstance().getReferenceFromUrl(location);
+            GlideApp.with(Utils.getContext())
+                    .load(gsReference)
+                    .apply(requestOptions)
+                    .into(imageView);
+        }
+    }
+
 }
 

@@ -1,9 +1,7 @@
 package com.edu.me.flea.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,10 +23,10 @@ import com.edu.me.flea.base.CommonAdapter;
 import com.edu.me.flea.base.ViewHolder;
 import com.edu.me.flea.config.Config;
 import com.edu.me.flea.config.Constants;
-import com.edu.me.flea.entity.ChatParams;
 import com.edu.me.flea.entity.GoodsDetail;
 import com.edu.me.flea.entity.GoodsInfo;
 import com.edu.me.flea.module.GlideApp;
+import com.edu.me.flea.ui.dialog.CommentDialog;
 import com.edu.me.flea.utils.DateUtils;
 import com.edu.me.flea.utils.ImageLoader;
 import com.edu.me.flea.utils.Utils;
@@ -46,7 +44,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 @Route(path = Config.Page.GOODS_DETAIL)
-public class GoodDetailActivity extends BaseActivity<GoodsDetailViewModel> {
+public class GoodsDetailActivity extends BaseActivity<GoodsDetailViewModel> {
 
     @BindView(R.id.avatarIv) ImageView avatarIv;
     @BindView(R.id.nickNameTv) TextView nickNameTv;
@@ -60,6 +58,7 @@ public class GoodDetailActivity extends BaseActivity<GoodsDetailViewModel> {
     @BindView(R.id.labelsView) LabelsView labelsView;
     @BindView(R.id.progressBar) ProgressBar progressBar;
     @BindView(R.id.contentLayout) ViewGroup contentLayout;
+    @BindView(R.id.commentTv) TextView commentTv;
 
     private CommonAdapter<String> mAdapter;
 
@@ -146,9 +145,9 @@ public class GoodDetailActivity extends BaseActivity<GoodsDetailViewModel> {
                 progressBar.setVisibility(View.GONE);
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if(goodsDetail.creatorId.equals(user.getUid())){
-                    orderBtn.setVisibility(View.GONE);
+                    toolLayout.setVisibility(View.GONE);
                 }else{
-                    orderBtn.setVisibility(View.VISIBLE);
+                    toolLayout.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -157,6 +156,14 @@ public class GoodDetailActivity extends BaseActivity<GoodsDetailViewModel> {
             @Override
             public void onClick(View v) {
                 mViewModel.want(mSnapshot);
+            }
+        });
+
+        commentTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CommentDialog dialog = new CommentDialog(GoodsDetailActivity.this,mSnapshot.detailId);
+                dialog.show();
             }
         });
     }

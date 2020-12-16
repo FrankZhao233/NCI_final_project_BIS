@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_price"
                 android:drawablePadding="8dp"
-                android:text="Price"
+                android:text="First Price of Auction"
                 android:textSize="18sp"
                 android:textColor="@color/custom_text_color"
                 android:layout_centerVertical="true"/>
@@ -118,9 +118,9 @@
                 android:paddingRight="10dp"
                 android:drawableLeft="@drawable/ic_tag"
                 android:drawablePadding="8dp"
-                android:textSize="18sp"
                 android:textColor="@color/custom_text_color"
                 android:gravity="center_vertical"
+                android:textSize="18sp"
                 android:text="Tags"/>
 
             <EditText
@@ -143,5 +143,47 @@
             android:layout_height="1dp"
             android:background="@color/divider_color"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:paddingRight="10dp"
+                android:drawableLeft="@drawable/ic_tag"
+                android:drawablePadding="8dp"
+                android:textColor="@color/custom_text_color"
+                android:gravity="center_vertical"
+                android:textSize="18sp"
+                android:text="Due Time"/>
+
+            <TextView
+                android:id="@+id/dateTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:textColor="@color/custom_text_color"
+                android:hint="choose date"/>
+
+            <TextView
+                android:id="@+id/timeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:clickable="true"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textColor="@color/custom_text_color"
+                android:hint="choose time"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_color"/>
     </LinearLayout>
 </ScrollView>

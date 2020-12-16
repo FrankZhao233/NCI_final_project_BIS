@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <ImageView
+        android:id="@+id/avatarIv"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/stranger"/>
+
+    <TextView
+        android:id="@+id/nickNameTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/avatarIv"
+        android:layout_alignTop="@id/avatarIv"
+        android:textSize="15sp"
+        android:textColor="@color/custom_text_color"
+        android:text="@string/nick_name"/>
+
+    <TextView
+        android:id="@+id/contentTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nickNameTv"
+        android:layout_alignLeft="@id/nickNameTv"
+        android:textSize="16sp"
+        android:text="this is a comment"/>
+
+    <TextView
+        android:id="@+id/timeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="6dp"
+        android:layout_below="@id/contentTv"
+        android:textColor="#aaaaaa"
+        android:textSize="15sp"
+        android:text="create at 12:90"/>
+
+</RelativeLayout>

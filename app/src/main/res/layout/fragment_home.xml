@@ -1,53 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#f2f2f2"
     tools:context=".ui.fragment.HomeFragment">
+
+    <RelativeLayout
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        android:fitsSystemWindows="true">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height">
+
+            <TextView
+                android:id="@+id/toolbarTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="64dp"
+                android:layout_marginEnd="64dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:text="HOME"
+                android:textColor="@color/custom_text_color"/>
+
+            <View
+                android:id="@+id/toolbarLine"
+                android:layout_width="match_parent"
+                android:layout_height="1.5px"
+                android:layout_gravity="bottom"
+                android:background="@color/divider_color" />
+
+        </FrameLayout>
+    </RelativeLayout>
 
     <com.gu.swiperefresh.SwipeRefreshPlush
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginBottom="6dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_below="@id/toolbarLayout"
         android:layout_marginTop="1dp"
         android:visibility="gone">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/productLv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content" />
+
     </com.gu.swiperefresh.SwipeRefreshPlush>
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:layout_centerInParent="true"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addBtn"
+
+    <com.github.clans.fab.FloatingActionMenu
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/floatMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="25dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="25dp"
         android:layout_marginBottom="40dp"
-        android:visibility="gone"
-        android:src="@drawable/ic_baseline_add_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        fab:menu_labels_style="@style/floating_menu_style"
+        fab:menu_colorNormal="@color/colorAccent"
+        fab:menu_colorPressed="@color/button_press_color"
+        app:menu_showShadow="false"
+        app:menu_icon="@drawable/ic_baseline_add_24"
+        fab:menu_labels_maxLines="1"
+        fab:menu_labels_ellipsize="end">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/publishFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_fab_goods"
+            fab:fab_label="@string/fab_add_goods"
+            style="@style/module_photo_menu_button_style" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/auctionFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/ic_auction"
+            fab:fab_label="@string/fab_auction"
+            style="@style/module_photo_menu_button_style" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+
+</RelativeLayout>

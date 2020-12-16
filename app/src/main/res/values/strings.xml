@@ -17,6 +17,7 @@
     <string name="btn_register">Register</string>
 
     <string name="logout">Logout</string>
+    <string name="my_goods">My Goods</string>
 
     <string name="send">Send</string>
 
@@ -30,4 +31,8 @@
     <string name="upload_avatar_now">uploading now...</string>
     <string name="label_select_picture">select picture</string>
     <string name="waiting_now">waiting...</string>
+
+    <string name="all_comments">All Comments</string>
+    <string name="fab_add_goods">publish goods</string>
+    <string name="fab_auction">auction</string>
 </resources>
