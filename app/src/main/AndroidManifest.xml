@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.GoodsAuctionActivity"></activity>
+        <activity android:name=".ui.WelfareDetailActivity"></activity>
+        <activity android:name=".ui.GoodsAuctionActivity" />
         <activity android:name=".ui.MyGoodsListActivity" />
         <activity
             android:name=".ui.GoodsDetailActivity"

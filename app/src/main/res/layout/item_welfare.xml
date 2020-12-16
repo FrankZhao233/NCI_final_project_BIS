@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/titleTv"
                 android:layout_alignLeft="@id/titleTv"
-                android:maxLines="3"
+                android:maxLines="2"
                 android:ellipsize="end"
                 android:textSize="16sp"
                 android:text="this is a comment"/>
