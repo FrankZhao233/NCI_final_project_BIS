@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="8dp"
     app:cardBackgroundColor="@color/white"
-    app:cardElevation="2dp"
+    app:cardElevation="1dp"
     app:contentPadding="8dp">
 
     <LinearLayout
@@ -54,8 +54,8 @@
             android:id="@+id/progressBar"
             style="@style/welfare_progress_horizontal"
             android:layout_width="match_parent"
-            android:layout_marginTop="8dp"
-            android:layout_height="18dp"
+            android:layout_marginTop="14dp"
+            android:layout_height="10dp"
             android:layout_gravity="center_vertical"
             android:max="100"
             android:progress="70"/>
@@ -78,10 +78,12 @@
                 android:id="@+id/countTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_fire"
+                android:drawablePadding="8dp"
                 android:layout_alignParentRight="true"
                 android:textColor="@color/custom_text_color"
                 android:textSize="15sp"
-                android:text="1000 people"/>
+                android:text="1000"/>
 
         </RelativeLayout>
 

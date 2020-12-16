@@ -3,6 +3,8 @@ package com.edu.me.flea.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.Timestamp;
+
 public class WelfareInfo implements Parcelable {
     public String id;
     public String title;
@@ -12,7 +14,7 @@ public class WelfareInfo implements Parcelable {
     public long current;
     public long hotDegree;
     public int progress;
-    public String createTime;
+    public Timestamp createTime;
 
     public WelfareInfo(){}
 
@@ -25,7 +27,7 @@ public class WelfareInfo implements Parcelable {
         current = in.readLong();
         hotDegree = in.readLong();
         progress = in.readInt();
-        createTime = in.readString();
+        createTime = in.readParcelable(Timestamp.class.getClassLoader());
     }
 
     public static final Creator<WelfareInfo> CREATOR = new Creator<WelfareInfo>() {
@@ -46,15 +48,15 @@ public class WelfareInfo implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(id);
-        parcel.writeString(title);
-        parcel.writeString(cover);
-        parcel.writeString(description);
-        parcel.writeLong(destination);
-        parcel.writeLong(current);
-        parcel.writeLong(hotDegree);
-        parcel.writeInt(progress);
-        parcel.writeString(createTime);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(title);
+        dest.writeString(cover);
+        dest.writeString(description);
+        dest.writeLong(destination);
+        dest.writeLong(current);
+        dest.writeLong(hotDegree);
+        dest.writeInt(progress);
+        dest.writeParcelable(createTime, flags);
     }
 }
