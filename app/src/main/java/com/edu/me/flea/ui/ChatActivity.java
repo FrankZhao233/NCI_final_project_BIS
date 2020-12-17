@@ -121,6 +121,13 @@ public class ChatActivity extends BaseActivity<ChatViewModel> {
                 .thumbnail(0.2f)
                 .into(goodsIv);
         }
+
+        if(progressBar.getVisibility() == View.VISIBLE){
+            progressBar.setVisibility(View.GONE);
+            chatRv.setVisibility(View.VISIBLE);
+            goodsLayout.setVisibility(View.VISIBLE);
+            toolsLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -160,12 +167,7 @@ public class ChatActivity extends BaseActivity<ChatViewModel> {
             @Override
             public void onChanged(MessageInfo messageInfo) {
                 mAdapter.add(messageInfo);
-                if(progressBar.getVisibility() == View.VISIBLE){
-                    progressBar.setVisibility(View.GONE);
-                    chatRv.setVisibility(View.VISIBLE);
-                    goodsLayout.setVisibility(View.VISIBLE);
-                    toolsLayout.setVisibility(View.VISIBLE);
-                }
+
             }
         });
     }

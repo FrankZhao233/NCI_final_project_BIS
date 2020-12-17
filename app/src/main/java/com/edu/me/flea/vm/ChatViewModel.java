@@ -48,7 +48,6 @@ public class ChatViewModel extends BaseViewModel {
 
         DBHelper.getInstance().getDatabase().getReference(Constants.Reference.MESSAGES)
                 .child(roomId).addChildEventListener(mChatValueLister);
-
     }
 
     public LiveData<MessageInfo> getAddMessage()
@@ -73,7 +72,6 @@ public class ChatViewModel extends BaseViewModel {
 
         @Override
         public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
 
         }
 

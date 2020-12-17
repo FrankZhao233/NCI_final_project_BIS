@@ -63,7 +63,6 @@ public class CommentDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         window.setGravity(Gravity.BOTTOM);
         window.setWindowAnimations(R.style.dialogAnimation);
         setCanceledOnTouchOutside(true);
