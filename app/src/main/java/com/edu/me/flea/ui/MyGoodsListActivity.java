@@ -50,7 +50,7 @@ public class MyGoodsListActivity extends BaseActivity<MyGoodsListViewModel> {
             @Override
             public void convert(ViewHolder holder, GoodsInfo item, int position) {
                 holder.setTvText(R.id.titleTv,item.title);
-                holder.setTvText(R.id.priceTv,"$"+item.price);
+                holder.setTvText(R.id.priceTv,"€"+item.price);
                 holder.setTvText(R.id.timeTv, DateUtils.formatDate(item.createTime));
                 ImageView coverIv = holder.getImageView(R.id.coverIv);
                 ImageLoader.loadCover(coverIv,item.cover);

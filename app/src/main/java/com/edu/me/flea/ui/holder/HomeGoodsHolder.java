@@ -39,7 +39,7 @@ public class HomeGoodsHolder extends RecyclerAdapter.ViewHolder<GoodsInfo> {
     @Override
     protected void onBind(GoodsInfo goodsInfo) {
         nameTv.setText(goodsInfo.creatorName);
-        priceTv.setText("$"+goodsInfo.price);
+        priceTv.setText("€"+goodsInfo.price);
         titleTv.setText(goodsInfo.title);
         hotTv.setText(goodsInfo.hotDegree+" want");
         ImageLoader.loadCover(coverIv,goodsInfo.cover);

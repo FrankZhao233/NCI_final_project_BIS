@@ -127,7 +127,7 @@ public class GoodsDetailActivity extends BaseActivity<GoodsDetailViewModel> {
             public void onChanged(GoodsDetail goodsDetail) {
                 nickNameTv.setText(goodsDetail.creatorName);
                 timeTv.setText("Posted at " + DateUtils.formatDate(goodsDetail.createTime));
-                priceTv.setText("$"+goodsDetail.price);
+                priceTv.setText("€"+goodsDetail.price);
                 contentTv.setText(goodsDetail.content);
                 List<String> labels = new ArrayList<>();
                 String[] tags = goodsDetail.tags.split(",");

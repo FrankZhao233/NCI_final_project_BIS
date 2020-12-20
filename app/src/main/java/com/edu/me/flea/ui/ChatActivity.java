@@ -106,7 +106,7 @@ public class ChatActivity extends BaseActivity<ChatViewModel> {
         mAdapter = new ChatMessageAdapter();
         chatRv.setAdapter(mAdapter);
 
-        priceTv.setText("$"+mChatParams.price);
+        priceTv.setText("€"+mChatParams.price);
         titleTv.setText(mChatParams.title);
         setTitle(mChatParams.peerNickName);
         RequestOptions requestOptions = new RequestOptions()
