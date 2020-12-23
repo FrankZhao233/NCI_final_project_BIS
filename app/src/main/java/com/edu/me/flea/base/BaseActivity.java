@@ -3,6 +3,7 @@ package com.edu.me.flea.base;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -40,6 +41,17 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
         registerUIChangeLiveData();
         initData();
         registerRxBus();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void postEvent(int event)

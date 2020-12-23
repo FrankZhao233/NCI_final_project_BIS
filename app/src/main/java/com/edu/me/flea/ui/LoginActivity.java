@@ -109,7 +109,8 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
                                         Toast.LENGTH_SHORT).show();
                             } else {
                                 PreferencesUtils.putString(LoginActivity.this,Constants.PrefKey.LOGIN_ACCOUNT,email);
-                                Toast.makeText(LoginActivity.this, "Login successful. Welcome to the app!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Login successful." +
+                                        " Welcome to the app!", Toast.LENGTH_SHORT).show();
                                 postEvent(Constants.Event.LOGIN_DONE);
                                 finish();
                             }

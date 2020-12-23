@@ -55,19 +55,13 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel>  {
     private static final int requestSelectPhoto = 100;
     private static final int requestCropPhoto = 101;
 
-    @BindView(R.id.nickNameTv)
-    TextView nickNameTv;
-
-    @BindView(R.id.emailTv)
-    TextView emailTv;
-
-    @BindView(R.id.avatarIv)
-    ImageView avatarIv;
-
-    @BindView(R.id.logoutLayout)
-    ViewGroup logoutVg;
-    @BindView(R.id.goodsLayout)
-    ViewGroup goodsVg;
+    @BindView(R.id.nickNameTv) TextView nickNameTv;
+    @BindView(R.id.emailTv) TextView emailTv;
+    @BindView(R.id.avatarIv) ImageView avatarIv;
+    @BindView(R.id.logoutLayout) ViewGroup logoutVg;
+    @BindView(R.id.goodsLayout) ViewGroup goodsVg;
+    @BindView(R.id.contributionsLayout) ViewGroup contributionVg;
+    @BindView(R.id.navigatorIv) ImageView navIv;
 
     private FirebaseUser mUser;
 
@@ -178,7 +172,29 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel>  {
         goodsVg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ARouter.getInstance().build(Config.Page.MY_GOODS_LIST).navigation();
+                if(mUser == null) {
+                    ARouter.getInstance().build(Config.Page.LOGIN).navigation();
+                }else {
+                    ARouter.getInstance().build(Config.Page.MY_GOODS_LIST).navigation();
+                }
+            }
+        });
+
+        contributionVg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mUser == null) {
+                    ARouter.getInstance().build(Config.Page.LOGIN).navigation();
+                } else {
+                    ARouter.getInstance().build(Config.Page.MY_WELFARE).navigation();
+                }
+            }
+        });
+
+        navIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build(Config.Page.PROFILE_EDITOR).navigation();
             }
         });
     }

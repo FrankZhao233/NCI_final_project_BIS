@@ -42,6 +42,8 @@
                 android:background="@color/divider_color" />
 
         </FrameLayout>
+
+
     </RelativeLayout>
 
     <com.gu.swiperefresh.SwipeRefreshPlush
@@ -68,6 +70,13 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"/>
 
+    <View
+        android:id="@+id/maskView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#ccffffff"
+        android:layout_below="@id/toolbarLayout"/>
 
     <com.github.clans.fab.FloatingActionMenu
         xmlns:fab="http://schemas.android.com/apk/res-auto"

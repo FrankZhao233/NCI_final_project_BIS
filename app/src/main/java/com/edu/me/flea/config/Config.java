@@ -26,5 +26,7 @@ public final class Config {
         public static final String MY_GOODS_LIST = "/app/my_goods_list";
         public static final String GOODS_AUCTION = "/app/goods_auction";
         public static final String WELFARE_DETAIL = "/app/welfare_detail";
+        public static final String MY_WELFARE = "/app/my_welfare";
+        public static final String PROFILE_EDITOR = "/app/profile_editor";
     }
 }

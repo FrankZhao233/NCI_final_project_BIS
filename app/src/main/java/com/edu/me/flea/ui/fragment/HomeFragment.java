@@ -37,23 +37,13 @@ import butterknife.ButterKnife;
 
 public class HomeFragment extends BaseFragment<HomeViewModel> {
 
-    @BindView(R.id.productLv)
-    RecyclerView goodsRv;
-
-    @BindView(R.id.floatMenu)
-    FloatingActionMenu floatMenu;
-
-    @BindView(R.id.publishFab)
-    FloatingActionButton publishFab;
-
-    @BindView(R.id.auctionFab)
-    FloatingActionButton auctionFab;
-
-    @BindView(R.id.swipeRefreshLayout)
-    SwipeRefreshPlush swipeRefreshLayout;
-
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
+    @BindView(R.id.productLv) RecyclerView goodsRv;
+    @BindView(R.id.floatMenu) FloatingActionMenu floatMenu;
+    @BindView(R.id.publishFab) FloatingActionButton publishFab;
+    @BindView(R.id.auctionFab) FloatingActionButton auctionFab;
+    @BindView(R.id.swipeRefreshLayout) SwipeRefreshPlush swipeRefreshLayout;
+    @BindView(R.id.progressBar) ProgressBar progressBar;
+    @BindView(R.id.maskView)View maskView;
 
     HomeGoodsAdapter mAdapter;
 
@@ -174,6 +164,17 @@ public class HomeFragment extends BaseFragment<HomeViewModel> {
             @Override
             public void onItemLongClick(RecyclerAdapter.ViewHolder<GoodsInfo> holder, GoodsInfo goodsInfo) {
 
+            }
+        });
+
+        floatMenu.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
+            @Override
+            public void onMenuToggle(boolean opened) {
+                if(opened){
+                    maskView.setVisibility(View.VISIBLE);
+                }else{
+                    maskView.setVisibility(View.GONE);
+                }
             }
         });
     }

@@ -1,15 +1,18 @@
 package com.edu.me.flea.vm;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.edu.me.flea.R;
 import com.edu.me.flea.base.BaseViewModel;
 import com.edu.me.flea.base.SingleLiveEvent;
 import com.edu.me.flea.config.Constants;
+import com.edu.me.flea.entity.ContributionInfo;
 import com.edu.me.flea.entity.WelfareInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,6 +25,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,25 +33,34 @@ import java.util.Map;
 public class WelfareDetailViewModel extends BaseViewModel {
 
     public SingleLiveEvent<Void> donateOver = new SingleLiveEvent<>();
-
+    private MutableLiveData<List<ContributionInfo>> mContributions = new MutableLiveData<>();
     public WelfareDetailViewModel(@NonNull Application application) {
         super(application);
+    }
+
+    public LiveData<List<ContributionInfo>> getContributions(){
+        return mContributions;
     }
 
     public void checkDonate(WelfareInfo welfareInfo)
     {
         showLoading(R.string.waiting_now);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore.getInstance().collection(Constants.Collection.CONTRIBUTION)
-            .whereEqualTo("uid",user.getUid())
             .whereEqualTo("welfareId",welfareInfo.id)
             .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                 @Override
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                     List<DocumentSnapshot> documentSnapshots = queryDocumentSnapshots.getDocuments();
-                    if(!documentSnapshots.isEmpty()){
-                        donateOver.call();
+                    ArrayList<ContributionInfo> contributions = new ArrayList<>();
+                    for (DocumentSnapshot documentSnapshot:documentSnapshots) {
+                        ContributionInfo contribution = documentSnapshot.toObject(ContributionInfo.class);
+                        if(contribution != null) {
+                            contribution.id = documentSnapshot.getId();
+                            Log.d("flea","contribution id===>"+contribution.id);
+                            contributions.add(contribution);
+                        }
                     }
+                    mContributions.setValue(contributions);
                 }
             }).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
@@ -66,10 +79,11 @@ public class WelfareDetailViewModel extends BaseViewModel {
         info.put("uid",user.getUid());
         info.put("welfareId",welfare.id);
         info.put("welfareTitle",welfare.title);
+        info.put("welfareCover",welfare.cover);
         info.put("nickName",user.getDisplayName());
         info.put("value",value);
         info.put("message",message);
-        info.put("createTime",message);
+        info.put("createTime",System.currentTimeMillis());
         FirebaseFirestore.getInstance()
             .collection(Constants.Collection.CONTRIBUTION)
             .add(info)

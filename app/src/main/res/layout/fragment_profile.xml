@@ -46,6 +46,17 @@
             android:textSize="16sp"
             android:textColor="#f0f0f0"
             android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/navigatorIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/avatarIv"
+            android:layout_alignBottom="@id/avatarIv"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:clickable="true"
+            android:src="@drawable/ic_next_white"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -69,6 +80,28 @@
             <TextView
                 style="@style/setting_item_text"
                 android:text="@string/my_goods" />
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="13dp"
+                android:layout_gravity="center_vertical|end"
+                android:src="@drawable/ic_next" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/contributionsLayout"
+            android:clickable="true"
+            style="@style/setting_item_style">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_contribution" />
+
+            <TextView
+                style="@style/setting_item_text"
+                android:text="@string/my_contributions" />
 
             <ImageView
                 android:layout_width="8dp"

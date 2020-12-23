@@ -16,10 +16,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.WelfareDetailActivity"
-            android:label="Welfare"></activity>
+        <activity android:name=".ui.ProfileEditorActivity"></activity>
+        <activity
+            android:name=".ui.MyWelfareActivity"
+            android:label="My Contributions" />
+        <activity
+            android:name=".ui.WelfareDetailActivity"
+            android:label="Welfare" />
         <activity android:name=".ui.GoodsAuctionActivity" />
-        <activity android:name=".ui.MyGoodsListActivity" />
+        <activity
+            android:name=".ui.MyGoodsListActivity"
+            android:label="My Goods" />
         <activity
             android:name=".ui.GoodsDetailActivity"
             android:windowSoftInputMode="adjustPan" />

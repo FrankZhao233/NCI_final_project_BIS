@@ -30,14 +30,25 @@
         android:text="@string/nick_name"/>
 
     <TextView
-        android:id="@+id/priceTv"
+        android:id="@+id/valueTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/titleTv"
         android:layout_alignLeft="@id/titleTv"
         android:textSize="16sp"
-        android:textColor="@color/price_color"
-        android:text="this is a comment"/>
+        android:text="contribute:1000"
+        android:textColor="@color/price_color"/>
+
+    <TextView
+        android:id="@+id/messageTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/valueTv"
+        android:layout_marginTop="2dp"
+        android:layout_alignLeft="@id/titleTv"
+        android:textColor="#666666"
+        android:textSize="16sp"
+        android:text="this is a message"/>
 
     <TextView
         android:id="@+id/timeTv"
@@ -46,7 +57,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="6dp"
-        android:layout_below="@id/priceTv"
+        android:layout_below="@id/messageTv"
         android:textColor="#aaaaaa"
         android:textSize="15sp"
         android:text="create at 12:90"/>
