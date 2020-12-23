@@ -2,18 +2,22 @@ package com.edu.me.flea.ui.fragment;
 
 import android.media.Image;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import androidx.lifecycle.Observer;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.edu.me.flea.R;
 import com.edu.me.flea.base.BaseFragment;
 import com.edu.me.flea.base.CommonAdapter;
 import com.edu.me.flea.base.ViewHolder;
+import com.edu.me.flea.config.Config;
+import com.edu.me.flea.config.Constants;
 import com.edu.me.flea.entity.BannerInfo;
 import com.edu.me.flea.entity.WelfareInfo;
 import com.edu.me.flea.ui.adpater.ImageTitleAdapter;
@@ -66,23 +70,19 @@ public class WelfareFragment extends BaseFragment<WelfareViewModel> {
             .setIndicatorMargins(new IndicatorConfig.Margins(0, 0,
                     BannerConfig.INDICATOR_MARGIN, (int) BannerUtils.dp2px(12)));
         mAdapter = new CommonAdapter<WelfareInfo>(R.layout.item_welfare,mViewModel.getWelfareList().getValue()) {
-            RequestOptions requestOptions = new RequestOptions()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.ic_empty_image)
-                    .error(R.drawable.ic_empty_image)
-                    .centerCrop();
             @Override
             public void convert(ViewHolder holder, WelfareInfo item, int position) {
                 holder.setTvText(R.id.titleTv,item.title);
                 holder.setTvText(R.id.descriptionTv,item.description);
                 holder.setTvText(R.id.timeTv, DateUtils.formatOnlyDate(item.createTime.getSeconds()*1000));
-                holder.setTvText(R.id.countTv,getContribution(item.hotDegree) +" contributions");
+                holder.setTvText(R.id.countTv,getContribution(item.hotDegree) +" contributors");
                 ProgressBar bar = holder.getView(R.id.progressBar);
                 bar.setProgress(item.progress);
                 ImageLoader.loadNetImage(holder.getImageView(R.id.coverIv),item.cover);
             }
         };
         welfareLv.setAdapter(mAdapter);
+
     }
 
     public String getContribution(long count)
@@ -96,7 +96,7 @@ public class WelfareFragment extends BaseFragment<WelfareViewModel> {
 
     @Override
     protected void initData() {
-        mViewModel.queryWelfare();
+//        mViewModel.queryWelfare();
     }
 
     @Override
@@ -107,6 +107,17 @@ public class WelfareFragment extends BaseFragment<WelfareViewModel> {
                 mAdapter.refreshView(welfareInfos);
                 progressBar.setVisibility(View.GONE);
                 refreshLayout.setVisibility(View.VISIBLE);
+            }
+        });
+
+        welfareLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                WelfareInfo info = mViewModel.getWelfareList().getValue().get(i);
+                ARouter.getInstance()
+                    .build(Config.Page.WELFARE_DETAIL)
+                    .withParcelable(Constants.ExtraName.WELFARE_DETAIL,info)
+                    .navigation();
             }
         });
     }

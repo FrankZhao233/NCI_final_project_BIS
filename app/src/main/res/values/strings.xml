@@ -35,4 +35,7 @@
     <string name="all_comments">All Comments</string>
     <string name="fab_add_goods">publish goods</string>
     <string name="fab_auction">auction</string>
+
+    <string name="welfare_destination">Destination: %1$s</string>
+    <string name="welfare_current">Current: %1$s</string>
 </resources>

@@ -3,7 +3,7 @@
     <color name="colorPrimary">#4389A8</color>
     <color name="colorPrimaryDark">#4389A8</color>
     <color name="colorAccent">#56BBB4</color>
-
+    <color name="transparent">#00000000</color>
     <color name="bga_pp_colorPrimaryDark">@color/colorPrimaryDark</color>
     <color name="bga_pp_navigationBarColor">@color/colorPrimary</color>
     <color name="bga_pp_colorPrimary">@color/colorPrimary</color>
@@ -27,4 +27,7 @@
     <color name="fab_normal_color">#56BBB4</color>
     <color name="fab_press_color">#CC56BBB4</color>
     <color name="fab_ripper_color">#CC56BBB4</color>
+
+    <color name="donate_btn_color">#DE9C53</color>
+    <color name="donate_btn_disable_color">#66DE9C53</color>
 </resources>

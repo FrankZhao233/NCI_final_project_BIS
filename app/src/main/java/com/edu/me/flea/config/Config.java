@@ -25,5 +25,6 @@ public final class Config {
         public static final String CROP_PHOTO = "/app/crop_photo";
         public static final String MY_GOODS_LIST = "/app/my_goods_list";
         public static final String GOODS_AUCTION = "/app/goods_auction";
+        public static final String WELFARE_DETAIL = "/app/welfare_detail";
     }
 }
