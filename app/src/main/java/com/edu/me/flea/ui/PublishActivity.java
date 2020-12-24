@@ -17,6 +17,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.edu.me.flea.R;
 import com.edu.me.flea.base.BaseActivity;
 import com.edu.me.flea.config.Config;
+import com.edu.me.flea.interfaces.MoneyTextWatcher;
 import com.edu.me.flea.utils.FileUtil;
 import com.edu.me.flea.utils.ToastUtils;
 import com.edu.me.flea.vm.PublishViewModel;
@@ -86,6 +87,8 @@ public class PublishActivity extends BaseActivity<PublishViewModel> implements B
     @Override
     protected void setListener() {
         mPhotosGrid.setDelegate(this);
+
+        priceEt.addTextChangedListener(new MoneyTextWatcher(priceEt));
     }
 
     @Override

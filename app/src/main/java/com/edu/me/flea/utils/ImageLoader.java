@@ -8,6 +8,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.signature.ObjectKey;
 import com.edu.me.flea.R;
 import com.edu.me.flea.config.Config;
 import com.edu.me.flea.module.GlideApp;
@@ -34,6 +35,25 @@ public class ImageLoader {
         }
     }
 
+    //load avatar image with signature
+    public static void loadAvatar(ImageView imageView, String id,String signature)
+    {
+        if(!TextUtils.isEmpty(id)){
+            RequestOptions avatarRequestOptions = new RequestOptions()
+                    .bitmapTransform(new CircleCrop())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.image_default_head)
+                    .error(R.drawable.image_default_head);
+            String location = String.format(Config.AVATAR_FULL_REF_PATH_FMT, id+".jpeg");
+            StorageReference gsReference = FirebaseStorage.getInstance().getReferenceFromUrl(location);
+            GlideApp.with(Utils.getContext())
+                    .load(gsReference)
+                    .signature(new ObjectKey(signature))
+                    .apply(avatarRequestOptions)
+                    .thumbnail(0.5f)
+                    .into(imageView);
+        }
+    }
 
     public static void loadCover(ImageView imageView,String cover){
         if(!TextUtils.isEmpty(cover)) {

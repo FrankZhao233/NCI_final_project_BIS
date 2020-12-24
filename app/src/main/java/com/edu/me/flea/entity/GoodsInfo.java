@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class GoodsInfo implements Parcelable {
     public String id;
@@ -17,7 +18,7 @@ public class GoodsInfo implements Parcelable {
     public long createTime;
     public int hotDegree;
     public int checkCount;
-
+    public long dueTime;
     public GoodsInfo(){}
 
     protected GoodsInfo(Parcel in) {
@@ -64,5 +65,18 @@ public class GoodsInfo implements Parcelable {
         parcel.writeLong(createTime);
         parcel.writeInt(hotDegree);
         parcel.writeInt(checkCount);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GoodsInfo goodsInfo = (GoodsInfo) o;
+        return Objects.equals(id, goodsInfo.id) ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, detailId, title, creatorId, creatorName, creatorAvatar, cover, price, createTime, hotDegree, checkCount, dueTime);
     }
 }

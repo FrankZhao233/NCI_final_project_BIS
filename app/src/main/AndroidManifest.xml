@@ -16,24 +16,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.ProfileEditorActivity"></activity>
+
+        <activity android:name=".ui.ProfileEditorActivity"
+            android:label="Edit Profile"/>
+
         <activity
             android:name=".ui.MyWelfareActivity"
             android:label="My Contributions" />
+
         <activity
             android:name=".ui.WelfareDetailActivity"
             android:label="Welfare" />
+
         <activity android:name=".ui.GoodsAuctionActivity" />
+
         <activity
             android:name=".ui.MyGoodsListActivity"
             android:label="My Goods" />
+
         <activity
             android:name=".ui.GoodsDetailActivity"
             android:windowSoftInputMode="adjustPan" />
+
         <activity
             android:name=".ui.ResetPasswordActivity"
             android:label="" />
+
         <activity android:name=".ui.PublishActivity" />
+
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
@@ -44,13 +54,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.SignUpActivity"
             android:label="" />
+
         <activity
             android:name=".ui.LoginActivity"
             android:label="" />
+
         <activity android:name=".ui.ChatActivity" />
+
         <activity android:name=".ui.ImageCropActivity" />
 
         <service android:name=".service.MessageService" />

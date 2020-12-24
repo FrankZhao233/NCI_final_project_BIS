@@ -12,6 +12,7 @@ public class Constants {
     {
         public static final String HAS_MESSAGE = "has_message_";
         public static final String LOGIN_ACCOUNT = "login_account";
+        public static final String AVATAR_SIGNATURE = "avatar_signature";
     }
 
     public static class Collection

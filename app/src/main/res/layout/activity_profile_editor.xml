@@ -1,9 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.ProfileEditorActivity">
+    android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:visibility="gone"
+        tools:context=".ui.ProfileEditorActivity">
+
+        <ImageView
+            android:id="@+id/avatarIv"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/image_default_head"
+            android:scaleType="fitXY"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/nickNameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp"
+            android:text="nick name"
+            android:textSize="16sp"
+            android:textColor="@color/custom_text_color"/>
+
+        <RadioGroup
+            android:id="@+id/sexRg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/femaleCb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/female_checkbox_selector"
+                android:paddingLeft="10dp"
+                android:textSize="16sp"
+                android:textColor="@drawable/female_text_selector"
+                android:text="Female"/>
+
+            <RadioButton
+                android:id="@+id/maleCb"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:button="@drawable/male_checkbox_selector"
+                android:paddingLeft="10dp"
+                android:layout_marginLeft="50dp"
+                android:textSize="16sp"
+                android:textColor="@drawable/male_text_selector"
+                android:text="Male"/>
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/custom_text_color"
+                android:text="signature"/>
+
+            <EditText
+                android:id="@+id/signatureEt"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:paddingTop="4dp"
+                android:paddingBottom="16dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:textSize="18sp"
+                android:maxLength="100"
+                android:textColor="@color/custom_text_color"
+                android:hint="please input your signature"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/custom_text_color"
+                android:text="address"/>
+
+            <EditText
+                android:id="@+id/addressEt"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="18sp"
+                android:paddingTop="4dp"
+                android:paddingBottom="16dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:textColor="@color/custom_text_color"
+                android:hint="please input your address"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/custom_text_color"
+                android:text="hobby"/>
+
+            <EditText
+                android:id="@+id/hobbyEt"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="18sp"
+                android:paddingTop="4dp"
+                android:paddingBottom="16dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:textColor="@color/custom_text_color"
+                android:hint="please input your hobbies"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/operateBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/ic_baseline_edit_24"
+        android:visibility="gone"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>

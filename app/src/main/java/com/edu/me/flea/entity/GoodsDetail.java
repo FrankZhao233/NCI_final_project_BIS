@@ -18,6 +18,7 @@ public class GoodsDetail implements Parcelable {
     public long createTime;
     public int hotDegree;
     public int checkCount;
+    public long dueTime;
 
     public GoodsDetail(){}
 
@@ -34,6 +35,7 @@ public class GoodsDetail implements Parcelable {
         createTime = in.readLong();
         hotDegree = in.readInt();
         checkCount = in.readInt();
+        dueTime = in.readLong();
     }
 
     @Override
@@ -50,6 +52,7 @@ public class GoodsDetail implements Parcelable {
         dest.writeLong(createTime);
         dest.writeInt(hotDegree);
         dest.writeInt(checkCount);
+        dest.writeLong(dueTime);
     }
 
     @Override

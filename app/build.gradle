@@ -77,10 +77,7 @@ dependencies {
     implementation 'com.github.guhongya:SwipeRefreshPlush:1.0.4'
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
 
-//    implementation "com.google.code.gson:gson:2.8.5"
-
-//    implementation 'com.uber.autodispose:autodispose-android-archcomponents:1.1.0'
-//    implementation 'com.uber.autodispose:autodispose-android:1.1.0'
+    implementation "com.haozhang.libary:android-slanted-textview:1.2"
 
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'

@@ -101,7 +101,10 @@ public class WelfareDetailActivity extends BaseActivity<WelfareDetailViewModel> 
 
     @Override
     protected void initData() {
-        mViewModel.checkDonate(mWelfareInfo);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            mViewModel.checkDonate(mWelfareInfo);
+        }
     }
 
     @Override
@@ -115,14 +118,19 @@ public class WelfareDetailActivity extends BaseActivity<WelfareDetailViewModel> 
         donateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WelfareInputDialog dialog = new WelfareInputDialog(WelfareDetailActivity.this);
-                dialog.setOnConfirmListener(new WelfareInputDialog.OnConfirmListener() {
-                    @Override
-                    public void onConfirm(String value, String message) {
-                        mViewModel.donate(value,message,mWelfareInfo);
-                    }
-                });
-                dialog.show();
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user == null) {
+                    ARouter.getInstance().build(Config.Page.LOGIN).navigation();
+                } else {
+                    WelfareInputDialog dialog = new WelfareInputDialog(WelfareDetailActivity.this);
+                    dialog.setOnConfirmListener(new WelfareInputDialog.OnConfirmListener() {
+                        @Override
+                        public void onConfirm(String value, String message) {
+                            mViewModel.donate(value, message, mWelfareInfo);
+                        }
+                    });
+                    dialog.show();
+                }
             }
         });
 

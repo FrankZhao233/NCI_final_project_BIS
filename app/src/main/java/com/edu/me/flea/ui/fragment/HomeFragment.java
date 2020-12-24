@@ -117,11 +117,18 @@ public class HomeFragment extends BaseFragment<HomeViewModel> {
         mViewModel.getGoodsLiveData().observe(this, new Observer<List<GoodsInfo>>() {
             @Override
             public void onChanged(List<GoodsInfo> goods) {
-                Log.d(Config.TAG,"goods size==>"+goods.size());
-                if (goods.size() < mViewModel.getPageSize()) {
+                List<GoodsInfo> newItems = new ArrayList<>();
+                List<GoodsInfo> datas = mAdapter.getItems();
+                for(GoodsInfo item:goods){
+                    if(!datas.contains(item)){
+                        newItems.add(item);
+                    }
+                }
+                Log.d(Config.TAG,"goods size==>"+newItems.size());
+                if (newItems.size() < mViewModel.getPageSize()) {
                     swipeRefreshLayout.showNoMore(true);
                 }
-                mAdapter.addAllData(goods);
+                mAdapter.addAllData(newItems);
                 Log.d(Config.TAG,"all size==>"+mAdapter.getItems().size());
             }
         });

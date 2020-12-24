@@ -6,9 +6,8 @@ import java.util.Locale;
 
 public class DateUtils {
 
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy h:m:s aa", Locale.ENGLISH);
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy HH:mm:ss", Locale.ENGLISH);
     private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy", Locale.ENGLISH);
-
 
     public static String formatDate(long timeStamp)
     {

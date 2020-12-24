@@ -115,10 +115,22 @@
                 app:maxLines="0"
                 app:isIndicator="true" />
 
+            <TextView
+                android:id="@+id/dueTimeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/price_color"
+                android:visibility="gone"
+                android:layout_marginTop="10dp"/>
+
             <com.edu.me.flea.widget.ListViewForScrollView
                 android:id="@+id/imageLv"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"/>
+                android:layout_width="match_parent"
+                android:layout_marginTop="4dp"/>
+
+
         </LinearLayout>
     </ScrollView>
 

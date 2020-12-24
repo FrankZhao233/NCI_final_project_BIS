@@ -34,6 +34,7 @@ import com.edu.me.flea.ui.ImageCropActivity;
 import com.edu.me.flea.ui.MainActivity;
 import com.edu.me.flea.utils.FileUtil;
 import com.edu.me.flea.utils.ImageLoader;
+import com.edu.me.flea.utils.PreferencesUtils;
 import com.edu.me.flea.utils.ToastUtils;
 import com.edu.me.flea.utils.Utils;
 import com.edu.me.flea.vm.ProfileViewModel;
@@ -43,6 +44,7 @@ import com.tbruyelle.rxpermissions3.Permission;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 
 import java.io.File;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -101,7 +103,8 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel>  {
             nickNameTv.setText(mUser.getDisplayName());
             emailTv.setText(mUser.getEmail());
             logoutVg.setVisibility(View.VISIBLE);
-            ImageLoader.loadAvatar(avatarIv,mUser.getUid());
+            String signature = PreferencesUtils.getString(getActivity(),Constants.PrefKey.AVATAR_SIGNATURE,"");
+            ImageLoader.loadAvatar(avatarIv,mUser.getUid(),signature);
         }else{
             logoutVg.setVisibility(View.GONE);
         }
@@ -165,7 +168,9 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel>  {
         mViewModel.getUploadAvatar().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String id) {
-
+                String signature = UUID.randomUUID().toString();
+                ImageLoader.loadAvatar(avatarIv,id,signature);
+                PreferencesUtils.putString(getActivity(),Constants.PrefKey.AVATAR_SIGNATURE,signature);
             }
         });
 
@@ -194,7 +199,11 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel>  {
         navIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build(Config.Page.PROFILE_EDITOR).navigation();
+                if(mUser == null) {
+                    ARouter.getInstance().build(Config.Page.LOGIN).navigation();
+                } else {
+                    ARouter.getInstance().build(Config.Page.PROFILE_EDITOR).navigation();
+                }
             }
         });
     }

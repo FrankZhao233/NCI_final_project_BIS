@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.edu.me.flea.base.BaseViewModel;
 import com.edu.me.flea.base.SingleLiveEvent;
+import com.edu.me.flea.config.Config;
 import com.edu.me.flea.config.Constants;
 import com.edu.me.flea.entity.GoodsInfo;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -48,6 +49,7 @@ public class HomeViewModel extends BaseViewModel {
 
     public void loadDataPage(int start,boolean first)
     {
+        Log.d(Config.TAG,"loadDataPage start==>"+start);
         Query query = FirebaseFirestore.getInstance()
             .collection(Constants.Collection.SNAPSHOT)
             .orderBy("createTime")
@@ -61,7 +63,9 @@ public class HomeViewModel extends BaseViewModel {
                 for(DocumentSnapshot documentSnapshot:documentSnapshots){
                     GoodsInfo goodsInfo = documentSnapshot.toObject(GoodsInfo.class);
                     goods.add(goodsInfo);
+                    Log.d(Config.TAG,"id==>"+goodsInfo.id);
                 }
+                Log.d(Config.TAG,"loadDataPage==>"+goods.size());
                 mGoods.setValue(goods);
                 if(first){
                     mLoadingState.setValue(0);

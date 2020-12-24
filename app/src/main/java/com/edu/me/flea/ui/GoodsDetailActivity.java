@@ -59,12 +59,12 @@ public class GoodsDetailActivity extends BaseActivity<GoodsDetailViewModel> {
     @BindView(R.id.progressBar) ProgressBar progressBar;
     @BindView(R.id.contentLayout) ViewGroup contentLayout;
     @BindView(R.id.commentTv) TextView commentTv;
+    @BindView(R.id.dueTimeTv) TextView dueTimeTv;
 
     private CommonAdapter<String> mAdapter;
 
     @Autowired(name = Constants.ExtraName.SNAPSHOT)
     GoodsInfo mSnapshot;
-
 
     @Override
     protected int getLayoutId() {
@@ -148,6 +148,13 @@ public class GoodsDetailActivity extends BaseActivity<GoodsDetailViewModel> {
                     toolLayout.setVisibility(View.GONE);
                 }else{
                     toolLayout.setVisibility(View.VISIBLE);
+                }
+
+                if(goodsDetail.dueTime>0){
+                    dueTimeTv.setVisibility(View.VISIBLE);
+                    dueTimeTv.setText("due time: "+DateUtils.formatDate(goodsDetail.dueTime));
+                }else{
+                    dueTimeTv.setVisibility(View.GONE);
                 }
             }
         });
