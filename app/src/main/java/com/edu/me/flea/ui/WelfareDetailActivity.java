@@ -46,8 +46,7 @@ public class WelfareDetailActivity extends BaseActivity<WelfareDetailViewModel> 
     @BindView(R.id.contributorsRv) RecyclerView contributorsRv;
     @BindView(R.id.contributorTv) TextView contributorTv;
 
-    @Autowired(name = Constants.ExtraName.WELFARE_DETAIL)
-    WelfareInfo mWelfareInfo;
+    @Autowired(name = Constants.ExtraName.WELFARE_DETAIL) WelfareInfo mWelfareInfo;
 
     private RecyclerAdapter<ContributionInfo> mAdapter = new RecyclerAdapter<ContributionInfo>(){
         @Override
@@ -66,7 +65,6 @@ public class WelfareDetailActivity extends BaseActivity<WelfareDetailViewModel> 
         public ContributorHolder(View itemView) {
             super(itemView);
             avatarIv = itemView.findViewById(R.id.avatarIv);
-
         }
 
         @Override
@@ -96,7 +94,6 @@ public class WelfareDetailActivity extends BaseActivity<WelfareDetailViewModel> 
         contributorsRv.setLayoutManager(new GridLayoutManager(this,10));
         contributorsRv.setAdapter(mAdapter);
     }
-
 
 
     @Override

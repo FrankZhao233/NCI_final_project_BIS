@@ -1,8 +1,6 @@
 package com.edu.me.flea.ui;
 
-import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,23 +20,12 @@ import butterknife.ButterKnife;
 @Route(path = Config.Page.REGISTER)
 public class SignUpActivity extends BaseActivity<SignUpViewModel> {
 
-    @BindView(R.id.nickNameEt)
-    EditText nickNameEt;
-
-    @BindView(R.id.emailEt)
-    EditText emailEt;
-
-    @BindView(R.id.passwordEt)
-    EditText pwdEt;
-
-    @BindView(R.id.loginBtn)
-    Button loginBtn;
-
-    @BindView(R.id.singUpBtn)
-    Button singUpBtn;
-
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
+    @BindView(R.id.nickNameEt) EditText nickNameEt;
+    @BindView(R.id.emailEt) EditText emailEt;
+    @BindView(R.id.passwordEt) EditText pwdEt;
+    @BindView(R.id.loginBtn) Button loginBtn;
+    @BindView(R.id.singUpBtn) Button singUpBtn;
+    @BindView(R.id.progressBar) ProgressBar progressBar;
 
     @Override
     protected int getLayoutId() {
@@ -90,18 +77,19 @@ public class SignUpActivity extends BaseActivity<SignUpViewModel> {
     private boolean checkValidity()
     {
         String nickName = nickNameEt.getText().toString();
-        if(TextUtils.isEmpty(nickName)){
+        if (TextUtils.isEmpty(nickName)) {
             Toast.makeText(this,"please input nickname",Toast.LENGTH_SHORT).show();
             return false;
         }
+
         String email = emailEt.getText().toString();
         String pwd = pwdEt.getText().toString();
-        if(TextUtils.isEmpty(email)){
+        if (TextUtils.isEmpty(email)) {
             Toast.makeText(this,"please input email",Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        if(TextUtils.isEmpty(pwd)) {
+        if (TextUtils.isEmpty(pwd)) {
             Toast.makeText(this,"please input password",Toast.LENGTH_SHORT).show();
             return false;
         }

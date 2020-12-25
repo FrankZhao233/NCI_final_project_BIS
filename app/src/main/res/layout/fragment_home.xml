@@ -60,7 +60,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/productLv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp"/>
 
     </com.gu.swiperefresh.SwipeRefreshPlush>
 

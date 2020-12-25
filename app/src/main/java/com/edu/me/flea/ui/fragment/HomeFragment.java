@@ -76,7 +76,7 @@ public class HomeFragment extends BaseFragment<HomeViewModel> {
                 null, false);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-        noMoreView.setPadding(10,10,10,10);
+        noMoreView.setPadding(10,16,10,10);
         swipeRefreshLayout.setNoMoreView(noMoreView, layoutParams);
     }
 

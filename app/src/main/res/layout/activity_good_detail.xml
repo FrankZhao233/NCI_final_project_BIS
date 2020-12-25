@@ -130,6 +130,11 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="4dp"/>
 
+            <com.edu.me.flea.widget.ListViewForScrollView
+                android:id="@+id/pricesLv"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_marginTop="4dp"/>
 
         </LinearLayout>
     </ScrollView>
@@ -138,7 +143,6 @@
         android:id="@+id/toolLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
@@ -155,9 +159,24 @@
             android:layout_toLeftOf="@id/orderBtn"/>
 
         <Button
-            android:id="@+id/orderBtn"
-            android:layout_width="match_parent"
+            android:id="@+id/auctionBtn"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/flat_button_bg"
+            android:text="Auction"
+            android:visibility="gone"
+            android:textSize="16sp"
+            android:textColor="@color/white"/>
+
+        <Button
+            android:id="@+id/orderBtn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1px"
+            android:layout_weight="1"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/flat_button_bg"

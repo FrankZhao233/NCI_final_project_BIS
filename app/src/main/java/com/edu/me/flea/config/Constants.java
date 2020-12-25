@@ -23,6 +23,7 @@ public class Constants {
         public static final String COMMENT = "comment";
         public static final String WELFARE = "welfare";
         public static final String CONTRIBUTION = "contribution";
+        public static final String AUCTION = "auction";
     }
 
     public static class Event

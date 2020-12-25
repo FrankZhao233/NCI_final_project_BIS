@@ -4,6 +4,13 @@
             <solid android:color="#B056BBB4" />
         </shape>
     </item>
+
+    <item android:state_enabled="false">
+        <shape>
+            <solid android:color="#5556BBB4" />
+        </shape>
+    </item>
+
     <item>
         <shape>
             <solid android:color="@color/colorAccent" />

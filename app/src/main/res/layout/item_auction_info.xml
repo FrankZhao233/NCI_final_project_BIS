@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <ImageView
+        android:id="@+id/avatarIv"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_empty_image"/>
+
+    <TextView
+        android:id="@+id/nameTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/avatarIv"
+        android:layout_alignTop="@id/avatarIv"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/custom_text_color"
+        android:text="@string/nick_name"/>
+
+    <TextView
+        android:id="@+id/priceTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/avatarIv"
+        android:layout_marginLeft="10dp"
+        android:textSize="16sp"
+        android:textColor="@color/price_color"
+        android:text="$32.43"/>
+
+    <TextView
+        android:id="@+id/timeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/nameTv"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="4dp"
+        android:layout_below="@id/nameTv"
+        android:textColor="#aaaaaa"
+        android:textSize="15sp"
+        android:text="create at 12:90"/>
+
+</RelativeLayout>

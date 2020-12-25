@@ -54,6 +54,11 @@ public class MyGoodsListActivity extends BaseActivity<MyGoodsListViewModel> {
                 holder.setTvText(R.id.timeTv, DateUtils.formatDate(item.createTime));
                 ImageView coverIv = holder.getImageView(R.id.coverIv);
                 ImageLoader.loadCover(coverIv,item.cover);
+                if(item.dueTime>0){
+                    holder.setVisibility(R.id.slantedTv,View.VISIBLE);
+                }else{
+                    holder.setVisibility(R.id.slantedTv,View.VISIBLE);
+                }
             }
         };
         goodsLv.setAdapter(mAdapter);

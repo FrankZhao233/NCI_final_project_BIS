@@ -68,10 +68,6 @@ public class PublishActivity extends BaseActivity<PublishViewModel> implements B
         mPhotosGrid.setPlusEnable(true);
         mPhotosGrid.setSortable(false);
         setTitle("Publish Goods");
-//        titleEt.setText("new phone,very cheap contract with me");
-//        contentEt.setText("this is a new phone,use a month ,price is very cheap,i want change a new one ");
-//        priceEt.setText("103.23");
-//        tagsEt.setText("phone,cheap");
     }
 
     @Override

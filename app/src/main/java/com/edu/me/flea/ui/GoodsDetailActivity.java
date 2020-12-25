@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -23,9 +24,11 @@ import com.edu.me.flea.base.CommonAdapter;
 import com.edu.me.flea.base.ViewHolder;
 import com.edu.me.flea.config.Config;
 import com.edu.me.flea.config.Constants;
+import com.edu.me.flea.entity.AuctionInfo;
 import com.edu.me.flea.entity.GoodsDetail;
 import com.edu.me.flea.entity.GoodsInfo;
 import com.edu.me.flea.module.GlideApp;
+import com.edu.me.flea.ui.dialog.AuctionInputDialog;
 import com.edu.me.flea.ui.dialog.CommentDialog;
 import com.edu.me.flea.utils.DateUtils;
 import com.edu.me.flea.utils.ImageLoader;
@@ -60,11 +63,13 @@ public class GoodsDetailActivity extends BaseActivity<GoodsDetailViewModel> {
     @BindView(R.id.contentLayout) ViewGroup contentLayout;
     @BindView(R.id.commentTv) TextView commentTv;
     @BindView(R.id.dueTimeTv) TextView dueTimeTv;
+    @BindView(R.id.auctionBtn) Button auctionBtn;
+    @BindView(R.id.pricesLv) ListView auctionLv;
 
     private CommonAdapter<String> mAdapter;
+    private CommonAdapter<AuctionInfo> mAuctionAdapter;
 
-    @Autowired(name = Constants.ExtraName.SNAPSHOT)
-    GoodsInfo mSnapshot;
+    @Autowired(name = Constants.ExtraName.SNAPSHOT) GoodsInfo mSnapshot;
 
     @Override
     protected int getLayoutId() {
@@ -77,7 +82,6 @@ public class GoodsDetailActivity extends BaseActivity<GoodsDetailViewModel> {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         mAdapter = new CommonAdapter<String>(R.layout.item_goods_image,null) {
-
             RequestOptions requestOptions = new RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_empty_image)
@@ -97,7 +101,18 @@ public class GoodsDetailActivity extends BaseActivity<GoodsDetailViewModel> {
         };
 
         imageLv.setAdapter(mAdapter);
-
+        mAuctionAdapter = new CommonAdapter<AuctionInfo>(R.layout.item_auction_info,null) {
+            @Override
+            public void convert(ViewHolder holder, AuctionInfo item, int position) {
+                holder.setTvText(R.id.priceTv,"€"+item.price);
+                holder.setTvText(R.id.nameTv,item.nickName);
+                holder.setTvText(R.id.timeTv,DateUtils.formatDate(item.createTime));
+                ImageView avatarIv = holder.getImageView(R.id.avatarIv);
+                ImageLoader.loadAvatar(avatarIv,item.uid);
+            }
+        };
+        auctionLv.setAdapter(mAuctionAdapter);
+        auctionBtn.setEnabled(false);
     }
 
     @Override
@@ -153,8 +168,13 @@ public class GoodsDetailActivity extends BaseActivity<GoodsDetailViewModel> {
                 if(goodsDetail.dueTime>0){
                     dueTimeTv.setVisibility(View.VISIBLE);
                     dueTimeTv.setText("due time: "+DateUtils.formatDate(goodsDetail.dueTime));
+                    auctionBtn.setVisibility(View.VISIBLE);
+                    auctionLv.setVisibility(View.VISIBLE);
+                    mViewModel.queryAuctionInfo();
                 }else{
                     dueTimeTv.setVisibility(View.GONE);
+                    auctionBtn.setVisibility(View.GONE);
+                    auctionLv.setVisibility(View.GONE);
                 }
             }
         });
@@ -162,7 +182,12 @@ public class GoodsDetailActivity extends BaseActivity<GoodsDetailViewModel> {
         orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mViewModel.want(mSnapshot);
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if(user == null) {
+                    ARouter.getInstance().build(Config.Page.LOGIN).navigation();
+                }else{
+                    mViewModel.want(mSnapshot);
+                }
             }
         });
 
@@ -173,5 +198,51 @@ public class GoodsDetailActivity extends BaseActivity<GoodsDetailViewModel> {
                 dialog.show();
             }
         });
+
+        auctionBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if(user == null) {
+                    ARouter.getInstance().build(Config.Page.LOGIN).navigation();
+                }else {
+                    AuctionInputDialog dialog = new AuctionInputDialog(GoodsDetailActivity.this);
+                    dialog.setOnConfirmListener(new AuctionInputDialog.OnConfirmListener() {
+                        @Override
+                        public void onConfirm(String value, String message) {
+                            mViewModel.doAuction(value, message);
+                        }
+                    });
+                    dialog.show();
+                }
+            }
+        });
+
+        mViewModel.getAuctionEvent().observe(this, new Observer<Void>() {
+            @Override
+            public void onChanged(Void aVoid) {
+                auctionBtn.setEnabled(false);
+            }
+        });
+
+        mViewModel.getAuctions().observe(this, new Observer<List<AuctionInfo>>() {
+            @Override
+            public void onChanged(List<AuctionInfo> auctions) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if(user != null){
+                    String uid = user.getUid();
+                    boolean bFound = false;
+                    for(AuctionInfo item:auctions){
+                        if(uid.equals(item.uid)){
+                            bFound = true;
+                            break;
+                        }
+                    }
+                    auctionBtn.setEnabled(!bFound);
+                    mAuctionAdapter.refreshView(auctions);
+                }
+            }
+        });
+
     }
 }

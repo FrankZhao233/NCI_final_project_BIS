@@ -28,7 +28,8 @@
             android:name=".ui.WelfareDetailActivity"
             android:label="Welfare" />
 
-        <activity android:name=".ui.GoodsAuctionActivity" />
+        <activity android:name=".ui.GoodsAuctionActivity"
+            android:label="Goods Auction"/>
 
         <activity
             android:name=".ui.MyGoodsListActivity"
@@ -36,7 +37,8 @@
 
         <activity
             android:name=".ui.GoodsDetailActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:label="Goods Detail"/>
 
         <activity
             android:name=".ui.ResetPasswordActivity"
