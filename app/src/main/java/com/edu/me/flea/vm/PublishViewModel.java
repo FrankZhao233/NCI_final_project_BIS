@@ -27,6 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.WriteBatch;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -121,7 +122,7 @@ public class PublishViewModel extends BaseViewModel {
                         Log.d(TAG,"upload success");
                         ++uploadCount;
                         if(uploadCount >= files.size()){
-                            createGoodsDetail(title,content,files,price,tags);
+                            createGoodsDetailAndSnapShot(title,content,files,price,tags);
                         }
                     }
                 }).addOnFailureListener(activity, new OnFailureListener() {
@@ -135,11 +136,15 @@ public class PublishViewModel extends BaseViewModel {
     }
 
     /**
-     * insert goods detail to database
+     * insert goods detail and snapshot to database
      * **/
-    private void createGoodsDetail(String title,String content, List<File> files, String price, String tags)
+    private void createGoodsDetailAndSnapShot(String title,String content, List<File> files, String price, String tags)
     {
         FirebaseUser user =  FirebaseAuth.getInstance().getCurrentUser();
+        //create a WriteBatch for writing detail and snapshot one time,
+        //Like transactions, batch writes are done atomically
+        WriteBatch batch = FirebaseFirestore.getInstance().batch();
+
         final Map<String, Object> detail = new HashMap<>();
         String detailId = UUID.randomUUID().toString();
         detail.put("id", detailId);
@@ -157,31 +162,12 @@ public class PublishViewModel extends BaseViewModel {
             imgs.add(file.getName());
         }
         detail.put("images",imgs);
-        String cover = imgs.get(0);
         Log.d(TAG,"create goods detail now");
-        FirebaseFirestore.getInstance().collection(Constants.Collection.GOODS).document(detailId)
-            .set(detail)
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.d(TAG, "create good detail successfully written!");
-                    createSnapShot(cover,detail);
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.w(TAG, "create good detail Error writing document", e);
-                    closeLoading();
-                }
-            });
-    }
+        DocumentReference detailRef = FirebaseFirestore.getInstance()
+                .collection(Constants.Collection.GOODS).document(detailId);
+        batch.set(detailRef,detail);
 
-    /**
-     * create snapshot for the goods detail
-     * */
-    private void createSnapShot(String cover,Map<String, Object> detail)
-    {
+        String cover = imgs.get(0);
         final Map<String, Object> snapshot = new HashMap<>();
         String id = UUID.randomUUID().toString();
         snapshot.put("id", id);
@@ -196,25 +182,23 @@ public class PublishViewModel extends BaseViewModel {
         snapshot.put("hotDegree",0);
         snapshot.put("checkCount",0);
         Log.d(TAG,"create goods snapshot now");
-        Task<Void> task = FirebaseFirestore.getInstance().collection(Constants.Collection.SNAPSHOT).document(id)
-            .set(snapshot)
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
+        DocumentReference snapshotRef = FirebaseFirestore.getInstance()
+                .collection(Constants.Collection.SNAPSHOT).document(id);
+        batch.set(snapshotRef,snapshot);
+
+        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
                     Log.d(TAG, "create snapshot successfully!");
                     ToastUtils.showShort("publish successful");
                     postEvent(Constants.Event.PUBLISH_OVER);
-                    closeLoading();
                     closePage();
+                }else{
+                    Log.w(TAG, "create snapshot Error writing document=="+task.getException().getMessage());
                 }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.w(TAG, "create snapshot Error writing document", e);
-                    closeLoading();
-                }
-            });
+                closeLoading();
+            }
+        });
     }
-
 }

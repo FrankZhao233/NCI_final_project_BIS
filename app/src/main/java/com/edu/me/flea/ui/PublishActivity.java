@@ -39,20 +39,11 @@ public class PublishActivity extends BaseActivity<PublishViewModel> implements B
     private static final int REQ_PHOTO_PICKER = 2;
     private static final int REQ_CHOOSE_PHOTO = 3;
 
-    @BindView(R.id.titleEt)
-    EditText titleEt;
-
-    @BindView(R.id.contentEt)
-    EditText contentEt;
-
-    @BindView(R.id.productPhotos)
-    BGASortableNinePhotoLayout mPhotosGrid;
-
-    @BindView(R.id.priceEt)
-    EditText priceEt;
-
-    @BindView(R.id.tagsEt)
-    EditText tagsEt;
+    @BindView(R.id.titleEt) EditText titleEt;
+    @BindView(R.id.contentEt) EditText contentEt;
+    @BindView(R.id.productPhotos) BGASortableNinePhotoLayout mPhotosGrid;
+    @BindView(R.id.priceEt) EditText priceEt;
+    @BindView(R.id.tagsEt) EditText tagsEt;
 
     @Override
     protected int getLayoutId() {
@@ -83,7 +74,6 @@ public class PublishActivity extends BaseActivity<PublishViewModel> implements B
     @Override
     protected void setListener() {
         mPhotosGrid.setDelegate(this);
-
         priceEt.addTextChangedListener(new MoneyTextWatcher(priceEt));
     }
 
@@ -173,12 +163,12 @@ public class PublishActivity extends BaseActivity<PublishViewModel> implements B
     @Override
     public void onClickNinePhotoItem(BGASortableNinePhotoLayout sortableNinePhotoLayout, View view, int position, String model, ArrayList<String> models) {
         Intent photoPickerPreviewIntent = new BGAPhotoPickerPreviewActivity.IntentBuilder(this)
-                .previewPhotos(models)
-                .selectedPhotos(models)
-                .maxChooseCount(mPhotosGrid.getMaxItemCount())
-                .currentPosition(position)
-                .isFromTakePhoto(false)
-                .build();
+            .previewPhotos(models)
+            .selectedPhotos(models)
+            .maxChooseCount(mPhotosGrid.getMaxItemCount())
+            .currentPosition(position)
+            .isFromTakePhoto(false)
+            .build();
         startActivityForResult(photoPickerPreviewIntent, REQ_PHOTO_PREVIEW);
     }
 

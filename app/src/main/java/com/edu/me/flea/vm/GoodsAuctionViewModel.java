@@ -13,12 +13,15 @@ import com.edu.me.flea.config.Config;
 import com.edu.me.flea.config.Constants;
 import com.edu.me.flea.utils.ToastUtils;
 import com.edu.me.flea.utils.Utils;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.WriteBatch;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -64,36 +67,36 @@ public class GoodsAuctionViewModel extends BaseViewModel {
     {
         showLoading(R.string.publish_now);
         Disposable d = Flowable.just(photos)
-                .observeOn(Schedulers.io())
-                .map(new Function<List<String>, List<File>>() {
-                    @Override
-                    public List<File> apply(@NonNull List<String> list) throws Exception {
-                        Log.d(TAG,"compress photos=>");
-                        List<File> results = Luban.with(activity)
-                                .load(list).ignoreBy(100)
-                                .setTargetDir(Utils.getTargetDir(activity))
-                                .setRenameListener(new OnRenameListener() {
-                                    @Override
-                                    public String rename(String filePath) {
-                                        String fileName = UUID.randomUUID().toString().replace("-","");
-                                        return fileName + ".jpeg";
-                                    }
-                                }).get();
-                        Log.d(TAG,"compress result=>"+results);
-                        return results;
-                    }
-                }).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<File>>() {
-                    @Override
-                    public void accept(List<File> files) throws Exception {
-                        postInner(activity,title,content,files,price,tags,dueTime);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Throwable {
-                        closeLoading();
-                    }
-                });
+            .observeOn(Schedulers.io())
+            .map(new Function<List<String>, List<File>>() {
+                @Override
+                public List<File> apply(@NonNull List<String> list) throws Exception {
+                    Log.d(TAG,"compress photos=>");
+                    List<File> results = Luban.with(activity)
+                        .load(list).ignoreBy(100)
+                        .setTargetDir(Utils.getTargetDir(activity))
+                        .setRenameListener(new OnRenameListener() {
+                            @Override
+                            public String rename(String filePath) {
+                                String fileName = UUID.randomUUID().toString().replace("-","");
+                                return fileName + ".jpeg";
+                            }
+                        }).get();
+                    Log.d(TAG,"compress result=>"+results);
+                    return results;
+                }
+            }).observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Consumer<List<File>>() {
+                @Override
+                public void accept(List<File> files) throws Exception {
+                    postInner(activity,title,content,files,price,tags,dueTime);
+                }
+            }, new Consumer<Throwable>() {
+                @Override
+                public void accept(Throwable throwable) throws Throwable {
+                    closeLoading();
+                }
+            });
         addDisposable(d);
     }
 
@@ -112,7 +115,7 @@ public class GoodsAuctionViewModel extends BaseViewModel {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         Log.d(TAG,"upload success");
                         ++uploadCount;
-                        if(uploadCount >= files.size()){
+                        if (uploadCount >= files.size()) {
                             createGoodsDetail(title,content,files,price,tags,dueTime);
                         }
                     }
@@ -127,7 +130,7 @@ public class GoodsAuctionViewModel extends BaseViewModel {
     }
 
     /**
-     * insert goods detail to database
+     * insert goods detail and snapshot to database
      * **/
     private void createGoodsDetail(String title,String content, List<File> files, String price,
                                    String tags,final long dueTime)
@@ -153,29 +156,14 @@ public class GoodsAuctionViewModel extends BaseViewModel {
         detail.put("images",imgs);
         String cover = imgs.get(0);
         Log.d(TAG,"create goods detail now");
-        FirebaseFirestore.getInstance().collection(Constants.Collection.GOODS).document(detailId)
-            .set(detail)
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.d(TAG, "create good detail successfully written!");
-                    createSnapShot(cover,detail);
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.w(TAG, "create good detail Error writing document", e);
-                    closeLoading();
-                }
-            });
-    }
 
-    /**
-     * create snapshot for the goods detail
-     * */
-    private void createSnapShot(String cover,Map<String, Object> detail)
-    {
+        //create a WriteBatch for writing detail and snapshot one time,
+        //Like transactions, batch writes are done atomically
+        WriteBatch batch = FirebaseFirestore.getInstance().batch();
+        DocumentReference detailRef = FirebaseFirestore.getInstance()
+                .collection(Constants.Collection.GOODS).document(detailId);
+        batch.set(detailRef,detail);
+
         final Map<String, Object> snapshot = new HashMap<>();
         String id = UUID.randomUUID().toString();
         snapshot.put("id", id);
@@ -191,24 +179,23 @@ public class GoodsAuctionViewModel extends BaseViewModel {
         snapshot.put("hotDegree",0);
         snapshot.put("checkCount",0);
         Log.d(TAG,"create goods snapshot now");
-        Task<Void> task = FirebaseFirestore.getInstance().collection(Constants.Collection.SNAPSHOT).document(id)
-            .set(snapshot)
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.d(TAG, "create snapshot successfully!");
+        DocumentReference snapshotRef = FirebaseFirestore.getInstance().
+                collection(Constants.Collection.SNAPSHOT).document(id);
+        batch.set(snapshotRef,snapshot);
+
+        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "publish successfully!");
                     ToastUtils.showShort("publish successful");
                     postEvent(Constants.Event.PUBLISH_OVER);
-                    closeLoading();
                     closePage();
+                } else {
+                    Log.w(TAG, "create snapshot Error writing document=="+task.getException().getMessage());
                 }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.w(TAG, "create snapshot Error writing document", e);
-                    closeLoading();
-                }
-            });
+                closeLoading();
+            }
+        });
     }
 }
