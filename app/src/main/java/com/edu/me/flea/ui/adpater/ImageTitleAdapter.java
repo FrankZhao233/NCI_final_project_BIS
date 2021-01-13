@@ -13,7 +13,6 @@ import com.youth.banner.adapter.BannerAdapter;
 
 import java.util.List;
 
-
 public class ImageTitleAdapter extends BannerAdapter<BannerInfo, ImageTitleHolder> {
 
     RequestOptions options = new RequestOptions()
@@ -30,7 +29,7 @@ public class ImageTitleAdapter extends BannerAdapter<BannerInfo, ImageTitleHolde
     @Override
     public void onBindView(ImageTitleHolder holder, BannerInfo data, int position, int size) {
         Glide.with(holder.itemView)
-            .load(data.imageUrl)
+            .load(data.link)
             .thumbnail(Glide.with(holder.itemView)
             .load(R.drawable.loading))
             .apply(options)

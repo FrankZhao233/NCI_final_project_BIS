@@ -1,21 +1,22 @@
 package com.edu.me.flea.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.edu.me.flea.R;
 import com.edu.me.flea.base.BaseActivity;
 import com.edu.me.flea.base.CommonAdapter;
 import com.edu.me.flea.base.ViewHolder;
 import com.edu.me.flea.config.Config;
+import com.edu.me.flea.config.Constants;
 import com.edu.me.flea.entity.GoodsInfo;
 import com.edu.me.flea.utils.DateUtils;
 import com.edu.me.flea.utils.ImageLoader;
@@ -57,7 +58,7 @@ public class MyGoodsListActivity extends BaseActivity<MyGoodsListViewModel> {
                 if(item.dueTime>0){
                     holder.setVisibility(R.id.slantedTv,View.VISIBLE);
                 }else{
-                    holder.setVisibility(R.id.slantedTv,View.VISIBLE);
+                    holder.setVisibility(R.id.slantedTv,View.GONE);
                 }
             }
         };
@@ -91,6 +92,17 @@ public class MyGoodsListActivity extends BaseActivity<MyGoodsListViewModel> {
                 mAdapter.refreshView(goods);
                 progressBar.setVisibility(View.GONE);
                 goodsLv.setVisibility(View.VISIBLE);
+            }
+        });
+
+        goodsLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                GoodsInfo goodsInfo = mViewModel.getGoods().getValue().get(i);
+                ARouter.getInstance().build(Config.Page.GOODS_DETAIL)
+                    .withParcelable(Constants.ExtraName.SNAPSHOT,goodsInfo)
+                    .withBoolean(Constants.ExtraName.SHOW_TOOLS,false)
+                    .navigation();
             }
         });
     }

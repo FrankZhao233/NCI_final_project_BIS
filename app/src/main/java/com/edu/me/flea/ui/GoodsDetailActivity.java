@@ -70,6 +70,7 @@ public class GoodsDetailActivity extends BaseActivity<GoodsDetailViewModel> {
     private CommonAdapter<AuctionInfo> mAuctionAdapter;
 
     @Autowired(name = Constants.ExtraName.SNAPSHOT) GoodsInfo mSnapshot;
+    @Autowired(name = Constants.ExtraName.SHOW_TOOLS) boolean bShowTools = true;
 
     @Override
     protected int getLayoutId() {
@@ -80,7 +81,11 @@ public class GoodsDetailActivity extends BaseActivity<GoodsDetailViewModel> {
     protected void initView() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
+        if(bShowTools){
+            toolLayout.setVisibility(View.VISIBLE);
+        }else{
+            toolLayout.setVisibility(View.GONE);
+        }
         mAdapter = new CommonAdapter<String>(R.layout.item_goods_image,null) {
             RequestOptions requestOptions = new RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -159,10 +164,14 @@ public class GoodsDetailActivity extends BaseActivity<GoodsDetailViewModel> {
                 toolLayout.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if(goodsDetail.creatorId.equals(user.getUid())){
-                    toolLayout.setVisibility(View.GONE);
-                }else{
+                if(user == null){
                     toolLayout.setVisibility(View.VISIBLE);
+                } else {
+                    if(goodsDetail.creatorId.equals(user.getUid())){
+                        toolLayout.setVisibility(View.GONE);
+                    }else{
+                        toolLayout.setVisibility(View.VISIBLE);
+                    }
                 }
 
                 if(goodsDetail.dueTime>0){

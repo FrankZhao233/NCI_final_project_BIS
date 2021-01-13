@@ -1,6 +1,5 @@
 package com.edu.me.flea.ui.fragment;
 
-import android.media.Image;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -10,8 +9,6 @@ import androidx.lifecycle.Observer;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.edu.me.flea.R;
 import com.edu.me.flea.base.BaseFragment;
 import com.edu.me.flea.base.CommonAdapter;
@@ -30,6 +27,7 @@ import com.youth.banner.config.IndicatorConfig;
 import com.youth.banner.indicator.CircleIndicator;
 import com.youth.banner.util.BannerUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -42,6 +40,7 @@ public class WelfareFragment extends BaseFragment<WelfareViewModel> {
     @BindView(R.id.progressBar) ProgressBar progressBar;
 
     private CommonAdapter<WelfareInfo> mAdapter;
+    private ImageTitleAdapter mBannerAdapter;
 
     public static WelfareFragment newInstance()
     {
@@ -63,12 +62,14 @@ public class WelfareFragment extends BaseFragment<WelfareViewModel> {
     protected void initView() {
         refreshLayout.setEnabled(true);
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        banner.setAdapter(new ImageTitleAdapter(BannerInfo.getTestData()))
+        mBannerAdapter =  new ImageTitleAdapter(new ArrayList<>());
+        banner.setAdapter(mBannerAdapter)
             .addBannerLifecycleObserver(this)
             .setIndicator(new CircleIndicator(getActivity()))
             .setIndicatorGravity(IndicatorConfig.Direction.CENTER)
             .setIndicatorMargins(new IndicatorConfig.Margins(0, 0,
                     BannerConfig.INDICATOR_MARGIN, (int) BannerUtils.dp2px(12)));
+
         mAdapter = new CommonAdapter<WelfareInfo>(R.layout.item_welfare,mViewModel.getWelfareList().getValue()) {
             @Override
             public void convert(ViewHolder holder, WelfareInfo item, int position) {
@@ -96,7 +97,6 @@ public class WelfareFragment extends BaseFragment<WelfareViewModel> {
 
     @Override
     protected void initData() {
-//        mViewModel.queryWelfare();
     }
 
     @Override
@@ -118,6 +118,13 @@ public class WelfareFragment extends BaseFragment<WelfareViewModel> {
                     .build(Config.Page.WELFARE_DETAIL)
                     .withParcelable(Constants.ExtraName.WELFARE_DETAIL,info)
                     .navigation();
+            }
+        });
+
+        mViewModel.getBanner().observe(this, new Observer<List<BannerInfo>>() {
+            @Override
+            public void onChanged(List<BannerInfo> bannerInfos) {
+                mBannerAdapter.setDatas(bannerInfos);
             }
         });
     }

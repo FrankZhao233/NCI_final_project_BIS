@@ -24,6 +24,7 @@ public class Constants {
         public static final String WELFARE = "welfare";
         public static final String CONTRIBUTION = "contribution";
         public static final String AUCTION = "auction";
+        public static final String BANNER = "banner";
     }
 
     public static class Event
@@ -42,5 +43,6 @@ public class Constants {
         public static final String ORIGINAL_PHOTO_PATH = "original_photo_path";
         public static final String SNAPSHOT = "snapshot";
         public static final String WELFARE_DETAIL = "welfare_detail";
+        public static final String SHOW_TOOLS = "show_tools";
     }
 }
