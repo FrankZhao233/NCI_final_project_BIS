@@ -97,7 +97,7 @@ public class ProfileEditorActivity extends BaseActivity<ProfileEditorViewModel> 
                 if(bEditMode) {
                     int id = sexRg.getCheckedRadioButtonId();
                     if (id <= 0) {
-                        ToastUtils.showShort("please choose your gender");
+                        ToastUtils.showShort(getString(R.string.please_choose_gender));
                         return;
                     }
                     String gender = "female";

@@ -32,7 +32,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="16dp"
             android:textSize="22sp"
-            android:text="Login"
+            android:text="@string/login"
             android:textColor="@color/white"
             android:textStyle="bold"/>
 
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/nickNameTv"
             android:layout_below="@id/nickNameTv"
-            android:text="email"
+            android:text="@string/hint_email"
             android:textSize="16sp"
             android:textColor="#f0f0f0"
             android:textStyle="bold"/>
@@ -102,6 +102,28 @@
             <TextView
                 style="@style/setting_item_text"
                 android:text="@string/my_contributions" />
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="13dp"
+                android:layout_gravity="center_vertical|end"
+                android:src="@drawable/ic_next" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/languageLayout"
+            android:clickable="true"
+            style="@style/setting_item_style">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_contribution" />
+
+            <TextView
+                style="@style/setting_item_text"
+                android:text="@string/language" />
 
             <ImageView
                 android:layout_width="8dp"

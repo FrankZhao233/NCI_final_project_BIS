@@ -154,13 +154,12 @@ public class WelfareDetailActivity extends BaseActivity<WelfareDetailViewModel> 
                 }
             }
         });
-
     }
 
     public void disableButton()
     {
         donateBtn.setBackgroundResource(R.color.donate_btn_disable_color);
-        donateBtn.setText("YOU HAVE ALREADY DONATED");
+        donateBtn.setText(getString(R.string.already_donate));
         donateBtn.setEnabled(false);
     }
 }

@@ -80,12 +80,12 @@ public class ResetPasswordActivity extends BaseActivity<ResetPasswordViewModel> 
             public void onClick(View v) {
                 String email = emailEt.getText().toString();
                 if(TextUtils.isEmpty(email)){
-                    ToastUtils.showShort(R.string.please_input_email);
+                    ToastUtils.showShort(getString(R.string.please_input_email));
                     return ;
                 }
 
                 if(!CheckUtils.isValidEmail(email)) {
-                    ToastUtils.showShort(R.string.invalid_email);
+                    ToastUtils.showShort(getString(R.string.invalid_email));
                     return ;
                 }
 
@@ -95,7 +95,7 @@ public class ResetPasswordActivity extends BaseActivity<ResetPasswordViewModel> 
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                ToastUtils.showShort("We have sent you instructions to reset your password!");
+                                ToastUtils.showShort(getString(R.string.reset_pwd_success_tips));
                             } else {
                                 ToastUtils.showShort("Failed to send reset email!");
                             }

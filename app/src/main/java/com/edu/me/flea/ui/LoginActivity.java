@@ -126,12 +126,12 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
         String email = emailEt.getText().toString();
         String pwd = pwdEt.getText().toString();
         if(TextUtils.isEmpty(email)){
-            Toast.makeText(this,"please input email",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getString(R.string.please_input_email),Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if(TextUtils.isEmpty(pwd)) {
-            Toast.makeText(this,"please input password",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getString(R.string.please_input_pwd),Toast.LENGTH_SHORT).show();
             return false;
         }
 

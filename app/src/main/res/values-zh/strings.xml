@@ -1,0 +1,76 @@
+<resources>
+    <string name="app_name">Let2Wish</string>
+    <string name="title_home">首页</string>
+    <string name="title_welfare">公益</string>
+    <string name="title_notifications">消息</string>
+    <string name="title_profile">我的</string>
+
+    <string name="nick_name">昵称</string>
+    <string name="hint_email">邮箱</string>
+    <string name="hint_password">密码</string>
+    <string name="btn_forgot_password">忘记密码? 点击这里!</string>
+    <string name="btn_reset_password">重置密码</string>
+    <string name="btn_login">登录</string>
+    <string name="btn_confirm">确定</string>
+    <string name="btn_cancel">取消</string>
+    <string name="btn_link_to_register">还不是会员? 点击注册!</string>
+    <string name="btn_link_to_login">已经有账号? 点击这里登录!</string>
+    <string name="btn_back"><![CDATA[<< 返回]]></string>
+    <string name="btn_register">注册</string>
+
+    <string name="logout">退出登录</string>
+    <string name="login">登录</string>
+    <string name="my_goods">我的商品</string>
+    <string name="my_contributions">我的贡献</string>
+    <string name="language">语言</string>
+    <string name="send">发送</string>
+
+    <string name="please_input_email"> 请输入您的邮箱</string>
+    <string name="please_input_pwd">请输入密码</string>
+    <string name="invalid_email"> 无效的邮箱,请检查</string>
+
+    <string name="bga_pp_view_photo">检查图片</string>
+    <string name="bga_pp_save_img_success_folder">图片已保存到 %s </string>
+
+    <string name="publish_now">发布中...</string>
+    <string name="upload_avatar_now">上传中...</string>
+    <string name="label_select_picture">选择图片</string>
+    <string name="waiting_now">请稍等...</string>
+
+    <string name="all_comments">所有评论</string>
+    <string name="fab_add_goods">发布商品</string>
+    <string name="fab_auction">拍卖</string>
+
+    <string name="welfare_destination">目标: %1$s</string>
+    <string name="welfare_current">当前: %1$s</string>
+
+    <string name="question_logout">退出登录?</string>
+    <string name="prompt">提示</string>
+
+    <string name="please_input_title">请输入标题</string>
+    <string name="please_input_content">请输入内容</string>
+    <string name="please_choose_picture">请至少选择一张图片</string>
+    <string name="please_input_price">请输入价格</string>
+    <string name="please_add_tag">请添加标签</string>
+    <string name="please_set_due_date">请设置截止日期</string>
+    <string name="please_set_due_time">请设置截止时间</string>
+    <string name="post_at">发布于 </string>
+    <string name="contribution">贡献度:</string>
+    <string name="please_choose_gender">请选择性别</string>
+
+    <string name="reset_pwd_success_tips">我们已经发送了重置密码的链接到您的邮箱!</string>
+    <string name="reset_pwd_failed_tips">发送重置邮件失败!</string>
+    <string name="please_input_name">请输入您的昵称</string>
+    <string name="already_donate">已捐赠</string>
+
+    <string name="comment">评论</string>
+    <string name="want">想要</string>
+    <string name="auction">拍下</string>
+
+    <string name="label_edit_profile">编辑</string>
+    <string name="label_my_contribute">我的公益</string>
+    <string name="label_welfare">公益</string>
+    <string name="label_goods_auction">拍卖</string>
+    <string name="label_my_goods">我的商品</string>
+    <string name="label_goods_detail">商品详情</string>
+</resources>

@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Let2Wish</string>
-    <string name="title_home">Home</string>
-    <string name="title_welfare">Welfare</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="title_profile">Mine</string>
+    <string name="title_home">HOME</string>
+    <string name="title_welfare">WELFARE</string>
+    <string name="title_notifications">NOTIFICATION</string>
+    <string name="title_profile">MINE</string>
 
     <string name="nick_name">NickName</string>
     <string name="hint_email">Email</string>
@@ -11,18 +11,23 @@
     <string name="btn_forgot_password">Forgot your password? Click here!</string>
     <string name="btn_reset_password">Reset Password</string>
     <string name="btn_login">LOGIN</string>
+    <string name="btn_confirm">Confirm</string>
+    <string name="btn_cancel">Cancel</string>
+
     <string name="btn_link_to_register">Not a member? Click here to sign up!</string>
     <string name="btn_link_to_login">Already have an account? Click here to login!</string>
     <string name="btn_back"><![CDATA[<< Back]]></string>
     <string name="btn_register">Register</string>
 
     <string name="logout">Logout</string>
+    <string name="login">Login</string>
     <string name="my_goods">My Goods</string>
     <string name="my_contributions">My Contributions</string>
-
+    <string name="language">Language</string>
     <string name="send">Send</string>
 
     <string name="please_input_email"> please input your email</string>
+    <string name="please_input_pwd">please input password</string>
     <string name="invalid_email"> invalid email,please check</string>
 
     <string name="bga_pp_view_photo">Check Photo</string>
@@ -38,5 +43,32 @@
     <string name="fab_auction">auction</string>
 
     <string name="welfare_destination">Destination: %1$s</string>
+
     <string name="welfare_current">Current: %1$s</string>
+    <string name="question_logout">do you want to logout?</string>
+    <string name="prompt">Prompt</string>
+    <string name="please_input_title">please input the title</string>
+    <string name="please_input_content">please input the content</string>
+    <string name="please_choose_picture">please choose a picture at least</string>
+    <string name="please_input_price">please input the price</string>
+    <string name="please_add_tag">please add some tags</string>
+    <string name="please_set_due_date">please set date of due time</string>
+    <string name="please_set_due_time">please set time of due time</string>
+    <string name="post_at">Posted at </string>
+    <string name="contribution">contribution:</string>
+    <string name="please_choose_gender">please choose your gender</string>
+    <string name="reset_pwd_success_tips">We have sent you instructions to reset your password!</string>
+    <string name="reset_pwd_failed_tips">Failed to send reset email!</string>
+    <string name="please_input_name">please input your nick name</string>
+    <string name="already_donate">YOU HAVE ALREADY DONATED</string>
+    <string name="comment">Comment</string>
+    <string name="want">I WANT</string>
+    <string name="auction">Auction</string>
+
+    <string name="label_edit_profile">Edit Profile</string>
+    <string name="label_my_contribute">My Contributions</string>
+    <string name="label_welfare">welfare</string>
+    <string name="label_goods_auction">Goods Auction</string>
+    <string name="label_my_goods">My Goods</string>
+    <string name="label_goods_detail">Goods Detail</string>
 </resources>

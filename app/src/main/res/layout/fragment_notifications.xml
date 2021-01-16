@@ -29,7 +29,7 @@
                 android:singleLine="true"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:text="NOTIFICATION"
+                android:text="@string/title_notifications"
                 android:textColor="@color/custom_text_color"/>
 
             <View

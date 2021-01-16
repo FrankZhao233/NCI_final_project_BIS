@@ -20,10 +20,7 @@ import com.edu.me.flea.config.Config;
 import com.edu.me.flea.config.Constants;
 import com.edu.me.flea.utils.BitmapUtil;
 import com.edu.me.flea.widget.CropImageView;
-
 import java.io.File;
-import java.util.ArrayList;
-
 @Route(path = Config.Page.CROP_PHOTO)
 public class ImageCropActivity extends AppCompatActivity implements CropImageView.OnBitmapSaveCompleteListener {
 

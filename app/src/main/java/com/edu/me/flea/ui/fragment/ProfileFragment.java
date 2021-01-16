@@ -9,34 +9,24 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.request.RequestOptions;
 import com.edu.me.flea.R;
 import com.edu.me.flea.base.BaseFragment;
 import com.edu.me.flea.config.Config;
 import com.edu.me.flea.config.Constants;
-import com.edu.me.flea.module.GlideApp;
 import com.edu.me.flea.ui.ImageCropActivity;
-import com.edu.me.flea.ui.MainActivity;
 import com.edu.me.flea.utils.FileUtil;
 import com.edu.me.flea.utils.ImageLoader;
 import com.edu.me.flea.utils.PreferencesUtils;
-import com.edu.me.flea.utils.ToastUtils;
-import com.edu.me.flea.utils.Utils;
 import com.edu.me.flea.vm.ProfileViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -64,6 +54,7 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel>  {
     @BindView(R.id.goodsLayout) ViewGroup goodsVg;
     @BindView(R.id.contributionsLayout) ViewGroup contributionVg;
     @BindView(R.id.navigatorIv) ImageView navIv;
+    @BindView(R.id.languageLayout) ViewGroup languageVg;
 
     private FirebaseUser mUser;
 
@@ -127,6 +118,12 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel>  {
                     });
             }
         });
+        languageVg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build(Config.Page.LANGUAGE_LIST).navigation();
+            }
+        });
 
         nickNameTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,21 +138,21 @@ public class ProfileFragment extends BaseFragment<ProfileViewModel>  {
             @Override
             public void onClick(View view) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Prompt");
-            builder.setMessage("do you want to logout?");
-            builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            builder.setTitle(getString(R.string.prompt));
+            builder.setMessage(getString(R.string.question_logout));
+            builder.setPositiveButton(getString(R.string.btn_confirm), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     FirebaseAuth.getInstance().signOut();
                     mUser = null;
-                    nickNameTv.setText("Login");
-                    emailTv.setText("email");
+                    nickNameTv.setText(getString(R.string.btn_login));
+                    emailTv.setText(getString(R.string.hint_email));
                     ARouter.getInstance().build(Config.Page.LOGIN).navigation();
                     logoutVg.setVisibility(View.GONE);
                 }
             });
 
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getString(R.string.btn_cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();

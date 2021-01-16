@@ -148,39 +148,39 @@ public class GoodsAuctionActivity extends BaseActivity<GoodsAuctionViewModel> im
     {
         String title = titleEt.getText().toString();
         if(TextUtils.isEmpty(title) ){
-            ToastUtils.showShort("please input the title");
+            ToastUtils.showShort(getString(R.string.please_input_title));
             return false;
         }
 
         String content = contentEt.getText().toString();
         if(TextUtils.isEmpty(content) ){
-            ToastUtils.showShort("please input the content");
+            ToastUtils.showShort(getString(R.string.please_input_content));
             return false;
         }
 
         ArrayList<String> files = mPhotosGrid.getData();
         if(files == null || files.isEmpty()){
-            ToastUtils.showShort("please choose a picture at least");
+            ToastUtils.showShort(getString(R.string.please_choose_picture));
             return false;
         }
         String price = priceEt.getText().toString();
         if(TextUtils.isEmpty(price)){
-            ToastUtils.showShort("please input the price");
+            ToastUtils.showShort(getString(R.string.please_input_price));
             return false;
         }
         String tags = tagsEt.getText().toString();
         if(TextUtils.isEmpty(tags)){
-            ToastUtils.showShort("please add some tags");
+            ToastUtils.showShort(getString(R.string.please_add_tag));
             return false;
         }
         String date = dateTv.getText().toString().trim();
         if(TextUtils.isEmpty(date)){
-            ToastUtils.showShort("please set date of due time");
+            ToastUtils.showShort(getString(R.string.please_set_due_date));
             return false;
         }
         String time = timeTv.getText().toString().trim();
         if(TextUtils.isEmpty(time)){
-            ToastUtils.showShort("please set time of due time");
+            ToastUtils.showShort(getString(R.string.please_set_due_time));
             return false;
         }
         return true;

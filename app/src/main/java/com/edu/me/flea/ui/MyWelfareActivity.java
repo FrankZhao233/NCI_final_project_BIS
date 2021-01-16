@@ -50,7 +50,7 @@ public class MyWelfareActivity extends BaseActivity<MyWelfareViewModel> {
             @Override
             public void convert(ViewHolder holder, ContributionInfo item, int position) {
                 holder.setTvText(R.id.titleTv,item.welfareTitle);
-                holder.setTvText(R.id.valueTv,"contribution:"+item.value);
+                holder.setTvText(R.id.valueTv,getString(R.string.contribution)+item.value);
                 holder.setTvText(R.id.timeTv, DateUtils.formatDate(item.createTime));
                 ImageView coverIv = holder.getImageView(R.id.coverIv);
                 ImageLoader.loadNetImage(coverIv,item.welfareCover);

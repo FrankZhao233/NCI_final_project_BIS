@@ -78,19 +78,19 @@ public class SignUpActivity extends BaseActivity<SignUpViewModel> {
     {
         String nickName = nickNameEt.getText().toString();
         if (TextUtils.isEmpty(nickName)) {
-            Toast.makeText(this,"please input nickname",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getString(R.string.please_input_name),Toast.LENGTH_SHORT).show();
             return false;
         }
 
         String email = emailEt.getText().toString();
         String pwd = pwdEt.getText().toString();
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(this,"please input email",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getString(R.string.please_input_email),Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if (TextUtils.isEmpty(pwd)) {
-            Toast.makeText(this,"please input password",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getString(R.string.please_input_pwd),Toast.LENGTH_SHORT).show();
             return false;
         }
 

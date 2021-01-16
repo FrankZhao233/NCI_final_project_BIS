@@ -28,5 +28,6 @@ public final class Config {
         public static final String WELFARE_DETAIL = "/app/welfare_detail";
         public static final String MY_WELFARE = "/app/my_welfare";
         public static final String PROFILE_EDITOR = "/app/profile_editor";
+        public static final String LANGUAGE_LIST = "/app/language_list";
     }
 }

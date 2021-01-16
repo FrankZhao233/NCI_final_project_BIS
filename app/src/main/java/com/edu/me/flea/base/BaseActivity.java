@@ -1,8 +1,15 @@
 package com.edu.me.flea.base;
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.LocaleList;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -18,10 +25,14 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.blankj.rxbus.RxBus;
+import com.edu.me.flea.FleaApplication;
+import com.edu.me.flea.config.Constants;
+import com.edu.me.flea.utils.PreferencesUtils;
 import com.edu.me.flea.utils.StatusBarUtil;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Locale;
 
 public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatActivity implements IBaseView {
 
@@ -110,7 +121,56 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
     }
 
     protected void onBusEvent(int what, Object event) {
+        switch(what){
+            case Constants.Event.LANGUAGE_CHANGED:
+                changeAppLanguage();
+                recreate();
+                break;
+        }
+    }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        String language = PreferencesUtils.getString(FleaApplication.getApp(), Constants.PrefKey.LANGUAGE,"en");
+        super.attachBaseContext(attachBaseContext(newBase, language));
+    }
+
+    public Context attachBaseContext(Context context, String language) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return updateResources(context, language);
+        } else {
+            return context;
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    private Context updateResources(Context context, String language) {
+        Resources resources = context.getResources();
+        Locale locale = getLocaleByLanguage(language);
+        Configuration configuration = resources.getConfiguration();
+        configuration.setLocale(locale);
+        configuration.setLocales(new LocaleList(locale));
+        return context.createConfigurationContext(configuration);
+    }
+
+    public void changeAppLanguage() {
+        String sta = PreferencesUtils.getString(FleaApplication.getApp(), Constants.PrefKey.LANGUAGE,"en");
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = getLocaleByLanguage(sta);
+        res.updateConfiguration(conf, dm);
+    }
+
+    private Locale getLocaleByLanguage(String sta)
+    {
+        Locale myLocale=null;
+        if(sta.equals("zh")){
+            myLocale = new Locale(sta,Locale.CHINESE.getCountry());
+        }else  if(sta.equals("en")||sta.equals("en_US")){
+            myLocale = new Locale( "en",Locale.ENGLISH.getCountry());
+        }
+        return myLocale;
     }
 
     @Override

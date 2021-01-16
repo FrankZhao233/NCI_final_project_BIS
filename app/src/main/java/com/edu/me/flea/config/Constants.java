@@ -13,6 +13,7 @@ public class Constants {
         public static final String HAS_MESSAGE = "has_message_";
         public static final String LOGIN_ACCOUNT = "login_account";
         public static final String AVATAR_SIGNATURE = "avatar_signature";
+        public static final String LANGUAGE = "language";
     }
 
     public static class Collection
@@ -32,6 +33,7 @@ public class Constants {
         public static final int SING_UP_DONE = 100000;
         public static final int LOGIN_DONE = 100001;
         public static final int PUBLISH_OVER = 100002;
+        public static final int LANGUAGE_CHANGED = 100003;
     }
 
     public static class ExtraName

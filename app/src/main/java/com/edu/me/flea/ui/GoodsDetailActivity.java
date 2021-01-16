@@ -146,7 +146,7 @@ public class GoodsDetailActivity extends BaseActivity<GoodsDetailViewModel> {
             @Override
             public void onChanged(GoodsDetail goodsDetail) {
                 nickNameTv.setText(goodsDetail.creatorName);
-                timeTv.setText("Posted at " + DateUtils.formatDate(goodsDetail.createTime));
+                timeTv.setText(getString(R.string.post_at) + DateUtils.formatDate(goodsDetail.createTime));
                 priceTv.setText("€"+goodsDetail.price);
                 contentTv.setText(goodsDetail.content);
                 List<String> labels = new ArrayList<>();
