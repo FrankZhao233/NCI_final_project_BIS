@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/publish_product"
-        android:title="Publish"
+        android:title="@string/menu_publish"
         app:showAsAction="always"/>
 
 </menu>

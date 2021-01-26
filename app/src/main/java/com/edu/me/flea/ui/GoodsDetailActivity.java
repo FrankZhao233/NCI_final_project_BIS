@@ -1,8 +1,20 @@
 package com.edu.me.flea.ui;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.Size;
 import androidx.lifecycle.Observer;
 
+import android.Manifest;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +22,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.SizeUtils;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.donkingliang.labels.LabelsView;
+import com.edu.me.flea.FleaApplication;
 import com.edu.me.flea.R;
 import com.edu.me.flea.base.BaseActivity;
 import com.edu.me.flea.base.CommonAdapter;
@@ -30,6 +49,7 @@ import com.edu.me.flea.entity.GoodsInfo;
 import com.edu.me.flea.module.GlideApp;
 import com.edu.me.flea.ui.dialog.AuctionInputDialog;
 import com.edu.me.flea.ui.dialog.CommentDialog;
+import com.edu.me.flea.utils.BitmapUtil;
 import com.edu.me.flea.utils.DateUtils;
 import com.edu.me.flea.utils.ImageLoader;
 import com.edu.me.flea.utils.Utils;
@@ -39,12 +59,24 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.tbruyelle.rxpermissions3.RxPermissions;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.SimpleTimeZone;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 @Route(path = Config.Page.GOODS_DETAIL)
 public class GoodsDetailActivity extends BaseActivity<GoodsDetailViewModel> {
@@ -60,14 +92,25 @@ public class GoodsDetailActivity extends BaseActivity<GoodsDetailViewModel> {
     @BindView(R.id.toolLayout) ViewGroup toolLayout;
     @BindView(R.id.labelsView) LabelsView labelsView;
     @BindView(R.id.progressBar) ProgressBar progressBar;
-    @BindView(R.id.contentLayout) ViewGroup contentLayout;
+    @BindView(R.id.contentLayout) ScrollView contentLayout;
     @BindView(R.id.commentTv) TextView commentTv;
     @BindView(R.id.dueTimeTv) TextView dueTimeTv;
     @BindView(R.id.auctionBtn) Button auctionBtn;
     @BindView(R.id.pricesLv) ListView auctionLv;
+    @BindView(R.id.userLayout) ViewGroup userLayout;
+    @BindView(R.id.goodsContentLayout) ViewGroup goodsInfoLayout;
 
     private CommonAdapter<String> mAdapter;
     private CommonAdapter<AuctionInfo> mAuctionAdapter;
+
+    private Map<Integer, Integer> imgHeightMap = new HashMap<>();
+    private List<Bitmap> localImagePaths = new ArrayList<>();
+
+    private RequestOptions requestOptions = new RequestOptions()
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .placeholder(R.drawable.ic_empty_image)
+            .error(R.drawable.ic_empty_image)
+            .centerCrop();
 
     @Autowired(name = Constants.ExtraName.SNAPSHOT) GoodsInfo mSnapshot;
     @Autowired(name = Constants.ExtraName.SHOW_TOOLS) boolean bShowTools = true;
@@ -81,17 +124,13 @@ public class GoodsDetailActivity extends BaseActivity<GoodsDetailViewModel> {
     protected void initView() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        if(bShowTools){
+        if (bShowTools) {
             toolLayout.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             toolLayout.setVisibility(View.GONE);
         }
         mAdapter = new CommonAdapter<String>(R.layout.item_goods_image,null) {
-            RequestOptions requestOptions = new RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.ic_empty_image)
-                .error(R.drawable.ic_empty_image)
-                .centerCrop();
+
 
             @Override
             public void convert(ViewHolder holder, String item, int position) {
@@ -121,10 +160,33 @@ public class GoodsDetailActivity extends BaseActivity<GoodsDetailViewModel> {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.goods_detail_menu,menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
+        int id = item.getItemId();
+        if(id==android.R.id.home){
             finish();
             return true;
+        }else if(id == R.id.menu_save){
+            if(progressBar.getVisibility() != View.VISIBLE){
+                RxPermissions permissions = new RxPermissions(this);
+                permissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(Boolean aBoolean) throws Throwable {
+                            if(aBoolean){
+                                List<String> images = mViewModel.getGoodsDetail().getValue().images;
+                                saveToSdcard(images);
+                            }
+                        }
+                    });
+
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -254,4 +316,89 @@ public class GoodsDetailActivity extends BaseActivity<GoodsDetailViewModel> {
         });
 
     }
+
+    private void saveToSdcard(List<String> imageUrls)
+    {
+        int leftRightMargin = SizeUtils.dp2px(10) ;
+        getAllImageHeight(imageUrls,leftRightMargin).subscribe(new io.reactivex.functions.Consumer<Integer>() {
+            @Override
+            public void accept(Integer allHeight) throws Exception {
+                int imgHeight = (int) (allHeight + SizeUtils.dp2px(10) * imageUrls.size());
+                Log.d(Config.TAG,"all image height="+imgHeight);
+
+                int topHeight = userLayout.getMeasuredHeight();
+                Log.d(Config.TAG,"topHeight="+topHeight);
+
+                int contentHeight = goodsInfoLayout.getMeasuredHeight();
+                Log.d(Config.TAG,"contentHeight="+contentHeight);
+
+                Log.d(Config.TAG,"imgHeight="+imgHeight);
+                int allBitmapHeight = topHeight + contentHeight + imgHeight;
+
+                Bitmap.Config config = Bitmap.Config.RGB_565;
+                int screenWidth = ScreenUtils.getScreenWidth();
+                Bitmap bitmapAll = Bitmap.createBitmap(screenWidth, allBitmapHeight, config);
+
+                Canvas canvas = new Canvas(bitmapAll);
+                canvas.drawColor(Color.WHITE);
+                Paint paint = new Paint();
+                paint.setAntiAlias(true);
+                paint.setDither(true);
+                paint.setFilterBitmap(true);
+
+                Bitmap topBitmap = BitmapUtil.getCacheBitmapFromView(userLayout);
+                canvas.drawBitmap(topBitmap, leftRightMargin, 0, paint);
+
+                Bitmap contentBitmap = BitmapUtil.getCacheBitmapFromView(goodsInfoLayout);
+                canvas.drawBitmap(contentBitmap, leftRightMargin, topHeight, paint);
+
+                int top = (int) (topHeight + goodsInfoLayout.getMeasuredHeight()+SizeUtils.dp2px(10));
+                for(int i=0;i<localImagePaths.size();i++){
+                    Bitmap  temp = localImagePaths.get(i);
+                    canvas.drawBitmap(temp, leftRightMargin, top, paint);
+                    top += imgHeightMap.get(i) + SizeUtils.dp2px(10);
+                }
+                BitmapUtil.saveBitmapToSdCard(FleaApplication.getApp(),bitmapAll);
+            }
+        });
+    }
+
+    private Observable<Integer> getAllImageHeight(List<String> imageUrlList,int leftRightMargin) {
+        imgHeightMap.clear();
+        localImagePaths.clear();
+        int screenWidth = ScreenUtils.getScreenWidth();
+        return Observable.just(imageUrlList).map(new Function<List<String>, Integer>() {
+            @Override
+            public Integer apply(@NonNull List<String> strings) throws Exception {
+                int sumHeight = 0;
+                for (int i = 0; i < imageUrlList.size(); i++) {
+                    String url = imageUrlList.get(i);
+                    String location = String.format(Config.GOODS_FULL_REF_PATH_FMT, url);
+                    StorageReference gsReference = FirebaseStorage.getInstance().getReferenceFromUrl(location);
+                    FutureTarget<Bitmap> bitmapTarget = GlideApp.with(Utils.getContext())
+                            .asBitmap()
+                            .load(gsReference)
+                            .apply(requestOptions)
+                            .submit();
+                    try {
+                        Bitmap bitmapFile  = bitmapTarget.get();
+                        Log.d(Config.TAG,"local image path===>width"+bitmapFile.getWidth()+",height=>"+bitmapFile.getHeight());
+                        Bitmap bitmapTemp = BitmapUtil.fitBitmap(bitmapFile,
+                                screenWidth - leftRightMargin * 2);
+                        Log.d(Config.TAG,"fit image path===>width"+bitmapTemp.getWidth()+",height=>"+bitmapTemp.getHeight());
+                        sumHeight += bitmapTemp.getHeight();
+                        localImagePaths.add(bitmapTemp);
+                        imgHeightMap.put(i, bitmapTemp.getHeight());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.d(Config.TAG,"get image height exception===>"+e.getMessage());
+                    }
+                }
+                return sumHeight;
+            }
+        }).subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
 }

@@ -73,4 +73,9 @@
     <string name="label_goods_auction">拍卖</string>
     <string name="label_my_goods">我的商品</string>
     <string name="label_goods_detail">商品详情</string>
+    <string name="save_successfully_on_phone">图片已保存至相册</string>
+
+    <string name="menu_use">使用</string>
+    <string name="menu_save">保存</string>
+    <string name="menu_publish">发布</string>
 </resources>

@@ -71,4 +71,9 @@
     <string name="label_goods_auction">Goods Auction</string>
     <string name="label_my_goods">My Goods</string>
     <string name="label_goods_detail">Goods Detail</string>
+    <string name="save_successfully_on_phone">Save in Album Successfully</string>
+
+    <string name="menu_use">USE</string>
+    <string name="menu_save">SAVE</string>
+    <string name="menu_publish">PUBLISH</string>
 </resources>

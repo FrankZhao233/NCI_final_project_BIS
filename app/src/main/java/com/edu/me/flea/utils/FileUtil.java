@@ -3,12 +3,16 @@ package com.edu.me.flea.utils;
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+
+import java.io.File;
 
 public class FileUtil {
 
@@ -115,4 +119,30 @@ public class FileUtil {
     private static boolean isDownloadsDocument(Uri uri) {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
+
+    public static void updatePhotoMedia(File file, Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            MediaScannerConnection.scanFile(
+                    context,
+                    new String[]{file.getAbsolutePath()},
+                    null, new MediaScannerConnection.OnScanCompletedListener() {
+                        @Override
+                        public void onScanCompleted(String s, Uri uri) {
+                            Intent mediaScanIntent =
+                                    new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                            mediaScanIntent.setData(uri);
+                            context.sendBroadcast(mediaScanIntent);
+                        }
+                    });
+        } else {
+            context.sendBroadcast(
+                    new Intent(
+                            Intent.ACTION_MEDIA_MOUNTED,
+                            Uri.fromFile(file.getAbsoluteFile())
+                    )
+            );
+        }
+    }
+
+
 }
