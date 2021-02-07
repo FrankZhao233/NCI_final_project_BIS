@@ -101,12 +101,20 @@ public class WelfareFragment extends BaseFragment<WelfareViewModel> {
 
     @Override
     protected void setListener() {
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mViewModel.loadRefresh();
+            }
+        });
+
         mViewModel.getWelfareList().observe(this, new Observer<List<WelfareInfo>>() {
             @Override
             public void onChanged(List<WelfareInfo> welfareInfos) {
                 mAdapter.refreshView(welfareInfos);
                 progressBar.setVisibility(View.GONE);
                 refreshLayout.setVisibility(View.VISIBLE);
+                refreshLayout.setRefreshing(false);
             }
         });
 
