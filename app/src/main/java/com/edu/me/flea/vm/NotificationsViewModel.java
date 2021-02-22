@@ -2,6 +2,7 @@ package com.edu.me.flea.vm;
 
 import android.app.Application;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -46,11 +47,17 @@ public class NotificationsViewModel extends BaseViewModel {
     @Override
     public void onCreate(LifecycleOwner owner) {
         super.onCreate(owner);
+        loadRefresh();
+    }
+
+    public void loadRefresh()
+    {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null){
             ARouter.getInstance().build(Config.Page.LOGIN).navigation();
         }else {
             String uid = user.getUid();
+            Log.d(Config.TAG,"UID=====>"+uid);
             DBHelper.getInstance().getDatabase().getReference(Constants.Reference.CHAT_LIST).child(uid)
                     .addValueEventListener(mValueListener);
         }
@@ -60,6 +67,7 @@ public class NotificationsViewModel extends BaseViewModel {
 
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
+            Log.d(Config.TAG,"notification onDataChange==>");
             GenericTypeIndicator<HashMap<String, ChatListInfo>> type = new GenericTypeIndicator<HashMap<String,ChatListInfo>>() {};
             HashMap<String,ChatListInfo> chatLists = snapshot.getValue(type);
             List<ChatListInfo> result = new ArrayList<>();
@@ -69,12 +77,11 @@ public class NotificationsViewModel extends BaseViewModel {
                 }
             }
             mItemData.setValue(result);
-
         }
 
         @Override
         public void onCancelled(@NonNull DatabaseError error) {
-
+            Log.d(Config.TAG,"error==>"+error.getMessage());
         }
     };
 
@@ -86,6 +93,7 @@ public class NotificationsViewModel extends BaseViewModel {
         }
         return null;
     }
+
 
     @Override
     public void onDestroy(LifecycleOwner owner) {

@@ -142,7 +142,8 @@ public class HomeFragment extends BaseFragment<HomeViewModel> {
 
             @Override
             public void onPullUpToRefresh() {
-                mViewModel.loadMore(mAdapter.getItems().size());
+                Log.d(Config.TAG,"load more data");
+                mViewModel.loadMore();
             }
         });
 

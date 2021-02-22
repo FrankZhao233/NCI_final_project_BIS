@@ -40,7 +40,7 @@ public class WelfareViewModel extends BaseViewModel {
     @Override
     public void onCreate(LifecycleOwner owner) {
         super.onCreate(owner);
-        queryBanner();
+        queryData();
     }
 
     public void queryWelfare()
@@ -60,8 +60,12 @@ public class WelfareViewModel extends BaseViewModel {
             });
     }
 
+    public void loadRefresh()
+    {
+        queryData();
+    }
 
-    public void queryBanner()
+    public void queryData()
     {
         FirebaseFirestore.getInstance().collection(Constants.Collection.BANNER)
             .addSnapshotListener(new EventListener<QuerySnapshot>() {
