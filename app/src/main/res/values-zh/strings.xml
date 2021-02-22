@@ -78,4 +78,7 @@
     <string name="menu_use">使用</string>
     <string name="menu_save">保存</string>
     <string name="menu_publish">发布</string>
+
+    <string name="no_notification_tips">没有消息数据</string>
+
 </resources>

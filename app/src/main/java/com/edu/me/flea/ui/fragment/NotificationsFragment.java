@@ -6,6 +6,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.lifecycle.Observer;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -35,14 +36,13 @@ import butterknife.ButterKnife;
 
 public class NotificationsFragment extends BaseFragment<NotificationsViewModel> {
 
-    @BindView(R.id.swipeRefreshLayout)
-    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
 
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
+    @BindView(R.id.progressBar) ProgressBar progressBar;
 
-    @BindView(R.id.chatListLv)
-    ListView chatLv;
+    @BindView(R.id.chatListLv) ListView chatLv;
+
+    @BindView(R.id.messageTipsTv) TextView messageTipsTv;
 
     CommonAdapter<ChatListInfo> mAdapter;
 
@@ -101,6 +101,13 @@ public class NotificationsFragment extends BaseFragment<NotificationsViewModel> 
                 }
             }
         });
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mViewModel.loadRefresh();
+            }
+        });
     }
 
     private boolean hasMessage(ChatListInfo chatListInfo)
@@ -120,9 +127,15 @@ public class NotificationsFragment extends BaseFragment<NotificationsViewModel> 
         mViewModel.getData().observe(this, new Observer<List<ChatListInfo>>() {
             @Override
             public void onChanged(List<ChatListInfo> chatList) {
+                if(chatList.isEmpty()){
+                    messageTipsTv.setVisibility(View.VISIBLE);
+                }else{
+                    messageTipsTv.setVisibility(View.GONE);
+                }
                 mAdapter.refreshView(chatList);
                 swipeRefreshLayout.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }

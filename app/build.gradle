@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.edu.me.flea"
-        minSdkVersion 26
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -47,13 +47,6 @@ dependencies {
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'androidx.multidex:multidex:2.0.0'
 
-//    def retrofit = '2.6.0'
-//    implementation "com.squareup.retrofit2:retrofit:$retrofit"
-//    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
-//    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
-//    implementation "com.squareup.retrofit2:converter-scalars:$retrofit"
-//    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
-
     implementation "io.reactivex.rxjava3:rxjava:3.0.4"
     implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
     implementation 'com.youth.banner:banner:2.1.0'
@@ -63,7 +56,7 @@ dependencies {
     implementation "com.github.bumptech.glide:okhttp3-integration:$glide"
     implementation "com.github.bumptech.glide:annotations:$glide"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide"
-//
+
     implementation "com.alibaba:arouter-api:1.4.1"
     annotationProcessor "com.alibaba:arouter-compiler:1.2.2"
     implementation 'top.zibin:Luban:1.1.8'

@@ -26,6 +26,7 @@ public class HomeViewModel extends BaseViewModel {
 
     private MutableLiveData<List<GoodsInfo>> mGoods;
     private SingleLiveEvent<Integer> mLoadingState = new SingleLiveEvent<>();
+    private DocumentSnapshot lastVisible;
 
     public HomeViewModel(Application application) {
         super(application);
@@ -43,17 +44,45 @@ public class HomeViewModel extends BaseViewModel {
     @Override
     public void onCreate(LifecycleOwner owner) {
         super.onCreate(owner);
-        loadDataPage(0,true);
+        loadFirstPage();
         Log.d("flea","oncreate");
     }
 
-    public void loadDataPage(int start,boolean first)
+    //加载第一页数据
+    public void loadFirstPage()
     {
-        Log.d(Config.TAG,"loadDataPage start==>"+start);
+        Log.d(Config.TAG,"loadDataPage first page");
+        Query query = FirebaseFirestore.getInstance()
+                .collection(Constants.Collection.SNAPSHOT)
+                .orderBy("createTime")
+                .limit(getPageSize());
+        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                lastVisible = queryDocumentSnapshots.getDocuments()
+                        .get(queryDocumentSnapshots.size() -1);
+                List<DocumentSnapshot> documentSnapshots = queryDocumentSnapshots.getDocuments();
+                List<GoodsInfo> goods = new ArrayList<>();
+                for(DocumentSnapshot documentSnapshot:documentSnapshots){
+                    GoodsInfo goodsInfo = documentSnapshot.toObject(GoodsInfo.class);
+                    goods.add(goodsInfo);
+                    Log.d(Config.TAG,"id==>"+goodsInfo.id);
+                }
+                Log.d(Config.TAG,"first page==>"+goods.size());
+                mGoods.setValue(goods);
+                mLoadingState.setValue(0);
+            }
+        });
+    }
+
+    //加载更多页面
+    public void loadMore()
+    {
+        Log.d(Config.TAG,"start load more");
         Query query = FirebaseFirestore.getInstance()
             .collection(Constants.Collection.SNAPSHOT)
             .orderBy("createTime")
-            .startAt(start)
+            .startAfter(lastVisible)
             .limit(getPageSize());
         query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -65,21 +94,13 @@ public class HomeViewModel extends BaseViewModel {
                     goods.add(goodsInfo);
                     Log.d(Config.TAG,"id==>"+goodsInfo.id);
                 }
-                Log.d(Config.TAG,"loadDataPage==>"+goods.size());
+                Log.d(Config.TAG,"loadMore size==>"+goods.size());
                 mGoods.setValue(goods);
-                if(first){
-                    mLoadingState.setValue(0);
-                }else{
-                    mLoadingState.setValue(1);
-                }
+                mLoadingState.setValue(1);
             }
         });
     }
 
-    public void loadMore(int start)
-    {
-        loadDataPage(start,false);
-    }
 
     public int getPageSize()
     {
@@ -88,7 +109,7 @@ public class HomeViewModel extends BaseViewModel {
 
     public void refreshList()
     {
-        loadDataPage(0,false);
+        loadFirstPage();
     }
 
 }

@@ -76,4 +76,6 @@
     <string name="menu_use">USE</string>
     <string name="menu_save">SAVE</string>
     <string name="menu_publish">PUBLISH</string>
+
+    <string name="no_notification_tips">no message data</string>
 </resources>
