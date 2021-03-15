@@ -1,7 +1,10 @@
 package com.edu.me.flea.ui;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.Observer;
 
+import android.content.DialogInterface;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,10 +20,17 @@ import com.edu.me.flea.base.CommonAdapter;
 import com.edu.me.flea.base.ViewHolder;
 import com.edu.me.flea.config.Config;
 import com.edu.me.flea.config.Constants;
+import com.edu.me.flea.entity.GoodsDetail;
 import com.edu.me.flea.entity.GoodsInfo;
 import com.edu.me.flea.utils.DateUtils;
 import com.edu.me.flea.utils.ImageLoader;
+import com.edu.me.flea.utils.ToastUtils;
 import com.edu.me.flea.vm.MyGoodsListViewModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,5 +115,37 @@ public class MyGoodsListActivity extends BaseActivity<MyGoodsListViewModel> {
                     .navigation();
             }
         });
+
+        goodsLv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                askForDelete(position);
+                return true;
+            }
+        });
     }
+
+    private void askForDelete(int pos)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.prompt));
+        builder.setMessage(getString(R.string.ask_for_delete_goods));
+        builder.setPositiveButton(getString(R.string.btn_confirm), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mViewModel.deleteSnapshot(pos);
+            }
+        });
+
+        builder.setNeutralButton(getString(R.string.btn_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
+    }
+
+
 }

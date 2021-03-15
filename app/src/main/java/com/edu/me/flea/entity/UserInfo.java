@@ -8,5 +8,5 @@ public class UserInfo {
     public String signature;
     public String address;
     public String hobby;
-    public String gender;
+    public String profile;
 }

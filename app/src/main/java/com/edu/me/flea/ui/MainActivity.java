@@ -55,6 +55,8 @@ public class MainActivity extends BaseActivity<MainViewModel> {
         if(user != null) {
             startService(new Intent(this, MessageService.class));
         }
+
+
     }
 
     @Override

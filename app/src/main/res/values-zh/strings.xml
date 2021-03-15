@@ -80,5 +80,17 @@
     <string name="menu_publish">发布</string>
 
     <string name="no_notification_tips">没有消息数据</string>
+    <string name="ask_for_delete_goods">确定要删除这个商品?</string>
 
+    <string name="profile">简介</string>
+    <string name="profile_hint">请输入简介</string>
+
+    <string name="signature">签名</string>
+    <string name="signature_hint">请输入签名</string>
+
+    <string name="address">地址</string>
+    <string name="address_hint">请输入地址</string>
+
+    <string name="hobby">兴趣</string>
+    <string name="hobby_hint">请输入你的兴趣</string>
 </resources>

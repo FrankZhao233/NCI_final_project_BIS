@@ -151,6 +151,7 @@ public class HomeFragment extends BaseFragment<HomeViewModel> {
             @Override
             public void onChanged(Integer state) {
                 if (state == 0) {
+                    swipeRefreshLayout.setRefresh(false);
                     swipeRefreshLayout.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
                     floatMenu.setVisibility(View.VISIBLE);

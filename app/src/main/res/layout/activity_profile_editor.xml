@@ -14,7 +14,6 @@
         android:orientation="vertical"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:visibility="gone"
         tools:context=".ui.ProfileEditorActivity">
 
         <ImageView
@@ -32,39 +31,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="4dp"
-            android:text="nick name"
+            android:text="@string/nick_name"
             android:textSize="16sp"
             android:textColor="@color/custom_text_color"/>
-
-        <RadioGroup
-            android:id="@+id/sexRg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/femaleCb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@drawable/female_checkbox_selector"
-                android:paddingLeft="10dp"
-                android:textSize="16sp"
-                android:textColor="@drawable/female_text_selector"
-                android:text="Female"/>
-
-            <RadioButton
-                android:id="@+id/maleCb"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:button="@drawable/male_checkbox_selector"
-                android:paddingLeft="10dp"
-                android:layout_marginLeft="50dp"
-                android:textSize="16sp"
-                android:textColor="@drawable/male_text_selector"
-                android:text="Male"/>
-        </RadioGroup>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -77,7 +46,34 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textColor="@color/custom_text_color"
-                android:text="signature"/>
+                android:text="@string/profile"/>
+
+            <EditText
+                android:id="@+id/profileEt"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:paddingTop="4dp"
+                android:paddingBottom="16dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:textSize="18sp"
+                android:maxLength="100"
+                android:textColor="@color/custom_text_color"
+                android:hint="@string/profile_hint"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/custom_text_color"
+                android:text="@string/signature"/>
 
             <EditText
                 android:id="@+id/signatureEt"
@@ -90,9 +86,8 @@
                 android:textSize="18sp"
                 android:maxLength="100"
                 android:textColor="@color/custom_text_color"
-                android:hint="please input your signature"/>
+                android:hint="@string/signature_hint"/>
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -105,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textColor="@color/custom_text_color"
-                android:text="address"/>
+                android:text="@string/address"/>
 
             <EditText
                 android:id="@+id/addressEt"
@@ -117,7 +112,7 @@
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
                 android:textColor="@color/custom_text_color"
-                android:hint="please input your address"/>
+                android:hint="@string/address_hint"/>
         </LinearLayout>
 
         <LinearLayout
@@ -131,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textColor="@color/custom_text_color"
-                android:text="hobby"/>
+                android:text="@string/hobby"/>
 
             <EditText
                 android:id="@+id/hobbyEt"
@@ -143,7 +138,7 @@
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
                 android:textColor="@color/custom_text_color"
-                android:hint="please input your hobbies"/>
+                android:hint="@string/hobby_hint"/>
         </LinearLayout>
 
     </LinearLayout>

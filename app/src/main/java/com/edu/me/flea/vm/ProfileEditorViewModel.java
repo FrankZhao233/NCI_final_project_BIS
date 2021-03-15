@@ -43,7 +43,6 @@ public class ProfileEditorViewModel extends BaseViewModel {
     private MutableLiveData<UserInfo> mUser = new MutableLiveData();
     private SingleLiveEvent<String> mUploadAvatar = new SingleLiveEvent<>();
 
-
     public ProfileEditorViewModel(@NonNull Application application) {
         super(application);
     }
@@ -71,15 +70,16 @@ public class ProfileEditorViewModel extends BaseViewModel {
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     UserInfo userInfo = documentSnapshot.toObject(UserInfo.class);
                     mUser.setValue(userInfo);
+                    Log.d(Config.TAG,"query user info ==>"+userInfo);
                 }
             });
     }
 
-    public void saveUser(String gender,String signature,String address,String hobby)
+    public void saveUser(String profile,String signature,String address,String hobby)
     {
         showLoading(R.string.waiting_now);
         Map<String,Object> updates = new HashMap<>();
-        updates.put("gender",gender);
+        updates.put("profile",profile);
         updates.put("signature",signature);
         updates.put("address",address);
         updates.put("hobby",hobby);

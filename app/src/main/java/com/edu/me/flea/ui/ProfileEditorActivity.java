@@ -52,9 +52,7 @@ public class ProfileEditorActivity extends BaseActivity<ProfileEditorViewModel> 
     @BindView(R.id.hobbyEt) EditText hobbyEt;
     @BindView(R.id.nickNameTv) TextView nicknameTv;
     @BindView(R.id.avatarIv) ImageView avatarIv;
-    @BindView(R.id.sexRg) RadioGroup sexRg;
-    @BindView(R.id.femaleCb) RadioButton femaleCb;
-    @BindView(R.id.maleCb) RadioButton maleCb;
+    @BindView(R.id.profileEt) EditText profileEt;
     @BindView(R.id.progressBar) ProgressBar progressBar;
     @BindView(R.id.contentLayout) ViewGroup contentLayout;
 
@@ -77,6 +75,7 @@ public class ProfileEditorActivity extends BaseActivity<ProfileEditorViewModel> 
             ImageLoader.loadAvatar(avatarIv,user.getUid(),signature);
         }
         setEditState(false);
+        contentLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -95,19 +94,11 @@ public class ProfileEditorActivity extends BaseActivity<ProfileEditorViewModel> 
             @Override
             public void onClick(View view) {
                 if(bEditMode) {
-                    int id = sexRg.getCheckedRadioButtonId();
-                    if (id <= 0) {
-                        ToastUtils.showShort(getString(R.string.please_choose_gender));
-                        return;
-                    }
-                    String gender = "female";
-                    if (id == R.id.maleCb) {
-                        gender = "male";
-                    }
+                    String profile = profileEt.getText().toString();
                     String signature = signatureEt.getText().toString();
                     String address = addressEt.getText().toString();
                     String hobby = hobbyEt.getText().toString();
-                    mViewModel.saveUser(gender, signature, address, hobby);
+                    mViewModel.saveUser(profile, signature, address, hobby);
                 }
                 setEditState(!bEditMode);
             }
@@ -116,11 +107,7 @@ public class ProfileEditorActivity extends BaseActivity<ProfileEditorViewModel> 
         mViewModel.getUser().observe(this, new Observer<UserInfo>() {
             @Override
             public void onChanged(UserInfo userInfo) {
-                if("male".equals(userInfo.gender)){
-                    sexRg.check(R.id.maleCb);
-                }else if("female".equals(userInfo.gender)){
-                    sexRg.check(R.id.femaleCb);
-                }
+                profileEt.setText(userInfo.profile);
                 signatureEt.setText(userInfo.signature);
                 addressEt.setText(userInfo.address);
                 hobbyEt.setText(userInfo.hobby);
@@ -176,9 +163,7 @@ public class ProfileEditorActivity extends BaseActivity<ProfileEditorViewModel> 
         signatureEt.setEnabled(bEnable);
         addressEt.setEnabled(bEnable);
         hobbyEt.setEnabled(bEnable);
-        sexRg.setEnabled(bEnable);
-        femaleCb.setEnabled(bEnable);
-        maleCb.setEnabled(bEnable);
+        profileEt.setEnabled(bEnable);
 
         if(!bEnable){
             operateBtn.setImageResource(R.drawable.ic_baseline_edit_24);

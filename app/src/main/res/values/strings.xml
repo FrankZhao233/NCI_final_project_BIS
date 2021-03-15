@@ -78,4 +78,17 @@
     <string name="menu_publish">PUBLISH</string>
 
     <string name="no_notification_tips">no message data</string>
+    <string name="ask_for_delete_goods">do you confirm to delete this item?</string>
+
+    <string name="profile">profile</string>
+    <string name="profile_hint">please input your profile</string>
+
+    <string name="signature">signature</string>
+    <string name="signature_hint">please input your signature</string>
+
+    <string name="address">address</string>
+    <string name="address_hint">please input your address</string>
+
+    <string name="hobby">hobby</string>
+    <string name="hobby_hint">please input your hobbies</string>
 </resources>
