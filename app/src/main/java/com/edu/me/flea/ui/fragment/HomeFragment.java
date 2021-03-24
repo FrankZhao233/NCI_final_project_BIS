@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,8 +26,11 @@ import com.edu.me.flea.ui.adpater.HomeGoodsAdapter;
 import com.edu.me.flea.vm.HomeViewModel;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.gu.swiperefresh.SwipeRefreshPlush;
 
 import java.util.ArrayList;
@@ -78,6 +82,21 @@ public class HomeFragment extends BaseFragment<HomeViewModel> {
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         noMoreView.setPadding(10,16,10,10);
         swipeRefreshLayout.setNoMoreView(noMoreView, layoutParams);
+
+        FirebaseMessaging.getInstance().getToken()
+            .addOnCompleteListener(new OnCompleteListener<String>() {
+                @Override
+                public void onComplete(@NonNull Task<String> task) {
+                    if (!task.isSuccessful()) {
+                        Log.w("flea", "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
+                    // Get new FCM registration token
+                    String token = task.getResult();
+                    // Log and toast
+                    Log.d("flea", "FCM token==>"+token);
+                }
+            });
     }
 
     @Override
@@ -127,6 +146,8 @@ public class HomeFragment extends BaseFragment<HomeViewModel> {
                 Log.d(Config.TAG,"goods size==>"+newItems.size());
                 if (newItems.size() < mViewModel.getPageSize()) {
                     swipeRefreshLayout.showNoMore(true);
+                }else{
+                    swipeRefreshLayout.showNoMore(false);
                 }
                 mAdapter.addAllData(newItems);
                 Log.d(Config.TAG,"all size==>"+mAdapter.getItems().size());

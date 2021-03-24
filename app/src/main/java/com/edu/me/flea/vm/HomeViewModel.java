@@ -45,7 +45,6 @@ public class HomeViewModel extends BaseViewModel {
     public void onCreate(LifecycleOwner owner) {
         super.onCreate(owner);
         loadFirstPage();
-        Log.d("flea","oncreate");
     }
 
     //加载第一页数据
@@ -59,8 +58,10 @@ public class HomeViewModel extends BaseViewModel {
         query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                lastVisible = queryDocumentSnapshots.getDocuments()
-                        .get(queryDocumentSnapshots.size() -1);
+                if(queryDocumentSnapshots.size() >= 1) {
+                    lastVisible = queryDocumentSnapshots.getDocuments()
+                            .get(queryDocumentSnapshots.size() - 1);
+                }
                 List<DocumentSnapshot> documentSnapshots = queryDocumentSnapshots.getDocuments();
                 List<GoodsInfo> goods = new ArrayList<>();
                 for(DocumentSnapshot documentSnapshot:documentSnapshots){
