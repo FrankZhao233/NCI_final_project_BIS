@@ -70,9 +70,9 @@
                 android:id="@+id/timeTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="create at 12:30"
                 android:textColor="#aaaaaa"
-                android:textSize="15sp"
-                android:text="create at 12:90"/>
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/countTv"
