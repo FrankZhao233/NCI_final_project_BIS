@@ -1,0 +1,96 @@
+<resources>
+    <string name="app_name">Let2Wish</string>
+    <string name="title_home">Startseite</string>
+    <string name="title_welfare">Gemeinwohl</string>
+    <string name="title_notifications">Nachrichten</string>
+    <string name="title_profile">Bergwerk</string>
+
+    <string name="nick_name">Spitzname</string>
+    <string name="hint_email">Briefkasten</string>
+    <string name="hint_password">Passwort</string>
+    <string name="btn_forgot_password">Passwort vergessen? Klicke hier!</string>
+    <string name="btn_reset_password">Passwort zurücksetzen</string>
+    <string name="btn_login">Einloggen</string>
+    <string name="btn_confirm">bestimmen</string>
+    <string name="btn_cancel">stornieren</string>
+    <string name="btn_link_to_register">Noch kein Mitglied? Klicken Sie hier, um sich zu registrieren!</string>
+    <string name="btn_link_to_login">Sie haben bereits ein Konto? Klicken Sie hier, um sich einzuloggen!</string>
+    <string name="btn_back"><![CDATA[<< Rückkehr]]></string>
+    <string name="btn_register">Eingetragen</string>
+
+    <string name="logout">austragen</string>
+    <string name="login">Einloggen</string>
+    <string name="my_goods">Meine Güter</string>
+    <string name="my_contributions">Mein Beitrag</string>
+    <string name="language">Sprache</string>
+    <string name="send">senden</string>
+
+    <string name="please_input_email"> Bitte geben Sie ihre E-Mail-Adresse ein</string>
+    <string name="please_input_pwd">Bitte geben Sie das Passwort ein</string>
+    <string name="invalid_email"> Ungültige E-Mail, bitte überprüfen</string>
+
+    <string name="bga_pp_view_photo">Überprüfen Sie das Bild</string>
+    <string name="bga_pp_save_img_success_folder">Bild wurde in gespeichert %s </string>
+
+    <string name="publish_now">ankündigen...</string>
+    <string name="upload_avatar_now">Hochladen...</string>
+    <string name="label_select_picture">Bild auswählen</string>
+    <string name="waiting_now">Warten Sie mal...</string>
+
+    <string name="all_comments">Alle Kommentare</string>
+    <string name="fab_add_goods">Waren veröffentlichen</string>
+    <string name="fab_auction">Versteigerung</string>
+
+    <string name="welfare_destination">das Ziel: %1$s</string>
+    <string name="welfare_current">Strom: %1$s</string>
+
+    <string name="question_logout">austragen?</string>
+    <string name="prompt">prompt </string>
+
+    <string name="please_input_title">Bitte geben Sie den Titel ein</string>
+    <string name="please_input_content">Bitte geben Sie den Inhalt ein</string>
+    <string name="please_choose_picture">Bitte wählen Sie mindestens ein Bild aus</string>
+    <string name="please_input_price">Bitte geben Sie den Preis ein</string>
+    <string name="please_add_tag">Bitte fügen Sie Tags hinzu</string>
+    <string name="please_set_due_date">Bitte legen Sie ein Fälligkeitsdatum fest</string>
+    <string name="please_set_due_time">Bitte setzen Sie eine Frist</string>
+    <string name="post_at">Veröffentlicht am </string>
+    <string name="contribution">Beitrag:</string>
+    <string name="please_choose_gender">Bitte wähle ein Geschlecht</string>
+
+    <string name="reset_pwd_success_tips">Wir haben einen Link gesendet, um Ihr Passwort auf Ihre E-Mail zurückzusetzen!</string>
+    <string name="reset_pwd_failed_tips">Fehler beim Senden der zurückgesetzten E-Mail!</string>
+    <string name="please_input_name">Bitte geben Sie ihren Spitznamen ein</string>
+    <string name="already_donate">Gespendet</string>
+
+    <string name="comment">Kommentar</string>
+    <string name="want">Möchte</string>
+    <string name="auction">Fotografiert</string>
+
+    <string name="label_edit_profile">bearbeiten</string>
+    <string name="label_my_contribute">Meine Nächstenliebe</string>
+    <string name="label_welfare">Gemeinwohl</string>
+    <string name="label_goods_auction">Versteigerung</string>
+    <string name="label_my_goods">Meine Güter</string>
+    <string name="label_goods_detail">Produktdetails</string>
+    <string name="save_successfully_on_phone">Das Bild wurde im Album gespeichert</string>
+
+    <string name="menu_use">benutzen</string>
+    <string name="menu_save">speichern</string>
+    <string name="menu_publish">Veröffentlichung</string>
+
+    <string name="no_notification_tips">Keine Nachrichtendaten</string>
+    <string name="ask_for_delete_goods">Möchten Sie dieses Produkt wirklich löschen?</string>
+
+    <string name="profile">Einführung</string>
+    <string name="profile_hint">Bitte geben Sie eine kurze Einführung ein</string>
+
+    <string name="signature">Unterschrift</string>
+    <string name="signature_hint">Bitte geben Sie Ihre Unterschrift ein</string>
+
+    <string name="address">Adresse</string>
+    <string name="address_hint">Bitte geben Sie die Adresse ein</string>
+
+    <string name="hobby">Interesse</string>
+    <string name="hobby_hint">Bitte geben Sie Ihr Interesse ein</string>
+</resources>

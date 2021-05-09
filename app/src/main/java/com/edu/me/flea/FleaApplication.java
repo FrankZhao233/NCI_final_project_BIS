@@ -72,6 +72,10 @@ public class FleaApplication extends MultiDexApplication {
             myLocale = new Locale(sta,Locale.CHINESE.getCountry());
         }else  if(sta.equals("en")||sta.equals("en_US")){
             myLocale = new Locale( "en",Locale.ENGLISH.getCountry());
+        }else  if(sta.equals("de")){
+            myLocale = new Locale( "de",Locale.GERMANY.getCountry());
+        }else  if(sta.equals("fr")){
+            myLocale = new Locale( "fr",Locale.FRANCE.getCountry());
         }
         return myLocale;
     }

@@ -72,6 +72,17 @@ public class LanguageListActivity extends AppCompatActivity {
         language2.name = "中文简体";
         language2.symbol = "zh";
         result.add(language2);
+
+        LanguageInfo language3 = new LanguageInfo();
+        language3.name = "Deutsche";
+        language3.symbol = "de";
+        result.add(language3);
+
+        LanguageInfo language4 = new LanguageInfo();
+        language4.name = "français";
+        language4.symbol = "fr";
+        result.add(language4);
+
         return result;
     }
 
