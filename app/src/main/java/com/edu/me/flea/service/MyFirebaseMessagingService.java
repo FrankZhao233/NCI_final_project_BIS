@@ -17,11 +17,7 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Map;
 
-/**
- * @author: lisc
- * @date: 2021-03-24 下午 04:53
- * @desc:
- */
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
